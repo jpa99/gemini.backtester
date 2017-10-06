@@ -1,69 +1,984 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>LookbackPeriod: 18, TradingInterval: 1</title>
-        
-<link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.9.min.css" type="text/css" />
-        
-<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.9.min.js"></script>
-<script type="text/javascript">
-    Bokeh.set_log_level("info");
-</script>
-        <style>
-          html {
+<head>
+    <meta charset="utf-8">
+    <title>LookbackPeriod: 18, TradingInterval: 1</title>
+
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.9.min.css"
+          type="text/css"/>
+
+    <script type="text/javascript"
+            src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.9.min.js"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+    <style>
+        html {
             width: 100%;
             height: 100%;
-          }
-          body {
+        }
+
+        body {
             width: 90%;
             height: 100%;
             margin: auto;
-          }
-        </style>
-    </head>
-    <body>
-        
-        <div class="bk-root">
-            <div class="bk-plotdiv" id="eba3cb8d-a266-4a3a-9446-88698fe5cf69"></div>
-        </div>
-        
-        <script type="text/javascript">
-            (function() {
-          var fn = function() {
-            Bokeh.safely(function() {
-              (function(root) {
-                function embed_document(root) {
-                  var docs_json = {"c849f393-0a58-4b40-b55c-56a328e3f433":{"roots":{"references":[{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"02ede4e4-bd0f-4cd0-9cab-f7b2de6a45d5","type":"Line"},{"attributes":{},"id":"e4be9a19-f189-49e1-81a2-6d7d5ff0e88f","type":"BasicTickFormatter"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":6},"x":{"value":1491433200000.0},"y":{"value":1000.0}},"id":"a2a50917-1a76-47c6-8aab-d765b40092aa","type":"Circle"},{"attributes":{"data_source":{"id":"dacbf95a-4f89-4668-9b2a-d7e932210f04","type":"ColumnDataSource"},"glyph":{"id":"3b053354-5209-4113-82a6-a49ca161676d","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1afb862a-0e0d-4ce9-b063-8b7b0a56d656","type":"Circle"},"selection_glyph":null,"view":{"id":"a1dbc4ae-4b48-435b-8303-ceb897df5a09","type":"CDSView"}},"id":"ac21c3b6-4623-42f2-89bf-1f80b48704bc","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.5},"fill_color":{"value":"green"},"line_alpha":{"value":0.5},"line_color":{"value":"green"},"size":{"units":"screen","value":6},"x":{"value":1499036400000.0},"y":{"value":2130.6934939455823}},"id":"f4d0a3be-cb73-488c-bda8-73626f2c4c28","type":"Circle"},{"attributes":{"source":{"id":"d1d2c5a0-c8c1-4df4-ba45-30bc96f90e42","type":"ColumnDataSource"}},"id":"ce786bd1-ad97-4eb4-98dc-3a27180843c3","type":"CDSView"},{"attributes":{"data_source":{"id":"c2e7d612-e037-4eba-ac23-94d3209bcc0d","type":"ColumnDataSource"},"glyph":{"id":"f4d0a3be-cb73-488c-bda8-73626f2c4c28","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"357eb96a-453b-476a-b297-4ed4ead9aa64","type":"Circle"},"selection_glyph":null,"view":{"id":"b1b558d7-9723-4865-9aae-76870db1d442","type":"CDSView"}},"id":"05624d06-8bcf-4e00-8691-50557426f490","type":"GlyphRenderer"},{"attributes":{"label":{"value":"Strategy"},"renderers":[{"id":"ebd6aceb-8479-46c4-8936-162b86ee2ab7","type":"GlyphRenderer"}]},"id":"86eac003-86d7-4b99-a66d-d4d6f784f671","type":"LegendItem"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":6},"x":{"value":1499036400000.0},"y":{"value":2130.6934939455823}},"id":"357eb96a-453b-476a-b297-4ed4ead9aa64","type":"Circle"},{"attributes":{"fill_alpha":{"value":0.5},"fill_color":{"value":"blue"},"line_alpha":{"value":0.5},"line_color":{"value":"blue"},"size":{"units":"screen","value":6},"x":{"value":1498345200000.0},"y":{"value":2130.6934939455823}},"id":"89524f69-c5b5-4be4-af47-b6bfaf2ab1b2","type":"Circle"},{"attributes":{"fill_alpha":{"value":0.5},"fill_color":{"value":"green"},"line_alpha":{"value":0.5},"line_color":{"value":"green"},"size":{"units":"screen","value":6},"x":{"value":1500591600000.0},"y":{"value":2168.9798057186204}},"id":"cd832f8d-3097-4438-bc57-17dda344f1ef","type":"Circle"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"plot":null,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"84e7b6af-4844-4200-a4c5-5431129aa248","type":"BoxAnnotation"},{"attributes":{"callback":null,"data":{}},"id":"dacbf95a-4f89-4668-9b2a-d7e932210f04","type":"ColumnDataSource"},{"attributes":{},"id":"d4b5b16f-062d-4767-8c10-d05d416a6009","type":"YearsTicker"},{"attributes":{"days":[1,8,15,22]},"id":"742d1482-d180-40be-b55f-84eeec5e1bb3","type":"DaysTicker"},{"attributes":{},"id":"c68db32b-fec6-4741-9d45-4a99c1bf5693","type":"ResetTool"},{"attributes":{"axis_label":"Date","formatter":{"id":"3eed90f9-2fa1-42d1-bac5-516413f454cd","type":"DatetimeTickFormatter"},"plot":{"id":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432","subtype":"Figure","type":"Plot"},"ticker":{"id":"d58876f9-8d5d-49da-a7a7-59b04bbc90ad","type":"DatetimeTicker"}},"id":"9ecf287e-0fe9-4494-ba66-77f23be3c499","type":"DatetimeAxis"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":6},"x":{"value":1498345200000.0},"y":{"value":2130.6934939455823}},"id":"1603c378-2886-4bb4-aa82-e4666c53be47","type":"Circle"},{"attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]},"id":"3866d271-df52-4e26-b8f0-71676aa4cfe3","type":"DaysTicker"},{"attributes":{"base":60,"mantissas":[1,2,5,10,15,20,30],"max_interval":1800000.0,"min_interval":1000.0,"num_minor_ticks":0},"id":"b8ada2e6-8693-4c3a-a829-106fcf2b9d34","type":"AdaptiveTicker"},{"attributes":{"callback":null,"data":{}},"id":"fe6f247a-c835-4e03-961f-e3467f370c94","type":"ColumnDataSource"},{"attributes":{},"id":"fb68112c-87ab-4629-a495-776d11b4dea2","type":"LinearScale"},{"attributes":{},"id":"5ec6a947-40df-491c-b1d0-e5d949145bc0","type":"BasicTicker"},{"attributes":{"callback":null},"id":"1da620f6-44d7-4a36-853e-9e0905847901","type":"DataRange1d"},{"attributes":{"callback":null,"data":{}},"id":"96efd5f2-9b24-402d-b46f-55e9bfe4043c","type":"ColumnDataSource"},{"attributes":{},"id":"df8afeda-3456-47fa-9db1-ba9fe89c00b3","type":"WheelZoomTool"},{"attributes":{"base":24,"mantissas":[1,2,4,6,8,12],"max_interval":43200000.0,"min_interval":3600000.0,"num_minor_ticks":0},"id":"6a19a3c2-e154-4120-81cf-068cfab22fc8","type":"AdaptiveTicker"},{"attributes":{"data_source":{"id":"96efd5f2-9b24-402d-b46f-55e9bfe4043c","type":"ColumnDataSource"},"glyph":{"id":"e9d803db-7ef1-413d-bf18-11598143d1d7","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"e8d6230a-1d9f-4c6c-8cae-3a0af04cfad9","type":"Circle"},"selection_glyph":null,"view":{"id":"a9cade12-71ae-4454-8e2b-29d2e6b070e9","type":"CDSView"}},"id":"6c15c69d-9504-4b54-83f6-a899c6f7d2b2","type":"GlyphRenderer"},{"attributes":{"source":{"id":"f6ea230a-de3f-4f27-8ca9-5fd8d408970b","type":"ColumnDataSource"}},"id":"bc241dca-251a-46b8-b20c-bdc4179f9d72","type":"CDSView"},{"attributes":{"source":{"id":"fe6f247a-c835-4e03-961f-e3467f370c94","type":"ColumnDataSource"}},"id":"0a8a0337-868c-401f-9a62-a8611ed4aa6d","type":"CDSView"},{"attributes":{"fill_alpha":{"value":0.5},"fill_color":{"value":"blue"},"line_alpha":{"value":0.5},"line_color":{"value":"blue"},"size":{"units":"screen","value":6},"x":{"value":1505084400000.0},"y":{"value":3407.9847001024805}},"id":"e9d803db-7ef1-413d-bf18-11598143d1d7","type":"Circle"},{"attributes":{"axis_label":"Equity","formatter":{"id":"e4be9a19-f189-49e1-81a2-6d7d5ff0e88f","type":"BasicTickFormatter"},"plot":{"id":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432","subtype":"Figure","type":"Plot"},"ticker":{"id":"5ec6a947-40df-491c-b1d0-e5d949145bc0","type":"BasicTicker"}},"id":"3421afc7-cefb-4262-99c0-b1e465e7f3d3","type":"LinearAxis"},{"attributes":{},"id":"93202017-ff3b-436d-8191-5e324ebd6e50","type":"HelpTool"},{"attributes":{},"id":"3eed90f9-2fa1-42d1-bac5-516413f454cd","type":"DatetimeTickFormatter"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"298ac4c8-1cc2-48f8-9011-7441d284f6b5","type":"Line"},{"attributes":{"data_source":{"id":"f6ea230a-de3f-4f27-8ca9-5fd8d408970b","type":"ColumnDataSource"},"glyph":{"id":"f9c0df41-9333-44ec-a7a1-8b24671085c1","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"a2a50917-1a76-47c6-8aab-d765b40092aa","type":"Circle"},"selection_glyph":null,"view":{"id":"bc241dca-251a-46b8-b20c-bdc4179f9d72","type":"CDSView"}},"id":"c35abb23-028b-4548-90a5-27c45bc97a00","type":"GlyphRenderer"},{"attributes":{"callback":null,"data":{}},"id":"f6ea230a-de3f-4f27-8ca9-5fd8d408970b","type":"ColumnDataSource"},{"attributes":{"source":{"id":"dacbf95a-4f89-4668-9b2a-d7e932210f04","type":"ColumnDataSource"}},"id":"a1dbc4ae-4b48-435b-8303-ceb897df5a09","type":"CDSView"},{"attributes":{"data_source":{"id":"fe6f247a-c835-4e03-961f-e3467f370c94","type":"ColumnDataSource"},"glyph":{"id":"89524f69-c5b5-4be4-af47-b6bfaf2ab1b2","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1603c378-2886-4bb4-aa82-e4666c53be47","type":"Circle"},"selection_glyph":null,"view":{"id":"0a8a0337-868c-401f-9a62-a8611ed4aa6d","type":"CDSView"}},"id":"dd7ea36e-07b1-4c31-a869-9fbcd7401001","type":"GlyphRenderer"},{"attributes":{"line_color":{"value":"#49516F"},"x":{"field":"x"},"y":{"field":"y"}},"id":"a38d0757-8a33-445a-831f-1ccaca776055","type":"Line"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":6},"x":{"value":1499209200000.0},"y":{"value":2168.9798057186204}},"id":"1afb862a-0e0d-4ce9-b063-8b7b0a56d656","type":"Circle"},{"attributes":{"months":[0,4,8]},"id":"ef854657-3290-460e-9b79-3aefb1b55793","type":"MonthsTicker"},{"attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]},"id":"79178821-6868-4d92-8fd5-b0693b606da0","type":"MonthsTicker"},{"attributes":{"num_minor_ticks":5,"tickers":[{"id":"5a1ed3af-00a8-43fc-af2f-9dc2126ba7c9","type":"AdaptiveTicker"},{"id":"b8ada2e6-8693-4c3a-a829-106fcf2b9d34","type":"AdaptiveTicker"},{"id":"6a19a3c2-e154-4120-81cf-068cfab22fc8","type":"AdaptiveTicker"},{"id":"3866d271-df52-4e26-b8f0-71676aa4cfe3","type":"DaysTicker"},{"id":"6a09f4bb-0355-442b-824d-57e862e78882","type":"DaysTicker"},{"id":"742d1482-d180-40be-b55f-84eeec5e1bb3","type":"DaysTicker"},{"id":"546623d9-4b55-4b16-a501-cbbb12079a0b","type":"DaysTicker"},{"id":"79178821-6868-4d92-8fd5-b0693b606da0","type":"MonthsTicker"},{"id":"fc15316e-87e7-4002-a1d9-8faf8bcf6fef","type":"MonthsTicker"},{"id":"ef854657-3290-460e-9b79-3aefb1b55793","type":"MonthsTicker"},{"id":"7785b776-df22-49a3-8056-62c358433a28","type":"MonthsTicker"},{"id":"d4b5b16f-062d-4767-8c10-d05d416a6009","type":"YearsTicker"}]},"id":"d58876f9-8d5d-49da-a7a7-59b04bbc90ad","type":"DatetimeTicker"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"5fa56cb7-dfa9-4852-838a-fc9d6ff7f0d0","type":"PanTool"},{"id":"df8afeda-3456-47fa-9db1-ba9fe89c00b3","type":"WheelZoomTool"},{"id":"31c80e58-8e49-4659-ad19-0abde1ddb128","type":"BoxZoomTool"},{"id":"d11e6dfb-46ec-4541-9e7d-08cfbc53e451","type":"SaveTool"},{"id":"c68db32b-fec6-4741-9d45-4a99c1bf5693","type":"ResetTool"},{"id":"93202017-ff3b-436d-8191-5e324ebd6e50","type":"HelpTool"}]},"id":"ae4fa9fe-a172-4b3c-afd0-05c61e2c6978","type":"Toolbar"},{"attributes":{"months":[0,2,4,6,8,10]},"id":"fc15316e-87e7-4002-a1d9-8faf8bcf6fef","type":"MonthsTicker"},{"attributes":{"months":[0,6]},"id":"7785b776-df22-49a3-8056-62c358433a28","type":"MonthsTicker"},{"attributes":{"overlay":{"id":"84e7b6af-4844-4200-a4c5-5431129aa248","type":"BoxAnnotation"}},"id":"31c80e58-8e49-4659-ad19-0abde1ddb128","type":"BoxZoomTool"},{"attributes":{"fill_alpha":{"value":0.5},"fill_color":{"value":"green"},"line_alpha":{"value":0.5},"line_color":{"value":"green"},"size":{"units":"screen","value":6},"x":{"value":1491433200000.0},"y":{"value":1000.0}},"id":"f9c0df41-9333-44ec-a7a1-8b24671085c1","type":"Circle"},{"attributes":{"fill_alpha":{"value":0.5},"fill_color":{"value":"blue"},"line_alpha":{"value":0.5},"line_color":{"value":"blue"},"size":{"units":"screen","value":6},"x":{"value":1499209200000.0},"y":{"value":2168.9798057186204}},"id":"3b053354-5209-4113-82a6-a49ca161676d","type":"Circle"},{"attributes":{"callback":null,"data":{}},"id":"c2e7d612-e037-4eba-ac23-94d3209bcc0d","type":"ColumnDataSource"},{"attributes":{"below":[{"id":"9ecf287e-0fe9-4494-ba66-77f23be3c499","type":"DatetimeAxis"}],"left":[{"id":"3421afc7-cefb-4262-99c0-b1e465e7f3d3","type":"LinearAxis"}],"plot_height":400,"plot_width":1000,"renderers":[{"id":"9ecf287e-0fe9-4494-ba66-77f23be3c499","type":"DatetimeAxis"},{"id":"2c61247d-2d8b-425d-86eb-d14b6fe2476f","type":"Grid"},{"id":"3421afc7-cefb-4262-99c0-b1e465e7f3d3","type":"LinearAxis"},{"id":"ab8e9c89-d5c5-4b14-8e4b-3a2a976287a2","type":"Grid"},{"id":"84e7b6af-4844-4200-a4c5-5431129aa248","type":"BoxAnnotation"},{"id":"4871bb13-5483-4163-820e-fbc410f3ea8d","type":"Legend"},{"id":"9c8dff78-6e81-43f1-b196-19ad39019c0e","type":"GlyphRenderer"},{"id":"ebd6aceb-8479-46c4-8936-162b86ee2ab7","type":"GlyphRenderer"},{"id":"c35abb23-028b-4548-90a5-27c45bc97a00","type":"GlyphRenderer"},{"id":"05624d06-8bcf-4e00-8691-50557426f490","type":"GlyphRenderer"},{"id":"9b3f4708-7af1-4019-bac8-1eddebc15882","type":"GlyphRenderer"},{"id":"dd7ea36e-07b1-4c31-a869-9fbcd7401001","type":"GlyphRenderer"},{"id":"ac21c3b6-4623-42f2-89bf-1f80b48704bc","type":"GlyphRenderer"},{"id":"6c15c69d-9504-4b54-83f6-a899c6f7d2b2","type":"GlyphRenderer"}],"title":{"id":"349f1e4f-9e22-4799-9d97-4b442c8c7a5a","type":"Title"},"toolbar":{"id":"ae4fa9fe-a172-4b3c-afd0-05c61e2c6978","type":"Toolbar"},"x_range":{"id":"1da620f6-44d7-4a36-853e-9e0905847901","type":"DataRange1d"},"x_scale":{"id":"fb68112c-87ab-4629-a495-776d11b4dea2","type":"LinearScale"},"y_range":{"id":"c22c28b8-fa01-4a83-8986-15e7a22ed765","type":"DataRange1d"},"y_scale":{"id":"d02ea3f7-a4fd-4160-8b9a-e47d90fa8ec8","type":"LinearScale"}},"id":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432","subtype":"Figure","type":"Plot"},{"attributes":{"data_source":{"id":"d1d2c5a0-c8c1-4df4-ba45-30bc96f90e42","type":"ColumnDataSource"},"glyph":{"id":"a38d0757-8a33-445a-831f-1ccaca776055","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"298ac4c8-1cc2-48f8-9011-7441d284f6b5","type":"Line"},"selection_glyph":null,"view":{"id":"ce786bd1-ad97-4eb4-98dc-3a27180843c3","type":"CDSView"}},"id":"ebd6aceb-8479-46c4-8936-162b86ee2ab7","type":"GlyphRenderer"},{"attributes":{},"id":"d02ea3f7-a4fd-4160-8b9a-e47d90fa8ec8","type":"LinearScale"},{"attributes":{"callback":null,"data":{}},"id":"d948aad0-8cbd-4f1f-a633-e53bd322f61a","type":"ColumnDataSource"},{"attributes":{"line_color":{"value":"#CAD8DE"},"x":{"field":"x"},"y":{"field":"y"}},"id":"777d7d7e-442d-4cd6-967b-f011333f8870","type":"Line"},{"attributes":{"source":{"id":"d948aad0-8cbd-4f1f-a633-e53bd322f61a","type":"ColumnDataSource"}},"id":"1b5e612e-3e23-4fe6-8fa3-704d40903bb5","type":"CDSView"},{"attributes":{"callback":null},"id":"c22c28b8-fa01-4a83-8986-15e7a22ed765","type":"DataRange1d"},{"attributes":{"plot":null,"text":"LookbackPeriod: 18, TradingInterval: 1"},"id":"349f1e4f-9e22-4799-9d97-4b442c8c7a5a","type":"Title"},{"attributes":{"source":{"id":"ab6e43c4-748f-4e24-aad8-d0036139b849","type":"ColumnDataSource"}},"id":"96c45672-73aa-45d3-83ef-bcda6cc35bda","type":"CDSView"},{"attributes":{"grid_line_alpha":{"value":0.3},"plot":{"id":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432","subtype":"Figure","type":"Plot"},"ticker":{"id":"d58876f9-8d5d-49da-a7a7-59b04bbc90ad","type":"DatetimeTicker"}},"id":"2c61247d-2d8b-425d-86eb-d14b6fe2476f","type":"Grid"},{"attributes":{"data_source":{"id":"ab6e43c4-748f-4e24-aad8-d0036139b849","type":"ColumnDataSource"},"glyph":{"id":"777d7d7e-442d-4cd6-967b-f011333f8870","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"02ede4e4-bd0f-4cd0-9cab-f7b2de6a45d5","type":"Line"},"selection_glyph":null,"view":{"id":"96c45672-73aa-45d3-83ef-bcda6cc35bda","type":"CDSView"}},"id":"9c8dff78-6e81-43f1-b196-19ad39019c0e","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":6},"x":{"value":1505084400000.0},"y":{"value":3407.9847001024805}},"id":"e8d6230a-1d9f-4c6c-8cae-3a0af04cfad9","type":"Circle"},{"attributes":{"items":[{"id":"8d86963c-56aa-4790-bcc6-c3115aad0987","type":"LegendItem"},{"id":"86eac003-86d7-4b99-a66d-d4d6f784f671","type":"LegendItem"}],"location":"top_left","plot":{"id":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432","subtype":"Figure","type":"Plot"}},"id":"4871bb13-5483-4163-820e-fbc410f3ea8d","type":"Legend"},{"attributes":{"source":{"id":"c2e7d612-e037-4eba-ac23-94d3209bcc0d","type":"ColumnDataSource"}},"id":"b1b558d7-9723-4865-9aae-76870db1d442","type":"CDSView"},{"attributes":{"source":{"id":"96efd5f2-9b24-402d-b46f-55e9bfe4043c","type":"ColumnDataSource"}},"id":"a9cade12-71ae-4454-8e2b-29d2e6b070e9","type":"CDSView"},{"attributes":{"dimension":1,"grid_line_alpha":{"value":0.3},"plot":{"id":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432","subtype":"Figure","type":"Plot"},"ticker":{"id":"5ec6a947-40df-491c-b1d0-e5d949145bc0","type":"BasicTicker"}},"id":"ab8e9c89-d5c5-4b14-8e4b-3a2a976287a2","type":"Grid"},{"attributes":{"days":[1,15]},"id":"546623d9-4b55-4b16-a501-cbbb12079a0b","type":"DaysTicker"},{"attributes":{"days":[1,4,7,10,13,16,19,22,25,28]},"id":"6a09f4bb-0355-442b-824d-57e862e78882","type":"DaysTicker"},{"attributes":{},"id":"5fa56cb7-dfa9-4852-838a-fc9d6ff7f0d0","type":"PanTool"},{"attributes":{},"id":"d11e6dfb-46ec-4541-9e7d-08cfbc53e451","type":"SaveTool"},{"attributes":{"callback":null,"column_names":["y","x"],"data":{"x":{"__ndarray__":"AAAA0T2udUIAAMA2kK51QgAAgJzirnVCAABAAjWvdUIAAABoh691QgAAwM3Zr3VCAACAMyywdUIAAECZfrB1QgAAAP/QsHVCAADAZCOxdUIAAIDKdbF1QgAAQDDIsXVCAAAAlhqydUIAAMD7bLJ1QgAAgGG/snVCAABAxxGzdUIAAAAtZLN1QgAAwJK2s3VCAACA+Ai0dUIAAEBeW7R1QgAAAMSttHVCAADAKQC1dUIAAICPUrV1QgAAQPWktXVCAAAAW/e1dUIAAMDASbZ1QgAAgCactnVCAABAjO62dUIAAADyQLd1QgAAwFeTt3VCAACAveW3dUIAAEAjOLh1QgAAAImKuHVCAADA7ty4dUIAAIBUL7l1QgAAQLqBuXVCAAAAINS5dUIAAMCFJrp1QgAAgOt4unVCAABAUcu6dUIAAAC3Hbt1QgAAwBxwu3VCAACAgsK7dUIAAEDoFLx1QgAAAE5nvHVCAADAs7m8dUIAAIAZDL11QgAAQH9evXVCAAAA5bC9dUIAAMBKA751QgAAgLBVvnVCAABAFqi+dUIAAAB8+r51QgAAwOFMv3VCAACAR5+/dUIAAECt8b91QgAAABNEwHVCAADAeJbAdUIAAIDe6MB1QgAAQEQ7wXVCAAAAqo3BdUIAAMAP4MF1QgAAgHUywnVCAABA24TCdUIAAABB18J1QgAAwKYpw3VCAACADHzDdUIAAEByzsN1QgAAANggxHVCAADAPXPEdUIAAICjxcR1QgAAQAkYxXVCAAAAb2rFdUIAAMDUvMV1QgAAgDoPxnVCAABAoGHGdUIAAAAGtMZ1QgAAwGsGx3VCAACA0VjHdUIAAEA3q8d1QgAAAJ39x3VCAADAAlDIdUIAAIBoosh1QgAAQM70yHVCAAAANEfJdUIAAMCZmcl1QgAAgP/ryXVCAABAZT7KdUIAAADLkMp1QgAAwDDjynVCAACAljXLdUIAAED8h8t1QgAAAGLay3VCAADAxyzMdUIAAIAtf8x1QgAAQJPRzHVCAAAA+SPNdUIAAMBeds11QgAAgMTIzXVCAABAKhvOdUIAAACQbc51QgAAwPW/znVCAACAWxLPdUIAAEDBZM91QgAAACe3z3VCAADAjAnQdUIAAIDyW9B1QgAAQFiu0HVCAAAAvgDRdUIAAMAjU9F1QgAAgIml0XVCAABA7/fRdUIAAABVStJ1QgAAwLqc0nVCAACAIO/SdUIAAECGQdN1QgAAAOyT03VCAADAUebTdUIAAIC3ONR1QgAAQB2L1HVCAAAAg93UdUIAAMDoL9V1QgAAgE6C1XVCAABAtNTVdUIAAAAaJ9Z1QgAAwH951nVCAACA5cvWdUIAAEBLHtd1QgAAALFw13VCAADAFsPXdUIAAIB8Fdh1QgAAQOJn2HVCAAAASLrYdUIAAMCtDNl1QgAAgBNf2XVCAABAebHZdUIAAADfA9p1QgAAwERW2nVCAACAqqjadUIAAEAQ+9p1QgAAAHZN23VCAADA25/bdUIAAIBB8tt1QgAAQKdE3HVCAAAADZfcdUIAAMBy6dx1QgAAgNg73XVCAABAPo7ddUIAAACk4N11QgAAwAkz3nVCAACAb4XedUIAAEDV1951QgAAADsq33VCAADAoHzfdUIAAIAGz991QgAAQGwh4HVCAAAA0nPgdUIAAMA3xuB1QgAAgJ0Y4XVCAABAA2vhdUIAAABpveF1QgAAwM4P4nVCAACANGLidUIAAECatOJ1QgAAAAAH43VCAADAZVnjdUIAAIDLq+N1QgAAQDH+43VCAAAAl1DkdUIAAMD8ouR1QgAAgGL15HVCAABAyEfldUIAAAAumuV1QgAAwJPs5XVCAACA+T7mdUIAAEBfkeZ1QgAAAMXj5nVCAADAKjbndUIAAICQiOd1QgAAQPba53VCAAAAXC3odUI=","dtype":"float64","shape":[181]},"y":[1000.0,1052.7291070435874,1078.3730362988738,1154.3268339887582,1075.5008338652226,1065.5253350902838,967.3866046243489,994.7703267516316,998.0028413185365,1075.9332084251273,1075.1919948938623,1072.5977475344357,1068.4901892153432,1110.9040746154953,1118.1206119129486,1129.7329572360973,1181.3708332475446,1175.4102411002902,1163.1596285696637,1223.7229508534251,1225.5656900492083,1215.5696020095122,1239.823755893677,1242.2635837674236,1256.7069529947084,1248.2550598118141,1210.8546603800778,1212.0179538388684,1211.6679363379933,1211.4723383227984,1229.189400646503,1241.6253165599455,1251.0037266569211,1274.5681401717143,1286.4584405690873,1277.4506372377443,1285.9437089501535,1284.9554242418003,1301.5606662686075,1324.5382857378163,1372.181844386337,1368.794910333752,1375.6511354979514,1391.7416459058247,1457.5243468055755,1488.531779530153,1529.3191130144742,1561.4486606683274,1552.1937861598963,1590.819246844695,1600.249130103564,1713.5106755337767,1747.5138462805494,1803.938726348082,1872.8921740204657,1736.0765097078383,1815.7054911569107,1824.7750622825258,1759.2703164569994,1780.2919557742591,1854.3721303712243,1936.4100557969075,2019.806872696576,2100.290308633079,2104.4184562169285,2187.001997158681,2339.5375651135496,2517.325866293315,2374.9305112314437,2311.0317280569907,2112.9012332969587,2253.5156169573183,2345.333443142745,2257.149622186992,2371.2038543103627,2483.734480841689,2566.0400667092176,2620.426609565772,2598.4269801725377,2784.6568799028187,2955.07422429945,2770.8105993534973,2881.2411208795734,2894.2638308386004,2985.7007556260164,3061.0574646379373,2735.0470464699706,2792.9234697028965,2539.963762894027,2514.4227799625273,2582.490889250345,2733.3278428627314,2614.3836603594887,2693.919990117153,2835.532953118244,2756.5113549795137,2803.0636825958945,2790.226276019683,2666.3612592394325,2616.504354629496,2518.118552986473,2659.8756408408653,2653.68856678128,2633.7478638637813,2553.696802487183,2496.046861166588,2611.1923243220986,2648.263295517717,2694.434721736087,2705.2852642632133,2691.2639749634536,2587.9470444110443,2640.4290802775436,2585.424859478268,2413.0824188268234,2392.7711091436922,2473.892812287673,2432.045131668348,2299.9958821470486,2033.2722518478863,1970.4852889703307,2299.1929008215116,2388.5914883979494,2349.8321974922274,2950.4622289938025,2753.8965183553296,2920.103358109082,2837.8286561386894,2844.839300788569,2658.67116885256,2634.61261298359,2771.191500751508,2889.4459428853793,2814.0377607115647,2847.9997529288225,2968.220469847022,2827.925219790401,2800.68562251642,2892.781403776071,2963.2996355700134,3358.9326525149786,3327.2560686857873,3502.1412835347646,3530.420638678993,3447.4561963392284,3526.601330066503,3762.0395725668636,3985.6904609936378,4182.297350161625,4455.455125697461,4284.275978504807,4516.667009821079,4404.990837777183,4226.32749284523,4272.7356956083095,4186.415203113097,4123.103213984228,4210.195803907842,4263.099919701867,4445.58257324631,4492.999649982499,4480.5328501719205,4473.789865963887,4519.662747843275,4732.7616380819045,4718.050608412774,4874.621672260083,5066.863637299512,4708.558957359633,4748.83155922502,4393.182894438839,4538.985772818052,4754.792151372274,4772.179785459862,4453.921225473038,4462.856966377731,4370.98766703041,4342.172991002491,4281.4552492330495,3984.321274887274,3338.631637464226]}},"id":"ab6e43c4-748f-4e24-aad8-d0036139b849","type":"ColumnDataSource"},{"attributes":{"mantissas":[1,2,5],"max_interval":500.0,"num_minor_ticks":0},"id":"5a1ed3af-00a8-43fc-af2f-9dc2126ba7c9","type":"AdaptiveTicker"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":6},"x":{"value":1500591600000.0},"y":{"value":2168.9798057186204}},"id":"74f7f035-1e45-4228-8ac5-d781fcf19c55","type":"Circle"},{"attributes":{"callback":null,"column_names":["y","x"],"data":{"x":{"__ndarray__":"AAAA0T2udUIAAMA2kK51QgAAgJzirnVCAABAAjWvdUIAAABoh691QgAAwM3Zr3VCAACAMyywdUIAAECZfrB1QgAAAP/QsHVCAADAZCOxdUIAAIDKdbF1QgAAQDDIsXVCAAAAlhqydUIAAMD7bLJ1QgAAgGG/snVCAABAxxGzdUIAAAAtZLN1QgAAwJK2s3VCAACA+Ai0dUIAAEBeW7R1QgAAAMSttHVCAADAKQC1dUIAAICPUrV1QgAAQPWktXVCAAAAW/e1dUIAAMDASbZ1QgAAgCactnVCAABAjO62dUIAAADyQLd1QgAAwFeTt3VCAACAveW3dUIAAEAjOLh1QgAAAImKuHVCAADA7ty4dUIAAIBUL7l1QgAAQLqBuXVCAAAAINS5dUIAAMCFJrp1QgAAgOt4unVCAABAUcu6dUIAAAC3Hbt1QgAAwBxwu3VCAACAgsK7dUIAAEDoFLx1QgAAAE5nvHVCAADAs7m8dUIAAIAZDL11QgAAQH9evXVCAAAA5bC9dUIAAMBKA751QgAAgLBVvnVCAABAFqi+dUIAAAB8+r51QgAAwOFMv3VCAACAR5+/dUIAAECt8b91QgAAABNEwHVCAADAeJbAdUIAAIDe6MB1QgAAQEQ7wXVCAAAAqo3BdUIAAMAP4MF1QgAAgHUywnVCAABA24TCdUIAAABB18J1QgAAwKYpw3VCAACADHzDdUIAAEByzsN1QgAAANggxHVCAADAPXPEdUIAAICjxcR1QgAAQAkYxXVCAAAAb2rFdUIAAMDUvMV1QgAAgDoPxnVCAABAoGHGdUIAAAAGtMZ1QgAAwGsGx3VCAACA0VjHdUIAAEA3q8d1QgAAAJ39x3VCAADAAlDIdUIAAIBoosh1QgAAQM70yHVCAAAANEfJdUIAAMCZmcl1QgAAgP/ryXVCAABAZT7KdUIAAADLkMp1QgAAwDDjynVCAACAljXLdUIAAED8h8t1QgAAAGLay3VCAADAxyzMdUIAAIAtf8x1QgAAQJPRzHVCAAAA+SPNdUIAAMBeds11QgAAgMTIzXVCAABAKhvOdUIAAACQbc51QgAAwPW/znVCAACAWxLPdUIAAEDBZM91QgAAACe3z3VCAADAjAnQdUIAAIDyW9B1QgAAQFiu0HVCAAAAvgDRdUIAAMAjU9F1QgAAgIml0XVCAABA7/fRdUIAAABVStJ1QgAAwLqc0nVCAACAIO/SdUIAAECGQdN1QgAAAOyT03VCAADAUebTdUIAAIC3ONR1QgAAQB2L1HVCAAAAg93UdUIAAMDoL9V1QgAAgE6C1XVCAABAtNTVdUIAAAAaJ9Z1QgAAwH951nVCAACA5cvWdUIAAEBLHtd1QgAAALFw13VCAADAFsPXdUIAAIB8Fdh1QgAAQOJn2HVCAAAASLrYdUIAAMCtDNl1QgAAgBNf2XVCAABAebHZdUIAAADfA9p1QgAAwERW2nVCAACAqqjadUIAAEAQ+9p1QgAAAHZN23VCAADA25/bdUIAAIBB8tt1QgAAQKdE3HVCAAAADZfcdUIAAMBy6dx1QgAAgNg73XVCAABAPo7ddUIAAACk4N11QgAAwAkz3nVCAACAb4XedUIAAEDV1951QgAAADsq33VCAADAoHzfdUIAAIAGz991QgAAQGwh4HVCAAAA0nPgdUIAAMA3xuB1QgAAgJ0Y4XVCAABAA2vhdUIAAABpveF1QgAAwM4P4nVCAACANGLidUIAAECatOJ1QgAAAAAH43VCAADAZVnjdUIAAIDLq+N1QgAAQDH+43VCAAAAl1DkdUIAAMD8ouR1QgAAgGL15HVCAABAyEfldUIAAAAumuV1QgAAwJPs5XVCAACA+T7mdUIAAEBfkeZ1QgAAAMXj5nVCAADAKjbndUIAAICQiOd1QgAAQPba53VCAAAAXC3odUI=","dtype":"float64","shape":[181]},"y":[1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,998.012801916603,989.8727047241779,1009.6235481694442,1011.6103690083781,1023.3720130464548,1016.4893973976586,986.033194410964,986.980497173831,986.6954680239419,986.5361870284155,1000.9636919389858,1011.0906099703446,1018.7277145453183,1037.916882901097,1047.5994907870406,1040.264181782538,1047.1803302724975,1046.375542084575,1059.8976602837322,1078.608985652932,1117.4064828790324,1114.6484066933394,1120.2316247470524,1133.3345824316666,1186.9032961902626,1212.1535255863332,1245.367804758721,1271.5318040764953,1263.995298025012,1295.449103036319,1303.128123662747,1395.3602032827896,1423.0499468735004,1468.9983224777047,1525.1490650058856,1413.736200240355,1478.5803318401577,1485.9659401064055,1432.6235730256628,1449.742088439599,1510.0676696926282,1576.8734725004924,1644.78585906675,1710.3257971206942,1713.6874644473291,1780.9375774006085,1905.1516042802825,2049.9296460034366,1934.191044727822,1881.938494984891,1720.5952297269976,1835.1014990898557,1909.871351674037,1838.0607723225296,1930.9383591349683,2022.57523082436,2089.598997099786,2133.8874970664,2115.972576674832,2267.6248508364915,2406.4005139913893,2256.3494329952846,2346.276129785341,2356.8808908032784,2431.340564606698,2492.705663935794,2227.2261604448363,2274.356568700052,2068.3643254330377,2047.5655807014139,2102.9953671445805,2225.8261643262626,2128.9665526256654,2193.7352353328506,2309.054676093922,2244.7051539012796,2282.6140308365493,2272.1601676038463,2171.2933813842183,2130.6934939455823,2130.6934939455823,2130.6934939455823,2130.6934939455823,2130.6934939455823,2130.6934939455823,2130.6934939455823,2130.6934939455823,2130.6934939455823,2160.280313678605,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2168.9798057186204,2291.863448963155,2227.289576364897,2232.791929623082,2086.6765752603583,2067.7940502025344,2174.9889410635305,2267.8017632026927,2208.617126468179,2235.2724324869037,2329.628499078802,2219.5167954039957,2198.1376078545727,2270.419622902622,2325.7663480400174,2636.2816755955273,2611.420088260087,2748.6799666008274,2770.8752153530063,2705.759995224208,2767.8776044003093,2952.6629480342117,3128.196904765586,3282.5051904114225,3496.8949721334147,3362.5438267925956,3544.9375455154513,3457.2877244511506,3317.0625544132677,3353.4863554233957,3285.7371159668905,3236.046260551565,3304.4014860497205,3345.9236496236,3489.1464306141797,3526.3620533853973,3516.5773987662174,3511.2851206691375,3547.2887713570553,3714.5409188525423,3702.9948648056316,3825.880754238426,3976.763198795466,3695.5452764002766,3727.153508332757,3448.0201779208446,3562.45458202609,3731.8317205742974,3745.478526232263,3495.691079864003,3502.7043583193695,3430.6000991768706,3407.9847001024805,3407.9847001024805,3407.9847001024805,3407.9847001024805,3407.9847001024805]}},"id":"d1d2c5a0-c8c1-4df4-ba45-30bc96f90e42","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"d948aad0-8cbd-4f1f-a633-e53bd322f61a","type":"ColumnDataSource"},"glyph":{"id":"cd832f8d-3097-4438-bc57-17dda344f1ef","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"74f7f035-1e45-4228-8ac5-d781fcf19c55","type":"Circle"},"selection_glyph":null,"view":{"id":"1b5e612e-3e23-4fe6-8fa3-704d40903bb5","type":"CDSView"}},"id":"9b3f4708-7af1-4019-bac8-1eddebc15882","type":"GlyphRenderer"},{"attributes":{"label":{"value":"Buy and Hold"},"renderers":[{"id":"9c8dff78-6e81-43f1-b196-19ad39019c0e","type":"GlyphRenderer"}]},"id":"8d86963c-56aa-4790-bcc6-c3115aad0987","type":"LegendItem"}],"root_ids":["b2a81dae-90c1-4961-9a38-fc7bb6ccb432"]},"title":"Bokeh Application","version":"0.12.9"}};
-                  var render_items = [{"docid":"c849f393-0a58-4b40-b55c-56a328e3f433","elementid":"eba3cb8d-a266-4a3a-9446-88698fe5cf69","modelid":"b2a81dae-90c1-4961-9a38-fc7bb6ccb432"}];
-              
-                  root.Bokeh.embed.embed_items(docs_json, render_items);
-                }
-              
-                if (root.Bokeh !== undefined) {
-                  embed_document(root);
-                } else {
-                  var attempts = 0;
-                  var timer = setInterval(function(root) {
+        }
+    </style>
+</head>
+<body>
+
+<div class="bk-root">
+    <div class="bk-plotdiv" id="eba3cb8d-a266-4a3a-9446-88698fe5cf69"></div>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        var fn = function () {
+            Bokeh.safely(function () {
+                (function (root) {
+                    function embed_document(root) {
+                        var docs_json = {
+                            "c849f393-0a58-4b40-b55c-56a328e3f433": {
+                                "roots": {
+                                    "references": [{
+                                        "attributes": {
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "x": {"field": "x"},
+                                            "y": {"field": "y"}
+                                        },
+                                        "id": "02ede4e4-bd0f-4cd0-9cab-f7b2de6a45d5",
+                                        "type": "Line"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "e4be9a19-f189-49e1-81a2-6d7d5ff0e88f",
+                                        "type": "BasicTickFormatter"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.1},
+                                            "fill_color": {"value": "#1f77b4"},
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1491433200000.0},
+                                            "y": {"value": 1000.0}
+                                        },
+                                        "id": "a2a50917-1a76-47c6-8aab-d765b40092aa",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "dacbf95a-4f89-4668-9b2a-d7e932210f04",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "3b053354-5209-4113-82a6-a49ca161676d",
+                                                "type": "Circle"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "1afb862a-0e0d-4ce9-b063-8b7b0a56d656",
+                                                "type": "Circle"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "a1dbc4ae-4b48-435b-8303-ceb897df5a09",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "ac21c3b6-4623-42f2-89bf-1f80b48704bc",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "green"},
+                                            "line_alpha": {"value": 0.5},
+                                            "line_color": {"value": "green"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1499036400000.0},
+                                            "y": {"value": 2130.6934939455823}
+                                        },
+                                        "id": "f4d0a3be-cb73-488c-bda8-73626f2c4c28",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "d1d2c5a0-c8c1-4df4-ba45-30bc96f90e42",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "ce786bd1-ad97-4eb4-98dc-3a27180843c3",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "c2e7d612-e037-4eba-ac23-94d3209bcc0d",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "f4d0a3be-cb73-488c-bda8-73626f2c4c28",
+                                                "type": "Circle"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "357eb96a-453b-476a-b297-4ed4ead9aa64",
+                                                "type": "Circle"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "b1b558d7-9723-4865-9aae-76870db1d442",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "05624d06-8bcf-4e00-8691-50557426f490",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {
+                                            "label": {"value": "Strategy"},
+                                            "renderers": [{
+                                                "id": "ebd6aceb-8479-46c4-8936-162b86ee2ab7",
+                                                "type": "GlyphRenderer"
+                                            }]
+                                        },
+                                        "id": "86eac003-86d7-4b99-a66d-d4d6f784f671",
+                                        "type": "LegendItem"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.1},
+                                            "fill_color": {"value": "#1f77b4"},
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1499036400000.0},
+                                            "y": {"value": 2130.6934939455823}
+                                        },
+                                        "id": "357eb96a-453b-476a-b297-4ed4ead9aa64",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "blue"},
+                                            "line_alpha": {"value": 0.5},
+                                            "line_color": {"value": "blue"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1498345200000.0},
+                                            "y": {"value": 2130.6934939455823}
+                                        },
+                                        "id": "89524f69-c5b5-4be4-af47-b6bfaf2ab1b2",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "green"},
+                                            "line_alpha": {"value": 0.5},
+                                            "line_color": {"value": "green"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1500591600000.0},
+                                            "y": {"value": 2168.9798057186204}
+                                        },
+                                        "id": "cd832f8d-3097-4438-bc57-17dda344f1ef",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "bottom_units": "screen",
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "lightgrey"},
+                                            "left_units": "screen",
+                                            "level": "overlay",
+                                            "line_alpha": {"value": 1.0},
+                                            "line_color": {"value": "black"},
+                                            "line_dash": [4, 4],
+                                            "line_width": {"value": 2},
+                                            "plot": null,
+                                            "render_mode": "css",
+                                            "right_units": "screen",
+                                            "top_units": "screen"
+                                        },
+                                        "id": "84e7b6af-4844-4200-a4c5-5431129aa248",
+                                        "type": "BoxAnnotation"
+                                    }, {
+                                        "attributes": {"callback": null, "data": {}},
+                                        "id": "dacbf95a-4f89-4668-9b2a-d7e932210f04",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "d4b5b16f-062d-4767-8c10-d05d416a6009",
+                                        "type": "YearsTicker"
+                                    }, {
+                                        "attributes": {"days": [1, 8, 15, 22]},
+                                        "id": "742d1482-d180-40be-b55f-84eeec5e1bb3",
+                                        "type": "DaysTicker"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "c68db32b-fec6-4741-9d45-4a99c1bf5693",
+                                        "type": "ResetTool"
+                                    }, {
+                                        "attributes": {
+                                            "axis_label": "Date",
+                                            "formatter": {
+                                                "id": "3eed90f9-2fa1-42d1-bac5-516413f454cd",
+                                                "type": "DatetimeTickFormatter"
+                                            },
+                                            "plot": {
+                                                "id": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432",
+                                                "subtype": "Figure",
+                                                "type": "Plot"
+                                            },
+                                            "ticker": {
+                                                "id": "d58876f9-8d5d-49da-a7a7-59b04bbc90ad",
+                                                "type": "DatetimeTicker"
+                                            }
+                                        },
+                                        "id": "9ecf287e-0fe9-4494-ba66-77f23be3c499",
+                                        "type": "DatetimeAxis"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.1},
+                                            "fill_color": {"value": "#1f77b4"},
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1498345200000.0},
+                                            "y": {"value": 2130.6934939455823}
+                                        },
+                                        "id": "1603c378-2886-4bb4-aa82-e4666c53be47",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {"days": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]},
+                                        "id": "3866d271-df52-4e26-b8f0-71676aa4cfe3",
+                                        "type": "DaysTicker"
+                                    }, {
+                                        "attributes": {
+                                            "base": 60,
+                                            "mantissas": [1, 2, 5, 10, 15, 20, 30],
+                                            "max_interval": 1800000.0,
+                                            "min_interval": 1000.0,
+                                            "num_minor_ticks": 0
+                                        },
+                                        "id": "b8ada2e6-8693-4c3a-a829-106fcf2b9d34",
+                                        "type": "AdaptiveTicker"
+                                    }, {
+                                        "attributes": {"callback": null, "data": {}},
+                                        "id": "fe6f247a-c835-4e03-961f-e3467f370c94",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "fb68112c-87ab-4629-a495-776d11b4dea2",
+                                        "type": "LinearScale"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "5ec6a947-40df-491c-b1d0-e5d949145bc0",
+                                        "type": "BasicTicker"
+                                    }, {
+                                        "attributes": {"callback": null},
+                                        "id": "1da620f6-44d7-4a36-853e-9e0905847901",
+                                        "type": "DataRange1d"
+                                    }, {
+                                        "attributes": {"callback": null, "data": {}},
+                                        "id": "96efd5f2-9b24-402d-b46f-55e9bfe4043c",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "df8afeda-3456-47fa-9db1-ba9fe89c00b3",
+                                        "type": "WheelZoomTool"
+                                    }, {
+                                        "attributes": {
+                                            "base": 24,
+                                            "mantissas": [1, 2, 4, 6, 8, 12],
+                                            "max_interval": 43200000.0,
+                                            "min_interval": 3600000.0,
+                                            "num_minor_ticks": 0
+                                        },
+                                        "id": "6a19a3c2-e154-4120-81cf-068cfab22fc8",
+                                        "type": "AdaptiveTicker"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "96efd5f2-9b24-402d-b46f-55e9bfe4043c",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "e9d803db-7ef1-413d-bf18-11598143d1d7",
+                                                "type": "Circle"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "e8d6230a-1d9f-4c6c-8cae-3a0af04cfad9",
+                                                "type": "Circle"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "a9cade12-71ae-4454-8e2b-29d2e6b070e9",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "6c15c69d-9504-4b54-83f6-a899c6f7d2b2",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "f6ea230a-de3f-4f27-8ca9-5fd8d408970b",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "bc241dca-251a-46b8-b20c-bdc4179f9d72",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "fe6f247a-c835-4e03-961f-e3467f370c94",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "0a8a0337-868c-401f-9a62-a8611ed4aa6d",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "blue"},
+                                            "line_alpha": {"value": 0.5},
+                                            "line_color": {"value": "blue"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1505084400000.0},
+                                            "y": {"value": 3407.9847001024805}
+                                        },
+                                        "id": "e9d803db-7ef1-413d-bf18-11598143d1d7",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "axis_label": "Equity",
+                                            "formatter": {
+                                                "id": "e4be9a19-f189-49e1-81a2-6d7d5ff0e88f",
+                                                "type": "BasicTickFormatter"
+                                            },
+                                            "plot": {
+                                                "id": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432",
+                                                "subtype": "Figure",
+                                                "type": "Plot"
+                                            },
+                                            "ticker": {
+                                                "id": "5ec6a947-40df-491c-b1d0-e5d949145bc0",
+                                                "type": "BasicTicker"
+                                            }
+                                        },
+                                        "id": "3421afc7-cefb-4262-99c0-b1e465e7f3d3",
+                                        "type": "LinearAxis"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "93202017-ff3b-436d-8191-5e324ebd6e50",
+                                        "type": "HelpTool"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "3eed90f9-2fa1-42d1-bac5-516413f454cd",
+                                        "type": "DatetimeTickFormatter"
+                                    }, {
+                                        "attributes": {
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "x": {"field": "x"},
+                                            "y": {"field": "y"}
+                                        },
+                                        "id": "298ac4c8-1cc2-48f8-9011-7441d284f6b5",
+                                        "type": "Line"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "f6ea230a-de3f-4f27-8ca9-5fd8d408970b",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "f9c0df41-9333-44ec-a7a1-8b24671085c1",
+                                                "type": "Circle"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "a2a50917-1a76-47c6-8aab-d765b40092aa",
+                                                "type": "Circle"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "bc241dca-251a-46b8-b20c-bdc4179f9d72",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "c35abb23-028b-4548-90a5-27c45bc97a00",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {"callback": null, "data": {}},
+                                        "id": "f6ea230a-de3f-4f27-8ca9-5fd8d408970b",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "dacbf95a-4f89-4668-9b2a-d7e932210f04",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "a1dbc4ae-4b48-435b-8303-ceb897df5a09",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "fe6f247a-c835-4e03-961f-e3467f370c94",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "89524f69-c5b5-4be4-af47-b6bfaf2ab1b2",
+                                                "type": "Circle"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "1603c378-2886-4bb4-aa82-e4666c53be47",
+                                                "type": "Circle"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "0a8a0337-868c-401f-9a62-a8611ed4aa6d",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "dd7ea36e-07b1-4c31-a869-9fbcd7401001",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {
+                                            "line_color": {"value": "#49516F"},
+                                            "x": {"field": "x"},
+                                            "y": {"field": "y"}
+                                        },
+                                        "id": "a38d0757-8a33-445a-831f-1ccaca776055",
+                                        "type": "Line"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.1},
+                                            "fill_color": {"value": "#1f77b4"},
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1499209200000.0},
+                                            "y": {"value": 2168.9798057186204}
+                                        },
+                                        "id": "1afb862a-0e0d-4ce9-b063-8b7b0a56d656",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {"months": [0, 4, 8]},
+                                        "id": "ef854657-3290-460e-9b79-3aefb1b55793",
+                                        "type": "MonthsTicker"
+                                    }, {
+                                        "attributes": {"months": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+                                        "id": "79178821-6868-4d92-8fd5-b0693b606da0",
+                                        "type": "MonthsTicker"
+                                    }, {
+                                        "attributes": {
+                                            "num_minor_ticks": 5,
+                                            "tickers": [{
+                                                "id": "5a1ed3af-00a8-43fc-af2f-9dc2126ba7c9",
+                                                "type": "AdaptiveTicker"
+                                            }, {
+                                                "id": "b8ada2e6-8693-4c3a-a829-106fcf2b9d34",
+                                                "type": "AdaptiveTicker"
+                                            }, {
+                                                "id": "6a19a3c2-e154-4120-81cf-068cfab22fc8",
+                                                "type": "AdaptiveTicker"
+                                            }, {
+                                                "id": "3866d271-df52-4e26-b8f0-71676aa4cfe3",
+                                                "type": "DaysTicker"
+                                            }, {
+                                                "id": "6a09f4bb-0355-442b-824d-57e862e78882",
+                                                "type": "DaysTicker"
+                                            }, {
+                                                "id": "742d1482-d180-40be-b55f-84eeec5e1bb3",
+                                                "type": "DaysTicker"
+                                            }, {
+                                                "id": "546623d9-4b55-4b16-a501-cbbb12079a0b",
+                                                "type": "DaysTicker"
+                                            }, {
+                                                "id": "79178821-6868-4d92-8fd5-b0693b606da0",
+                                                "type": "MonthsTicker"
+                                            }, {
+                                                "id": "fc15316e-87e7-4002-a1d9-8faf8bcf6fef",
+                                                "type": "MonthsTicker"
+                                            }, {
+                                                "id": "ef854657-3290-460e-9b79-3aefb1b55793",
+                                                "type": "MonthsTicker"
+                                            }, {
+                                                "id": "7785b776-df22-49a3-8056-62c358433a28",
+                                                "type": "MonthsTicker"
+                                            }, {
+                                                "id": "d4b5b16f-062d-4767-8c10-d05d416a6009",
+                                                "type": "YearsTicker"
+                                            }]
+                                        },
+                                        "id": "d58876f9-8d5d-49da-a7a7-59b04bbc90ad",
+                                        "type": "DatetimeTicker"
+                                    }, {
+                                        "attributes": {
+                                            "active_drag": "auto",
+                                            "active_inspect": "auto",
+                                            "active_scroll": "auto",
+                                            "active_tap": "auto",
+                                            "tools": [{
+                                                "id": "5fa56cb7-dfa9-4852-838a-fc9d6ff7f0d0",
+                                                "type": "PanTool"
+                                            }, {
+                                                "id": "df8afeda-3456-47fa-9db1-ba9fe89c00b3",
+                                                "type": "WheelZoomTool"
+                                            }, {
+                                                "id": "31c80e58-8e49-4659-ad19-0abde1ddb128",
+                                                "type": "BoxZoomTool"
+                                            }, {
+                                                "id": "d11e6dfb-46ec-4541-9e7d-08cfbc53e451",
+                                                "type": "SaveTool"
+                                            }, {
+                                                "id": "c68db32b-fec6-4741-9d45-4a99c1bf5693",
+                                                "type": "ResetTool"
+                                            }, {
+                                                "id": "93202017-ff3b-436d-8191-5e324ebd6e50",
+                                                "type": "HelpTool"
+                                            }]
+                                        },
+                                        "id": "ae4fa9fe-a172-4b3c-afd0-05c61e2c6978",
+                                        "type": "Toolbar"
+                                    }, {
+                                        "attributes": {"months": [0, 2, 4, 6, 8, 10]},
+                                        "id": "fc15316e-87e7-4002-a1d9-8faf8bcf6fef",
+                                        "type": "MonthsTicker"
+                                    }, {
+                                        "attributes": {"months": [0, 6]},
+                                        "id": "7785b776-df22-49a3-8056-62c358433a28",
+                                        "type": "MonthsTicker"
+                                    }, {
+                                        "attributes": {
+                                            "overlay": {
+                                                "id": "84e7b6af-4844-4200-a4c5-5431129aa248",
+                                                "type": "BoxAnnotation"
+                                            }
+                                        },
+                                        "id": "31c80e58-8e49-4659-ad19-0abde1ddb128",
+                                        "type": "BoxZoomTool"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "green"},
+                                            "line_alpha": {"value": 0.5},
+                                            "line_color": {"value": "green"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1491433200000.0},
+                                            "y": {"value": 1000.0}
+                                        },
+                                        "id": "f9c0df41-9333-44ec-a7a1-8b24671085c1",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.5},
+                                            "fill_color": {"value": "blue"},
+                                            "line_alpha": {"value": 0.5},
+                                            "line_color": {"value": "blue"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1499209200000.0},
+                                            "y": {"value": 2168.9798057186204}
+                                        },
+                                        "id": "3b053354-5209-4113-82a6-a49ca161676d",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {"callback": null, "data": {}},
+                                        "id": "c2e7d612-e037-4eba-ac23-94d3209bcc0d",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {
+                                            "below": [{
+                                                "id": "9ecf287e-0fe9-4494-ba66-77f23be3c499",
+                                                "type": "DatetimeAxis"
+                                            }],
+                                            "left": [{
+                                                "id": "3421afc7-cefb-4262-99c0-b1e465e7f3d3",
+                                                "type": "LinearAxis"
+                                            }],
+                                            "plot_height": 400,
+                                            "plot_width": 1000,
+                                            "renderers": [{
+                                                "id": "9ecf287e-0fe9-4494-ba66-77f23be3c499",
+                                                "type": "DatetimeAxis"
+                                            }, {
+                                                "id": "2c61247d-2d8b-425d-86eb-d14b6fe2476f",
+                                                "type": "Grid"
+                                            }, {
+                                                "id": "3421afc7-cefb-4262-99c0-b1e465e7f3d3",
+                                                "type": "LinearAxis"
+                                            }, {
+                                                "id": "ab8e9c89-d5c5-4b14-8e4b-3a2a976287a2",
+                                                "type": "Grid"
+                                            }, {
+                                                "id": "84e7b6af-4844-4200-a4c5-5431129aa248",
+                                                "type": "BoxAnnotation"
+                                            }, {
+                                                "id": "4871bb13-5483-4163-820e-fbc410f3ea8d",
+                                                "type": "Legend"
+                                            }, {
+                                                "id": "9c8dff78-6e81-43f1-b196-19ad39019c0e",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "ebd6aceb-8479-46c4-8936-162b86ee2ab7",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "c35abb23-028b-4548-90a5-27c45bc97a00",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "05624d06-8bcf-4e00-8691-50557426f490",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "9b3f4708-7af1-4019-bac8-1eddebc15882",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "dd7ea36e-07b1-4c31-a869-9fbcd7401001",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "ac21c3b6-4623-42f2-89bf-1f80b48704bc",
+                                                "type": "GlyphRenderer"
+                                            }, {
+                                                "id": "6c15c69d-9504-4b54-83f6-a899c6f7d2b2",
+                                                "type": "GlyphRenderer"
+                                            }],
+                                            "title": {
+                                                "id": "349f1e4f-9e22-4799-9d97-4b442c8c7a5a",
+                                                "type": "Title"
+                                            },
+                                            "toolbar": {
+                                                "id": "ae4fa9fe-a172-4b3c-afd0-05c61e2c6978",
+                                                "type": "Toolbar"
+                                            },
+                                            "x_range": {
+                                                "id": "1da620f6-44d7-4a36-853e-9e0905847901",
+                                                "type": "DataRange1d"
+                                            },
+                                            "x_scale": {
+                                                "id": "fb68112c-87ab-4629-a495-776d11b4dea2",
+                                                "type": "LinearScale"
+                                            },
+                                            "y_range": {
+                                                "id": "c22c28b8-fa01-4a83-8986-15e7a22ed765",
+                                                "type": "DataRange1d"
+                                            },
+                                            "y_scale": {
+                                                "id": "d02ea3f7-a4fd-4160-8b9a-e47d90fa8ec8",
+                                                "type": "LinearScale"
+                                            }
+                                        },
+                                        "id": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432",
+                                        "subtype": "Figure",
+                                        "type": "Plot"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "d1d2c5a0-c8c1-4df4-ba45-30bc96f90e42",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "a38d0757-8a33-445a-831f-1ccaca776055",
+                                                "type": "Line"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "298ac4c8-1cc2-48f8-9011-7441d284f6b5",
+                                                "type": "Line"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "ce786bd1-ad97-4eb4-98dc-3a27180843c3",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "ebd6aceb-8479-46c4-8936-162b86ee2ab7",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "d02ea3f7-a4fd-4160-8b9a-e47d90fa8ec8",
+                                        "type": "LinearScale"
+                                    }, {
+                                        "attributes": {"callback": null, "data": {}},
+                                        "id": "d948aad0-8cbd-4f1f-a633-e53bd322f61a",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {
+                                            "line_color": {"value": "#CAD8DE"},
+                                            "x": {"field": "x"},
+                                            "y": {"field": "y"}
+                                        },
+                                        "id": "777d7d7e-442d-4cd6-967b-f011333f8870",
+                                        "type": "Line"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "d948aad0-8cbd-4f1f-a633-e53bd322f61a",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "1b5e612e-3e23-4fe6-8fa3-704d40903bb5",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {"callback": null},
+                                        "id": "c22c28b8-fa01-4a83-8986-15e7a22ed765",
+                                        "type": "DataRange1d"
+                                    }, {
+                                        "attributes": {
+                                            "plot": null,
+                                            "text": "LookbackPeriod: 18, TradingInterval: 1"
+                                        },
+                                        "id": "349f1e4f-9e22-4799-9d97-4b442c8c7a5a",
+                                        "type": "Title"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "ab6e43c4-748f-4e24-aad8-d0036139b849",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "96c45672-73aa-45d3-83ef-bcda6cc35bda",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "grid_line_alpha": {"value": 0.3},
+                                            "plot": {
+                                                "id": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432",
+                                                "subtype": "Figure",
+                                                "type": "Plot"
+                                            },
+                                            "ticker": {
+                                                "id": "d58876f9-8d5d-49da-a7a7-59b04bbc90ad",
+                                                "type": "DatetimeTicker"
+                                            }
+                                        },
+                                        "id": "2c61247d-2d8b-425d-86eb-d14b6fe2476f",
+                                        "type": "Grid"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "ab6e43c4-748f-4e24-aad8-d0036139b849",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "777d7d7e-442d-4cd6-967b-f011333f8870",
+                                                "type": "Line"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "02ede4e4-bd0f-4cd0-9cab-f7b2de6a45d5",
+                                                "type": "Line"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "96c45672-73aa-45d3-83ef-bcda6cc35bda",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "9c8dff78-6e81-43f1-b196-19ad39019c0e",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.1},
+                                            "fill_color": {"value": "#1f77b4"},
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1505084400000.0},
+                                            "y": {"value": 3407.9847001024805}
+                                        },
+                                        "id": "e8d6230a-1d9f-4c6c-8cae-3a0af04cfad9",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "items": [{
+                                                "id": "8d86963c-56aa-4790-bcc6-c3115aad0987",
+                                                "type": "LegendItem"
+                                            }, {
+                                                "id": "86eac003-86d7-4b99-a66d-d4d6f784f671",
+                                                "type": "LegendItem"
+                                            }],
+                                            "location": "top_left",
+                                            "plot": {
+                                                "id": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432",
+                                                "subtype": "Figure",
+                                                "type": "Plot"
+                                            }
+                                        },
+                                        "id": "4871bb13-5483-4163-820e-fbc410f3ea8d",
+                                        "type": "Legend"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "c2e7d612-e037-4eba-ac23-94d3209bcc0d",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "b1b558d7-9723-4865-9aae-76870db1d442",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "source": {
+                                                "id": "96efd5f2-9b24-402d-b46f-55e9bfe4043c",
+                                                "type": "ColumnDataSource"
+                                            }
+                                        },
+                                        "id": "a9cade12-71ae-4454-8e2b-29d2e6b070e9",
+                                        "type": "CDSView"
+                                    }, {
+                                        "attributes": {
+                                            "dimension": 1,
+                                            "grid_line_alpha": {"value": 0.3},
+                                            "plot": {
+                                                "id": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432",
+                                                "subtype": "Figure",
+                                                "type": "Plot"
+                                            },
+                                            "ticker": {
+                                                "id": "5ec6a947-40df-491c-b1d0-e5d949145bc0",
+                                                "type": "BasicTicker"
+                                            }
+                                        },
+                                        "id": "ab8e9c89-d5c5-4b14-8e4b-3a2a976287a2",
+                                        "type": "Grid"
+                                    }, {
+                                        "attributes": {"days": [1, 15]},
+                                        "id": "546623d9-4b55-4b16-a501-cbbb12079a0b",
+                                        "type": "DaysTicker"
+                                    }, {
+                                        "attributes": {"days": [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]},
+                                        "id": "6a09f4bb-0355-442b-824d-57e862e78882",
+                                        "type": "DaysTicker"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "5fa56cb7-dfa9-4852-838a-fc9d6ff7f0d0",
+                                        "type": "PanTool"
+                                    }, {
+                                        "attributes": {},
+                                        "id": "d11e6dfb-46ec-4541-9e7d-08cfbc53e451",
+                                        "type": "SaveTool"
+                                    }, {
+                                        "attributes": {
+                                            "callback": null,
+                                            "column_names": ["y", "x"],
+                                            "data": {
+                                                "x": {
+                                                    "__ndarray__": "AAAA0T2udUIAAMA2kK51QgAAgJzirnVCAABAAjWvdUIAAABoh691QgAAwM3Zr3VCAACAMyywdUIAAECZfrB1QgAAAP/QsHVCAADAZCOxdUIAAIDKdbF1QgAAQDDIsXVCAAAAlhqydUIAAMD7bLJ1QgAAgGG/snVCAABAxxGzdUIAAAAtZLN1QgAAwJK2s3VCAACA+Ai0dUIAAEBeW7R1QgAAAMSttHVCAADAKQC1dUIAAICPUrV1QgAAQPWktXVCAAAAW/e1dUIAAMDASbZ1QgAAgCactnVCAABAjO62dUIAAADyQLd1QgAAwFeTt3VCAACAveW3dUIAAEAjOLh1QgAAAImKuHVCAADA7ty4dUIAAIBUL7l1QgAAQLqBuXVCAAAAINS5dUIAAMCFJrp1QgAAgOt4unVCAABAUcu6dUIAAAC3Hbt1QgAAwBxwu3VCAACAgsK7dUIAAEDoFLx1QgAAAE5nvHVCAADAs7m8dUIAAIAZDL11QgAAQH9evXVCAAAA5bC9dUIAAMBKA751QgAAgLBVvnVCAABAFqi+dUIAAAB8+r51QgAAwOFMv3VCAACAR5+/dUIAAECt8b91QgAAABNEwHVCAADAeJbAdUIAAIDe6MB1QgAAQEQ7wXVCAAAAqo3BdUIAAMAP4MF1QgAAgHUywnVCAABA24TCdUIAAABB18J1QgAAwKYpw3VCAACADHzDdUIAAEByzsN1QgAAANggxHVCAADAPXPEdUIAAICjxcR1QgAAQAkYxXVCAAAAb2rFdUIAAMDUvMV1QgAAgDoPxnVCAABAoGHGdUIAAAAGtMZ1QgAAwGsGx3VCAACA0VjHdUIAAEA3q8d1QgAAAJ39x3VCAADAAlDIdUIAAIBoosh1QgAAQM70yHVCAAAANEfJdUIAAMCZmcl1QgAAgP/ryXVCAABAZT7KdUIAAADLkMp1QgAAwDDjynVCAACAljXLdUIAAED8h8t1QgAAAGLay3VCAADAxyzMdUIAAIAtf8x1QgAAQJPRzHVCAAAA+SPNdUIAAMBeds11QgAAgMTIzXVCAABAKhvOdUIAAACQbc51QgAAwPW/znVCAACAWxLPdUIAAEDBZM91QgAAACe3z3VCAADAjAnQdUIAAIDyW9B1QgAAQFiu0HVCAAAAvgDRdUIAAMAjU9F1QgAAgIml0XVCAABA7/fRdUIAAABVStJ1QgAAwLqc0nVCAACAIO/SdUIAAECGQdN1QgAAAOyT03VCAADAUebTdUIAAIC3ONR1QgAAQB2L1HVCAAAAg93UdUIAAMDoL9V1QgAAgE6C1XVCAABAtNTVdUIAAAAaJ9Z1QgAAwH951nVCAACA5cvWdUIAAEBLHtd1QgAAALFw13VCAADAFsPXdUIAAIB8Fdh1QgAAQOJn2HVCAAAASLrYdUIAAMCtDNl1QgAAgBNf2XVCAABAebHZdUIAAADfA9p1QgAAwERW2nVCAACAqqjadUIAAEAQ+9p1QgAAAHZN23VCAADA25/bdUIAAIBB8tt1QgAAQKdE3HVCAAAADZfcdUIAAMBy6dx1QgAAgNg73XVCAABAPo7ddUIAAACk4N11QgAAwAkz3nVCAACAb4XedUIAAEDV1951QgAAADsq33VCAADAoHzfdUIAAIAGz991QgAAQGwh4HVCAAAA0nPgdUIAAMA3xuB1QgAAgJ0Y4XVCAABAA2vhdUIAAABpveF1QgAAwM4P4nVCAACANGLidUIAAECatOJ1QgAAAAAH43VCAADAZVnjdUIAAIDLq+N1QgAAQDH+43VCAAAAl1DkdUIAAMD8ouR1QgAAgGL15HVCAABAyEfldUIAAAAumuV1QgAAwJPs5XVCAACA+T7mdUIAAEBfkeZ1QgAAAMXj5nVCAADAKjbndUIAAICQiOd1QgAAQPba53VCAAAAXC3odUI=",
+                                                    "dtype": "float64",
+                                                    "shape": [181]
+                                                },
+                                                "y": [1000.0, 1052.7291070435874, 1078.3730362988738, 1154.3268339887582, 1075.5008338652226, 1065.5253350902838, 967.3866046243489, 994.7703267516316, 998.0028413185365, 1075.9332084251273, 1075.1919948938623, 1072.5977475344357, 1068.4901892153432, 1110.9040746154953, 1118.1206119129486, 1129.7329572360973, 1181.3708332475446, 1175.4102411002902, 1163.1596285696637, 1223.7229508534251, 1225.5656900492083, 1215.5696020095122, 1239.823755893677, 1242.2635837674236, 1256.7069529947084, 1248.2550598118141, 1210.8546603800778, 1212.0179538388684, 1211.6679363379933, 1211.4723383227984, 1229.189400646503, 1241.6253165599455, 1251.0037266569211, 1274.5681401717143, 1286.4584405690873, 1277.4506372377443, 1285.9437089501535, 1284.9554242418003, 1301.5606662686075, 1324.5382857378163, 1372.181844386337, 1368.794910333752, 1375.6511354979514, 1391.7416459058247, 1457.5243468055755, 1488.531779530153, 1529.3191130144742, 1561.4486606683274, 1552.1937861598963, 1590.819246844695, 1600.249130103564, 1713.5106755337767, 1747.5138462805494, 1803.938726348082, 1872.8921740204657, 1736.0765097078383, 1815.7054911569107, 1824.7750622825258, 1759.2703164569994, 1780.2919557742591, 1854.3721303712243, 1936.4100557969075, 2019.806872696576, 2100.290308633079, 2104.4184562169285, 2187.001997158681, 2339.5375651135496, 2517.325866293315, 2374.9305112314437, 2311.0317280569907, 2112.9012332969587, 2253.5156169573183, 2345.333443142745, 2257.149622186992, 2371.2038543103627, 2483.734480841689, 2566.0400667092176, 2620.426609565772, 2598.4269801725377, 2784.6568799028187, 2955.07422429945, 2770.8105993534973, 2881.2411208795734, 2894.2638308386004, 2985.7007556260164, 3061.0574646379373, 2735.0470464699706, 2792.9234697028965, 2539.963762894027, 2514.4227799625273, 2582.490889250345, 2733.3278428627314, 2614.3836603594887, 2693.919990117153, 2835.532953118244, 2756.5113549795137, 2803.0636825958945, 2790.226276019683, 2666.3612592394325, 2616.504354629496, 2518.118552986473, 2659.8756408408653, 2653.68856678128, 2633.7478638637813, 2553.696802487183, 2496.046861166588, 2611.1923243220986, 2648.263295517717, 2694.434721736087, 2705.2852642632133, 2691.2639749634536, 2587.9470444110443, 2640.4290802775436, 2585.424859478268, 2413.0824188268234, 2392.7711091436922, 2473.892812287673, 2432.045131668348, 2299.9958821470486, 2033.2722518478863, 1970.4852889703307, 2299.1929008215116, 2388.5914883979494, 2349.8321974922274, 2950.4622289938025, 2753.8965183553296, 2920.103358109082, 2837.8286561386894, 2844.839300788569, 2658.67116885256, 2634.61261298359, 2771.191500751508, 2889.4459428853793, 2814.0377607115647, 2847.9997529288225, 2968.220469847022, 2827.925219790401, 2800.68562251642, 2892.781403776071, 2963.2996355700134, 3358.9326525149786, 3327.2560686857873, 3502.1412835347646, 3530.420638678993, 3447.4561963392284, 3526.601330066503, 3762.0395725668636, 3985.6904609936378, 4182.297350161625, 4455.455125697461, 4284.275978504807, 4516.667009821079, 4404.990837777183, 4226.32749284523, 4272.7356956083095, 4186.415203113097, 4123.103213984228, 4210.195803907842, 4263.099919701867, 4445.58257324631, 4492.999649982499, 4480.5328501719205, 4473.789865963887, 4519.662747843275, 4732.7616380819045, 4718.050608412774, 4874.621672260083, 5066.863637299512, 4708.558957359633, 4748.83155922502, 4393.182894438839, 4538.985772818052, 4754.792151372274, 4772.179785459862, 4453.921225473038, 4462.856966377731, 4370.98766703041, 4342.172991002491, 4281.4552492330495, 3984.321274887274, 3338.631637464226]
+                                            }
+                                        },
+                                        "id": "ab6e43c4-748f-4e24-aad8-d0036139b849",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {
+                                            "mantissas": [1, 2, 5],
+                                            "max_interval": 500.0,
+                                            "num_minor_ticks": 0
+                                        },
+                                        "id": "5a1ed3af-00a8-43fc-af2f-9dc2126ba7c9",
+                                        "type": "AdaptiveTicker"
+                                    }, {
+                                        "attributes": {
+                                            "fill_alpha": {"value": 0.1},
+                                            "fill_color": {"value": "#1f77b4"},
+                                            "line_alpha": {"value": 0.1},
+                                            "line_color": {"value": "#1f77b4"},
+                                            "size": {"units": "screen", "value": 6},
+                                            "x": {"value": 1500591600000.0},
+                                            "y": {"value": 2168.9798057186204}
+                                        },
+                                        "id": "74f7f035-1e45-4228-8ac5-d781fcf19c55",
+                                        "type": "Circle"
+                                    }, {
+                                        "attributes": {
+                                            "callback": null,
+                                            "column_names": ["y", "x"],
+                                            "data": {
+                                                "x": {
+                                                    "__ndarray__": "AAAA0T2udUIAAMA2kK51QgAAgJzirnVCAABAAjWvdUIAAABoh691QgAAwM3Zr3VCAACAMyywdUIAAECZfrB1QgAAAP/QsHVCAADAZCOxdUIAAIDKdbF1QgAAQDDIsXVCAAAAlhqydUIAAMD7bLJ1QgAAgGG/snVCAABAxxGzdUIAAAAtZLN1QgAAwJK2s3VCAACA+Ai0dUIAAEBeW7R1QgAAAMSttHVCAADAKQC1dUIAAICPUrV1QgAAQPWktXVCAAAAW/e1dUIAAMDASbZ1QgAAgCactnVCAABAjO62dUIAAADyQLd1QgAAwFeTt3VCAACAveW3dUIAAEAjOLh1QgAAAImKuHVCAADA7ty4dUIAAIBUL7l1QgAAQLqBuXVCAAAAINS5dUIAAMCFJrp1QgAAgOt4unVCAABAUcu6dUIAAAC3Hbt1QgAAwBxwu3VCAACAgsK7dUIAAEDoFLx1QgAAAE5nvHVCAADAs7m8dUIAAIAZDL11QgAAQH9evXVCAAAA5bC9dUIAAMBKA751QgAAgLBVvnVCAABAFqi+dUIAAAB8+r51QgAAwOFMv3VCAACAR5+/dUIAAECt8b91QgAAABNEwHVCAADAeJbAdUIAAIDe6MB1QgAAQEQ7wXVCAAAAqo3BdUIAAMAP4MF1QgAAgHUywnVCAABA24TCdUIAAABB18J1QgAAwKYpw3VCAACADHzDdUIAAEByzsN1QgAAANggxHVCAADAPXPEdUIAAICjxcR1QgAAQAkYxXVCAAAAb2rFdUIAAMDUvMV1QgAAgDoPxnVCAABAoGHGdUIAAAAGtMZ1QgAAwGsGx3VCAACA0VjHdUIAAEA3q8d1QgAAAJ39x3VCAADAAlDIdUIAAIBoosh1QgAAQM70yHVCAAAANEfJdUIAAMCZmcl1QgAAgP/ryXVCAABAZT7KdUIAAADLkMp1QgAAwDDjynVCAACAljXLdUIAAED8h8t1QgAAAGLay3VCAADAxyzMdUIAAIAtf8x1QgAAQJPRzHVCAAAA+SPNdUIAAMBeds11QgAAgMTIzXVCAABAKhvOdUIAAACQbc51QgAAwPW/znVCAACAWxLPdUIAAEDBZM91QgAAACe3z3VCAADAjAnQdUIAAIDyW9B1QgAAQFiu0HVCAAAAvgDRdUIAAMAjU9F1QgAAgIml0XVCAABA7/fRdUIAAABVStJ1QgAAwLqc0nVCAACAIO/SdUIAAECGQdN1QgAAAOyT03VCAADAUebTdUIAAIC3ONR1QgAAQB2L1HVCAAAAg93UdUIAAMDoL9V1QgAAgE6C1XVCAABAtNTVdUIAAAAaJ9Z1QgAAwH951nVCAACA5cvWdUIAAEBLHtd1QgAAALFw13VCAADAFsPXdUIAAIB8Fdh1QgAAQOJn2HVCAAAASLrYdUIAAMCtDNl1QgAAgBNf2XVCAABAebHZdUIAAADfA9p1QgAAwERW2nVCAACAqqjadUIAAEAQ+9p1QgAAAHZN23VCAADA25/bdUIAAIBB8tt1QgAAQKdE3HVCAAAADZfcdUIAAMBy6dx1QgAAgNg73XVCAABAPo7ddUIAAACk4N11QgAAwAkz3nVCAACAb4XedUIAAEDV1951QgAAADsq33VCAADAoHzfdUIAAIAGz991QgAAQGwh4HVCAAAA0nPgdUIAAMA3xuB1QgAAgJ0Y4XVCAABAA2vhdUIAAABpveF1QgAAwM4P4nVCAACANGLidUIAAECatOJ1QgAAAAAH43VCAADAZVnjdUIAAIDLq+N1QgAAQDH+43VCAAAAl1DkdUIAAMD8ouR1QgAAgGL15HVCAABAyEfldUIAAAAumuV1QgAAwJPs5XVCAACA+T7mdUIAAEBfkeZ1QgAAAMXj5nVCAADAKjbndUIAAICQiOd1QgAAQPba53VCAAAAXC3odUI=",
+                                                    "dtype": "float64",
+                                                    "shape": [181]
+                                                },
+                                                "y": [1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 998.012801916603, 989.8727047241779, 1009.6235481694442, 1011.6103690083781, 1023.3720130464548, 1016.4893973976586, 986.033194410964, 986.980497173831, 986.6954680239419, 986.5361870284155, 1000.9636919389858, 1011.0906099703446, 1018.7277145453183, 1037.916882901097, 1047.5994907870406, 1040.264181782538, 1047.1803302724975, 1046.375542084575, 1059.8976602837322, 1078.608985652932, 1117.4064828790324, 1114.6484066933394, 1120.2316247470524, 1133.3345824316666, 1186.9032961902626, 1212.1535255863332, 1245.367804758721, 1271.5318040764953, 1263.995298025012, 1295.449103036319, 1303.128123662747, 1395.3602032827896, 1423.0499468735004, 1468.9983224777047, 1525.1490650058856, 1413.736200240355, 1478.5803318401577, 1485.9659401064055, 1432.6235730256628, 1449.742088439599, 1510.0676696926282, 1576.8734725004924, 1644.78585906675, 1710.3257971206942, 1713.6874644473291, 1780.9375774006085, 1905.1516042802825, 2049.9296460034366, 1934.191044727822, 1881.938494984891, 1720.5952297269976, 1835.1014990898557, 1909.871351674037, 1838.0607723225296, 1930.9383591349683, 2022.57523082436, 2089.598997099786, 2133.8874970664, 2115.972576674832, 2267.6248508364915, 2406.4005139913893, 2256.3494329952846, 2346.276129785341, 2356.8808908032784, 2431.340564606698, 2492.705663935794, 2227.2261604448363, 2274.356568700052, 2068.3643254330377, 2047.5655807014139, 2102.9953671445805, 2225.8261643262626, 2128.9665526256654, 2193.7352353328506, 2309.054676093922, 2244.7051539012796, 2282.6140308365493, 2272.1601676038463, 2171.2933813842183, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2130.6934939455823, 2160.280313678605, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2168.9798057186204, 2291.863448963155, 2227.289576364897, 2232.791929623082, 2086.6765752603583, 2067.7940502025344, 2174.9889410635305, 2267.8017632026927, 2208.617126468179, 2235.2724324869037, 2329.628499078802, 2219.5167954039957, 2198.1376078545727, 2270.419622902622, 2325.7663480400174, 2636.2816755955273, 2611.420088260087, 2748.6799666008274, 2770.8752153530063, 2705.759995224208, 2767.8776044003093, 2952.6629480342117, 3128.196904765586, 3282.5051904114225, 3496.8949721334147, 3362.5438267925956, 3544.9375455154513, 3457.2877244511506, 3317.0625544132677, 3353.4863554233957, 3285.7371159668905, 3236.046260551565, 3304.4014860497205, 3345.9236496236, 3489.1464306141797, 3526.3620533853973, 3516.5773987662174, 3511.2851206691375, 3547.2887713570553, 3714.5409188525423, 3702.9948648056316, 3825.880754238426, 3976.763198795466, 3695.5452764002766, 3727.153508332757, 3448.0201779208446, 3562.45458202609, 3731.8317205742974, 3745.478526232263, 3495.691079864003, 3502.7043583193695, 3430.6000991768706, 3407.9847001024805, 3407.9847001024805, 3407.9847001024805, 3407.9847001024805, 3407.9847001024805]
+                                            }
+                                        },
+                                        "id": "d1d2c5a0-c8c1-4df4-ba45-30bc96f90e42",
+                                        "type": "ColumnDataSource"
+                                    }, {
+                                        "attributes": {
+                                            "data_source": {
+                                                "id": "d948aad0-8cbd-4f1f-a633-e53bd322f61a",
+                                                "type": "ColumnDataSource"
+                                            },
+                                            "glyph": {
+                                                "id": "cd832f8d-3097-4438-bc57-17dda344f1ef",
+                                                "type": "Circle"
+                                            },
+                                            "hover_glyph": null,
+                                            "muted_glyph": null,
+                                            "nonselection_glyph": {
+                                                "id": "74f7f035-1e45-4228-8ac5-d781fcf19c55",
+                                                "type": "Circle"
+                                            },
+                                            "selection_glyph": null,
+                                            "view": {
+                                                "id": "1b5e612e-3e23-4fe6-8fa3-704d40903bb5",
+                                                "type": "CDSView"
+                                            }
+                                        },
+                                        "id": "9b3f4708-7af1-4019-bac8-1eddebc15882",
+                                        "type": "GlyphRenderer"
+                                    }, {
+                                        "attributes": {
+                                            "label": {"value": "Buy and Hold"},
+                                            "renderers": [{
+                                                "id": "9c8dff78-6e81-43f1-b196-19ad39019c0e",
+                                                "type": "GlyphRenderer"
+                                            }]
+                                        },
+                                        "id": "8d86963c-56aa-4790-bcc6-c3115aad0987",
+                                        "type": "LegendItem"
+                                    }], "root_ids": ["b2a81dae-90c1-4961-9a38-fc7bb6ccb432"]
+                                }, "title": "Bokeh Application", "version": "0.12.9"
+                            }
+                        };
+                        var render_items = [{
+                            "docid": "c849f393-0a58-4b40-b55c-56a328e3f433",
+                            "elementid": "eba3cb8d-a266-4a3a-9446-88698fe5cf69",
+                            "modelid": "b2a81dae-90c1-4961-9a38-fc7bb6ccb432"
+                        }];
+
+                        root.Bokeh.embed.embed_items(docs_json, render_items);
+                    }
+
                     if (root.Bokeh !== undefined) {
-                      embed_document(root);
-                      clearInterval(timer);
+                        embed_document(root);
+                    } else {
+                        var attempts = 0;
+                        var timer = setInterval(function (root) {
+                            if (root.Bokeh !== undefined) {
+                                embed_document(root);
+                                clearInterval(timer);
+                            }
+                            attempts++;
+                            if (attempts > 100) {
+                                console.log("Bokeh: ERROR: Unable to embed document because BokehJS library is missing")
+                                clearInterval(timer);
+                            }
+                        }, 10, root)
                     }
-                    attempts++;
-                    if (attempts > 100) {
-                      console.log("Bokeh: ERROR: Unable to embed document because BokehJS library is missing")
-                      clearInterval(timer);
-                    }
-                  }, 10, root)
-                }
-              })(window);
+                })(window);
             });
-          };
-          if (document.readyState != "loading") fn();
-          else document.addEventListener("DOMContentLoaded", fn);
-        })();
-        
-        </script>
-    </body>
+        };
+        if (document.readyState != "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+    })();
+
+</script>
+</body>
 </html>

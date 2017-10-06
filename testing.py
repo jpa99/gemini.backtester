@@ -1,17 +1,17 @@
-import exchange
+from gemini import exchange
 import unittest
 
-class Methods(unittest.TestCase):
 
+class Methods(unittest.TestCase):
     def test_errors(self):
         a = exchange.Account(1000)
-        self.assertRaises(ValueError, a.EnterPosition, 'Long',  2000, 10)
-        self.assertRaises(ValueError, a.EnterPosition, 'Long',  -500, 10)       
+        self.assertRaises(ValueError, a.EnterPosition, 'Long', 2000, 10)
+        self.assertRaises(ValueError, a.EnterPosition, 'Long', -500, 10)
         self.assertRaises(ValueError, a.EnterPosition, 'Long', 500, -10)
         # Enter valid position
         a.EnterPosition('Long', 250, 10)
         a.EnterPosition('Short', 250, 10)
-        Long  = a.Positions[0]
+        Long = a.Positions[0]
         Short = a.Positions[1]
         self.assertRaises(ValueError, a.ClosePosition, Long, 0.5, -20)
         self.assertRaises(ValueError, a.ClosePosition, Long, 1.01, 20)
@@ -69,17 +69,17 @@ class Methods(unittest.TestCase):
 
     def test_both(self):
         a = exchange.Account(1000)
-        a.EnterPosition('Long',  200, 20)
+        a.EnterPosition('Long', 200, 20)
         a.EnterPosition('Short', 250, 25)
         self.assertEqual(a.BuyingPower, 550)
         self.assertEqual(a.TotalValue(25), 1050)
-        Long  = a.Positions[0]
+        Long = a.Positions[0]
         Short = a.Positions[1]
-        a.ClosePosition(Long,  0.5, 40)
+        a.ClosePosition(Long, 0.5, 40)
         a.ClosePosition(Short, 0.5, 12.5)
         self.assertEqual(a.BuyingPower, 937.5)
         self.assertEqual(a.TotalValue(12.5), 1187.5)
-        a.ClosePosition(Long,  1.0, 50)
+        a.ClosePosition(Long, 1.0, 50)
         a.ClosePosition(Short, 1.0, 50)
         self.assertEqual(a.BuyingPower, 1187.5)
         self.assertEqual(a.TotalValue(100), 1187.5)
@@ -97,6 +97,7 @@ class Methods(unittest.TestCase):
         self.assertEqual(a.TotalValue(0.00000001), 2.5)
         a.ClosePosition(a.Positions[0], 1, 0.00000001)
         self.assertEqual(a.BuyingPower, 2.5)
+
 
 if __name__ == '__main__':
     unittest.main()

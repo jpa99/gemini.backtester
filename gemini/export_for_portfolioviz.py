@@ -4,9 +4,9 @@ import cryptocompare as cc
 import helpers
 from datetime import *
 
-pair = ['BTC','USD']    # Use ETH pricing data on the BTC market
-daysBack = 0       # Grab data starting X days ago
-daysData = 365*5       # From there collect X days of data
+pair = ['BTC', 'USD']  # Use ETH pricing data on the BTC market
+daysBack = 0  # Grab data starting X days ago
+daysData = 365 * 5  # From there collect X days of data
 # Exchange = 'Bitstamp'
 # Request data from cryptocompare
 data = cc.getPast(pair, daysBack, daysData, Exchange='CCCAGG')
@@ -20,7 +20,7 @@ data_MS = data.resample('M').last()
 # print(data1)
 data_MS['Period'] = data_MS.index.strftime('%Y-%m')
 data_MS['Return'] = data_MS['close'].pct_change()
-csv_out = data_MS.to_csv(columns=['Period','Return'])
+csv_out = data_MS.to_csv(columns=['Period', 'Return'])
 print(csv_out)
 
 #

@@ -99,9 +99,9 @@ r.Results()
 ```
 ```text
 Buy and Hold : -3.03%
-Net Profit   : -30.26
+Net profit   : -30.26
 Strategy     : 40.0%
-Net Profit   : 400.01
+Net profit   : 400.01
 Longs        : 156
 Sells        : 137
 Shorts       : 0
