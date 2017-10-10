@@ -9,7 +9,7 @@ daysBack = 30  # Grab data starting 30 days ago
 daysData = 3  # From there collect 60 days of data
 
 # Request data from Poloniex
-data = px.getPast(pair, period, daysBack, daysData)
+data = px.get_past(pair, period, daysBack, daysData)
 print(data)
 # Convert to Pandas dataframe with datetime format
 data = pd.DataFrame(data)

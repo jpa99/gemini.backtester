@@ -2,15 +2,34 @@ import requests
 import time
 
 
-def getNow(pair):
+def get_now(pair):
+    """
+    Return last info for crypto currency pair
+    :param pair:
+    :return:
+    """
     return requests.get('https://poloniex.com/public?command=returnTicker').json()[pair]
 
 
-def getPast(pair, period, daysBack, daysData):
+def get_past(pair, period, days_back, days_data):
+    """
+    Return historical data for crypto currency pair
+    :param pair:
+    :param period:
+    :param days_back:
+    :param days_data:
+    :return:
+    """
     now = int(time.time())
-    end = now - (24 * 60 * 60 * daysBack)
-    start = end - (24 * 60 * 60 * daysData)
-    base = 'https://poloniex.com/public?command=returnChartData&currencyPair='
-    response = requests.get(
-        '{0}{1}&start={2}&end={3}&period={4}'.format(base, pair, start, end, period))
+    end = now - (24 * 60 * 60 * days_back)
+    start = end - (24 * 60 * 60 * days_data)
+    params = {
+        'command': 'returnChartData',
+        'currencyPair': pair,
+        'start': start,
+        'end': end,
+        'period': period
+    }
+
+    response = requests.get('https://poloniex.com/public', params=params)
     return response.json()
