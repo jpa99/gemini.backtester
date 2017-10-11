@@ -5,41 +5,41 @@ import helpers
 
 pair = "BTC_ETH"  # Use ETH pricing data on the BTC market
 period = 1800  # Use 1800 second candles
-daysBack = 30  # Grab data starting 30 days ago
-daysData = 3  # From there collect 60 days of data
+days_back = 30  # Grab data starting 30 days ago
+days_data = 3  # From there collect 60 days of data
 
 # Request data from Poloniex
-data = px.get_past(pair, period, daysBack, daysData)
-print(data)
+data = px.get_past(pair, period, days_back, days_data)
+#print(data)
 # Convert to Pandas dataframe with datetime format
 data = pd.DataFrame(data)
 
 data['date'] = pd.to_datetime(data['date'], unit='s')
 
 
-def Logic(Account, Lookback):
+def logic(account, lookback):
     try:
         # Process dataframe to collect signals
-        # Lookback = helpers.getSignals(Lookback)
+        # lookback = helpers.getSignals(lookback)
 
         # Load into period class to simplify indexing
-        Lookback = helpers.Period(Lookback)
+        lookback = helpers.Period(lookback)
 
-        Today = Lookback.loc(0)  # Current candle
-        Yesterday = Lookback.loc(-1)  # Previous candle
+        today = lookback.loc(0)  # Current candle
+        yesterday = lookback.loc(-1)  # Previous candle
         # print(Today)
-        if Today['close'] < Yesterday['close']:
-            ExitPrice = Today['close']
-            for Position in Account.Positions:
-                if Position.Type == 'Long':
-                    Account.ClosePosition(Position, 0.5, ExitPrice)
+        if today['close'] < yesterday['close']:
+            exit_price = today['close']
+            for position in account.positions:
+                if position.type == 'Long':
+                    account.close_position(position, 0.5, exit_price)
 
-        if Today['close'] > Yesterday['close']:
-            Risk = 0.03
-            EntryPrice = Today['close']
-            EntryCapital = Account.BuyingPower * Risk
-            if EntryCapital >= 0:
-                Account.EnterPosition('Long', EntryCapital, EntryPrice)
+        if today['close'] > yesterday['close']:
+            risk = 0.03
+            entry_price = today['close']
+            entry_capital = account.BuyingPower * risk
+            if entry_capital >= 0:
+                account.enter_position('Long', entry_capital, entry_price)
 
     except ValueError:
         pass  # Handles lookback errors in beginning of dataset
@@ -48,8 +48,8 @@ def Logic(Account, Lookback):
 # Load the data into a backtesting class called Run
 r = gemini.Run(data)
 
-# Start backtesting custom logic with 1000 (BTC) intital capital
-r.Start(1000, Logic)
+# start backtesting custom logic with 1000 (BTC) intital capital
+r.start(1000, logic, 180, 60)
 
-r.Results()
-r.Chart(ShowTrades=False)
+r.results()
+r.chart(show_trades=False)
