@@ -17,7 +17,7 @@ data = pd.DataFrame(data)
 data['date'] = pd.to_datetime(data['date'], unit='s')
 
 
-def logic(account, lookback):
+def logic(account, lookback, trading_interval=None, lookback_period=None):
     try:
         # Process dataframe to collect signals
         # lookback = helpers.getSignals(lookback)
@@ -49,7 +49,7 @@ def logic(account, lookback):
 r = gemini.Run(data)
 
 # start backtesting custom logic with 1000 (BTC) intital capital
-r.start(1000, logic, 180, 60)
+r.start(1000, logic)
 
 r.results()
 r.chart(show_trades=False)
