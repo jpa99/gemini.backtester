@@ -1,7 +1,7 @@
 import copy
 
 
-class OpenedTrade(object):
+class OpenedTrade:
     def __init__(self, type, date):
         self.type = type
         self.date = date
@@ -66,7 +66,7 @@ class ShortPosition(Position):
             return entry - exit + entry
 
 
-class Account(object):
+class Account:
     def __init__(self, initial_capital):
         self.initial_capital = float(initial_capital)
         self.buying_power = float(initial_capital)
@@ -107,7 +107,7 @@ class Account(object):
             raise ValueError("Error: Current price cannot be negative.")
         else:
             self.closed_trades.append(
-                ClosedTrade(position.Type, self.date, position.shares * percent,
+                ClosedTrade(position.type, self.date, position.shares * percent,
                             position.entry_price, current_price))
             self.buying_power += position.close(percent, current_price)
 

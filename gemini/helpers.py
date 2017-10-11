@@ -6,7 +6,7 @@ def profit(initial_capital, multiplier):
     return initial_capital * (multiplier + 1.0) - initial_capital
 
 
-class Period(object):
+class Period:
     def __init__(self, data):
         self.data = data
 
