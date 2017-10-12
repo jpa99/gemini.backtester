@@ -6,7 +6,7 @@ from datetime import *
 
 pair = ['ETH', 'USD']  # Use ETH pricing data on the BTC market
 days_back = 1  # Grab data starting X days ago
-days_data = 180 # From there collect X days of data
+days_data = 180  # From there collect X days of data
 lookback_period = 1  # How many days to lookback for momentum
 trading_interval = 1  # Run trading logic every X days
 fees_spread = 0.0025 + 0.001  # Fees 0.25% + Bid/ask spread to account for http://data.bitcoinity.org/markets/spread/6m/USD?c=e&f=m20&st=log&t=l using Kraken 0.1% as worse case

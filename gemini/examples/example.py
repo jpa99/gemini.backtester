@@ -12,7 +12,7 @@ trading_interval = 1  # Run trading logic every X days
 
 # Request data from Poloniex
 data = px.get_past(pair, period, days_back, days_data)
-#print(data)
+# print(data)
 # Convert to Pandas dataframe with datetime format
 data = pd.DataFrame(data)
 
