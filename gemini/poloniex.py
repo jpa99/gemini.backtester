@@ -13,7 +13,7 @@ def get_now(pair):
 
 def get_past(pair, period, days_back, days_data):
     """
-    Return historical data for crypto currency pair
+    Return historical charts data from poloniex.com
     :param pair:
     :param period:
     :param days_back:
