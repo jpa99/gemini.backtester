@@ -52,7 +52,7 @@ class Run:
         longs = len([t for t in self.account.opened_trades if t.type == 'Long'])
         sells = len([t for t in self.account.closed_trades if t.type == 'Long'])
         shorts = len([t for t in self.account.opened_trades if t.type == 'Short'])
-        covers = len([t for t in self.account.closed_trades if t.Type == 'Short'])
+        covers = len([t for t in self.account.closed_trades if t.type == 'Short'])
 
         print("Longs        : {0}".format(longs))
         print("Sells        : {0}".format(sells))
