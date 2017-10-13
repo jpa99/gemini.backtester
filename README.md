@@ -2,9 +2,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-![Python](https://img.shields.io/badge/python-v2.7%20%2F%20v3.6-blue.svg)
+![Python](https://img.shields.io/badge/python-v3.5+-blue.svg)
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-[![GitHub Issues](https://img.shields.io/github/issues/Crypto-AI/Gemini.svg)](https://github.com/Crypto-AI/Gemini/issues)
+[![GitHub Issues](https://img.shields.io/github/issues/friendly-pig/gemini.backtester.svg)](https://github.com/friendly-pig/gemini.backtester/issues)
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <br>
@@ -13,7 +13,7 @@
 
 ## Examples
 
-#### Input Data (Optional)
+### Input Data (Optional)
 If you have your own data that has/hasn't been processed, you should conform to the following structure. Basically, load your data into a Pandas dataframe object and be sure to convert the dates to datetime format and include the following lowercase column titles.
 ```text
                   date         high          low         open        close
@@ -28,7 +28,7 @@ If you have your own data that has/hasn't been processed, you should conform to 
 8  2017-07-08 15:00:00  2519.817394  2506.054360  2518.451000  2514.484009
 ```
 
-#### Loading Data into the Backtester
+### Loading Data into the Backtester
 If you don't have your own data, we've included a useful function for grabbing historical charting data from the Poloniex exchange. In this example, we'll trade the BTC/ETH pair on a 30 minute timeframe. To demonstrate the versatility of our data grabber, we will ignore the last 30 days of data in our backtest and look at the 60 days before then. With the poloniex helper function, it's easy to do that.
 ```python
 import pandas as pd
@@ -50,8 +50,16 @@ data['date'] = pd.to_datetime(data['date'], unit='s')
 r = gemini.Run(data)
 ```
 
-#### Creating your Strategy
-In addition to loading the data, you must define the strategy you want to test. To do this, we'll create a logic function that can be passed to the backtester when you start. The backtester will proceed step-wise through the dataset, copying the current/past datapoints into a variable called "Lookback" to prevent lookahead bias. If the data hasn't already been processed, you may process it within the logic function (this makes the simulation more accurate but significantly increases runtime). You can then use the helper class called "Period" to conveniently reference current and past datapoints. With those, you may execute long, sell, short, and cover positions directly on the "Account" class based on your strategy.
+### Creating your Strategy
+In addition to loading the data, you must define the strategy you want to test. 
+To do this, we'll create a logic function that can be passed to the backtester 
+when you start. The backtester will proceed step-wise through the dataset, copying 
+the current/past datapoints into a variable called "Lookback" to prevent lookahead 
+bias. If the data hasn't already been processed, you may process it within the 
+logic function (this makes the simulation more accurate but significantly increases 
+runtime). You can then use the helper class called "Period" to conveniently reference 
+current and past datapoints. With those, you may execute long, sell, short, and 
+cover positions directly on the "Account" class based on your strategy.
 
 
 ```python
@@ -92,7 +100,9 @@ r.Start(1000, Logic)
 ```
 
 #### Analyzing your Strategy
-After the backtest, you can analyze your strategy by printing the results to console. As of now, these include simple statistics of your run but we plan to implement more complicated metrics for a stronger understanding of performance.
+After the backtest, you can analyze your strategy by printing the results to console. 
+As of now, these include simple statistics of your run but we plan to implement more 
+complicated metrics for a stronger understanding of performance.
 
 ```python
 r.Results()
@@ -115,7 +125,7 @@ You can visualize the performance of your strategy by comparing the equity curve
 ```python
 r.Chart(ShowTrades=False)
 ```
-<p align="center"><img src="https://raw.githubusercontent.com/Crypto-AI/Gemini/master/media/example.png"><p>
+<p align="center"><img src="https://raw.githubusercontent.com/friendly-pig/gemini.backtester/master/media/example.png"><p>
 
 ## Contributing
-Please take a look at our [contributing](https://github.com/Crypto-AI/Gemini/blob/master/CONTRIBUTING.md) guidelines if you're interested in helping!
+Please take a look at our [contributing](https://github.com/friendly-pig/gemini.backtester/blob/master/CONTRIBUTING.md) guidelines if you're interested in helping!
