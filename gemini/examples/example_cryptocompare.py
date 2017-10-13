@@ -1,8 +1,7 @@
 import pandas as pd
-import gemini
-import cryptocompare as cc
-import helpers
-from datetime import *
+import gemini.gemini as gemini
+from gemini.helpers import helpers
+from gemini.helpers import cryptocompare as cc
 
 pair = ['BTC', 'USD']  # Use ETH pricing data on the BTC market
 days_back = 0  # Grab data starting X days ago

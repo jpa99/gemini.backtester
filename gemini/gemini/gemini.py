@@ -1,8 +1,8 @@
 import time
 import bokeh.plotting
 import numpy as np
-import exchange
-import helpers
+from gemini import exchange
+from gemini.helpers import helpers
 
 
 class Run:

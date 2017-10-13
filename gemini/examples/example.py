@@ -1,7 +1,7 @@
 import pandas as pd
-import gemini
-import poloniex as px
-import helpers
+import gemini.gemini as gemini
+from gemini.helpers import poloniex as px
+from gemini.helpers import helpers
 
 pair = "BTC_ETH"  # Use ETH pricing data on the BTC market
 period = 1800  # Use 1800 second candles
