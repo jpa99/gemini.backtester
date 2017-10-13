@@ -1,8 +1,7 @@
 import pandas as pd
 
 import gemini.gemini as gemini
-from gemini.helpers import cryptocompare as cc
-from gemini.helpers import helpers
+from gemini.helpers import cryptocompare as cc, helpers
 
 pair = ['ETH', 'USD']  # Use ETH pricing data on the BTC market
 days_back = 1  # Grab data starting X days ago
@@ -21,27 +20,24 @@ data['date'] = pd.to_datetime(data['time'], unit='s')
 
 
 def logic(account, lookback, lookback_period):
-    try:
-        # Load into period class to simplify indexing
-        lookback = helpers.Period(lookback)
+    # Load into period class to simplify indexing
+    lookback = helpers.Period(lookback)
 
-        today = lookback.loc(0)  # Current candle
-        yesterday = lookback.loc(-lookback_period)  # Previous candle
-        print('from {} to {}'.format(yesterday['date'], today['date']))
+    today = lookback.loc(0)  # Current candle
+    yesterday = lookback.loc(-lookback_period)  # Previous candle
+    print('from {} to {}'.format(yesterday['date'], today['date']))
 
-        if today['close'] < yesterday['close']:
-            exit_price = today['close']
-            for position in account.positions:
-                if position.type == 'Long':
-                    account.close_position(position, 1, exit_price)
+    if today['close'] < yesterday['close']:
+        exit_price = today['close']
+        for position in account.positions:
+            if position.type == 'Long':
+                account.close_position(position, 1, exit_price)
 
-        if today['close'] > yesterday['close']:
-            entry_price = today['close'] + (today['close'] * fees_spread)
-            entry_capital = account.buying_power
-            if entry_capital > 0:
-                account.enter_position('Long', entry_capital, entry_price)
-    except ValueError:
-        pass  # Handles lookback errors in beginning of dataset
+    if today['close'] > yesterday['close']:
+        entry_price = today['close'] + (today['close'] * fees_spread)
+        entry_capital = account.buying_power
+        if entry_capital > 0:
+            account.enter_position('Long', entry_capital, entry_price)
 
 
 # Load the data into a backtesting class called Run
@@ -51,5 +47,6 @@ r = gemini.Run(data)
 r.start(1000, logic, trading_interval, lookback_period)
 
 r.results()
-r.chart('Lookback Period: {}, Trading Interval: {}'.format(lookback_period, trading_interval),
+r.chart('Lookback Period: {}, Trading Interval: {}'.format(lookback_period,
+                                                           trading_interval),
         show_trades=True)

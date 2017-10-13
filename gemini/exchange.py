@@ -1,6 +1,3 @@
-import copy
-
-
 class OpenedTrade:
     def __init__(self, type, date):
         self.type = type
@@ -18,7 +15,8 @@ class ClosedTrade(OpenedTrade):
         self.exit = float(exit)
 
     def __str__(self):
-        return "{0}\n{1}\n{2}\n{3}\n{4}".format(self.type, self.date, self.shares, self.entry,
+        return "{0}\n{1}\n{2}\n{3}\n{4}".format(self.type, self.date,
+                                                self.shares, self.entry,
                                                 self.exit)
 
 
@@ -77,7 +75,8 @@ class Account:
         self.opened_trades = []
         self.closed_trades = []
 
-    def enter_position(self, type, entry_capital, entry_price, exit_price=0, stop_loss=0):
+    def enter_position(self, type, entry_capital, entry_price, exit_price=0,
+                       stop_loss=0):
         entry_capital = float(entry_capital)
         if entry_capital < 0:
             raise ValueError("Error: Entry capital must be positive")
@@ -90,10 +89,12 @@ class Account:
             shares = entry_capital / entry_price
             if type == 'Long':
                 self.positions.append(
-                    LongPosition(self.number, entry_price, shares, exit_price, stop_loss))
+                    LongPosition(self.number, entry_price, shares, exit_price,
+                                 stop_loss))
             elif type == 'Short':
                 self.positions.append(
-                    ShortPosition(self.number, entry_price, shares, exit_price, stop_loss))
+                    ShortPosition(self.number, entry_price, shares, exit_price,
+                                  stop_loss))
             else:
                 raise TypeError("Error: Invalid position type.")
 
@@ -119,7 +120,18 @@ class Account:
             p.show()
 
     def total_value(self, current_price):
+        """
+        Something strange here
+
+        :param current_price:
+        :return:
+        """
+        # FIXME Try to understand what happend here
+        """
         temporary = copy.deepcopy(self)
         for position in temporary.positions:
             temporary.close_position(position, 1.0, current_price)
         return temporary.buying_power
+        # """
+        in_pos = sum([p.shares * current_price for p in self.positions])
+        return self.buying_power + in_pos

@@ -1,8 +1,6 @@
 *.pyc
-gemini/chart.html
-
 *.csv
+env
 .idea
-/.cache
-/gemini/chart.html
-/gemini/examples/chart.html
+.cache
+chart.html
