@@ -32,7 +32,7 @@ def logic(account, lookback, lookback_period):
     if today['close'] < yesterday['close']:
         exit_price = today['close']
         for position in account.positions:
-            if position.type == 'Long':
+            if position.order_type == 'Long':
                 print("{} Sell {}BTC @ ${} = ${} balance".format(
                     today['date'], position.shares,
                     exit_price,

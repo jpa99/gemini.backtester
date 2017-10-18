@@ -34,7 +34,7 @@ def logic(account, lookback, lookback_period):
     if today['close'] < yesterday['close']:
         exit_price = today['close']
         for position in account.positions:
-            if position.type == 'Long':
+            if position.order_type == 'Long':
                 account.close_position(position, 0.5, exit_price)
 
     elif today['close'] > yesterday['close']:

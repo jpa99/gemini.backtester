@@ -8,13 +8,24 @@ from gemini.helpers import helpers
 
 
 class Run:
+    """
+    Main class for  backtest
+    """
     def __init__(self, data):
         self.data = data
 
     def start(self, initial_capital, logic, trading_interval=None,
               lookback_period=None):
+        """
+        Main method to start backtest
+        :param initial_capital:
+        :param logic:
+        :param trading_interval:
+        :param lookback_period:
+        :return:
+        """
 
-        self.account = exchange.Account(initial_capital)
+        self.account = exchange.Account(initial_capital)  # FIXME: move to __init__ of class?
 
         # Enter backtest ---------------------------------------------
         trading_interval_counter = trading_interval
@@ -40,6 +51,10 @@ class Run:
             # ------------------------------------------------------------
 
     def results(self):
+        """
+        Print results of backtest to console
+        :return:
+        """
         print("-------------- results ----------------\n")
         begin_price = self.data.iloc[0]['open']
         final_price = self.data.iloc[-1]['close']
@@ -58,12 +73,12 @@ class Run:
             round(helpers.profit(self.account.initial_capital, percentchange),
                   2)))
 
-        longs = len([t for t in self.account.opened_trades if t.type == 'Long'])
-        sells = len([t for t in self.account.closed_trades if t.type == 'Long'])
+        longs = len([t for t in self.account.opened_trades if t.order_type == 'Long'])
+        sells = len([t for t in self.account.closed_trades if t.order_type == 'Long'])
         shorts = len(
-            [t for t in self.account.opened_trades if t.type == 'Short'])
+            [t for t in self.account.opened_trades if t.order_type == 'Short'])
         covers = len(
-            [t for t in self.account.closed_trades if t.type == 'Short'])
+            [t for t in self.account.closed_trades if t.order_type == 'Short'])
 
         print("Longs        : {0}".format(longs))
         print("Sells        : {0}".format(sells))
@@ -74,6 +89,12 @@ class Run:
         print("\n---------------------------------------")
 
     def chart(self, title=None, show_trades=False):
+        """
+        Draw charts for backtest results
+        :param title:
+        :param show_trades:
+        :return:
+        """
         bokeh.plotting.output_file("chart.html", title=title)
         p = bokeh.plotting.figure(x_axis_type="datetime", plot_width=1000,
                                   plot_height=400,
@@ -96,9 +117,9 @@ class Run:
                     y = self.account.equity[
                         np.where(self.data['date'] == trade.date.strftime(
                             "%Y-%m-%d"))[0][0]]
-                    if trade.type == 'Long':
+                    if trade.order_type == 'Long':
                         p.circle(x, y, size=6, color='green', alpha=0.5)
-                    elif trade.type == 'Short':
+                    elif trade.order_type == 'Short':
                         p.circle(x, y, size=6, color='red', alpha=0.5)
                 except:
                     pass
@@ -109,9 +130,9 @@ class Run:
                     y = self.account.equity[
                         np.where(self.data['date'] == trade.date.strftime(
                             "%Y-%m-%d"))[0][0]]
-                    if trade.type == 'Long':
+                    if trade.order_type == 'Long':
                         p.circle(x, y, size=6, color='blue', alpha=0.5)
-                    elif trade.type == 'Short':
+                    elif trade.order_type == 'Short':
                         p.circle(x, y, size=6, color='orange', alpha=0.5)
                 except:
                     pass

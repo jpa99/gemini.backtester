@@ -1,21 +1,24 @@
 class OpenedTrade:
-    def __init__(self, type, date):
-        self.type = type
+    def __init__(self, order_type, date):
+        self.order_type = order_type
         self.date = date
 
     def __str__(self):
-        return "{0}\n{1}".format(self.type, self.date)
+        return "{0}\n{1}".format(self.order_type, self.date)
 
 
 class ClosedTrade(OpenedTrade):
-    def __init__(self, type, date, shares, entry, exit):
-        super().__init__(type, date)
+    """
+    Closed trade class
+    """
+    def __init__(self, order_type, date, shares, entry, exit):
+        super().__init__(order_type, date)
         self.shares = float(shares)
         self.entry = float(entry)
         self.exit = float(exit)
 
     def __str__(self):
-        return "{0}\n{1}\n{2}\n{3}\n{4}".format(self.type, self.date,
+        return "{0}\n{1}\n{2}\n{3}\n{4}".format(self.order_type, self.date,
                                                 self.shares, self.entry,
                                                 self.exit)
 
@@ -23,15 +26,19 @@ class ClosedTrade(OpenedTrade):
 class Position:
     def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
         self.number = number
-        self.type = "None"
+        self.order_type = "None"
         self.entry_price = float(entry_price)
         self.shares = float(shares)
         self.exit_price = float(exit_price)
         self.stop_loss = float(stop_loss)
 
     def show(self):
+        """
+        Print position info
+        :return:
+        """
         print("No. {0}".format(self.number))
-        print("Type:   {0}".format(self.type))
+        print("Type:   {0}".format(self.order_type))
         print("Entry:  {0}".format(self.entry_price))
         print("Shares: {0}".format(self.shares))
         print("Exit:   {0}".format(self.exit_price))
@@ -41,7 +48,7 @@ class Position:
 class LongPosition(Position):
     def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
-        self.type = 'Long'
+        self.order_type = 'Long'
 
     def close(self, percent, current_price):
         shares = self.shares
@@ -52,7 +59,7 @@ class LongPosition(Position):
 class ShortPosition(Position):
     def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
-        self.Type = 'Short'
+        self.order_type = 'Short'
 
     def close(self, percent, current_price):
         entry = self.shares * percent * self.entry_price
@@ -75,7 +82,7 @@ class Account:
         self.opened_trades = []
         self.closed_trades = []
 
-    def enter_position(self, type, entry_capital, entry_price, exit_price=0,
+    def enter_position(self, order_type, entry_capital, entry_price, exit_price=0,
                        stop_loss=0):
         entry_capital = float(entry_capital)
         if entry_capital < 0:
@@ -87,18 +94,18 @@ class Account:
         else:
             self.buying_power -= entry_capital
             shares = entry_capital / entry_price
-            if type == 'Long':
+            if order_type == 'Long':
                 self.positions.append(
                     LongPosition(self.number, entry_price, shares, exit_price,
                                  stop_loss))
-            elif type == 'Short':
+            elif order_type == 'Short':
                 self.positions.append(
                     ShortPosition(self.number, entry_price, shares, exit_price,
                                   stop_loss))
             else:
                 raise TypeError("Error: Invalid position type.")
 
-            self.opened_trades.append(OpenedTrade(type, self.date))
+            self.opened_trades.append(OpenedTrade(order_type, self.date))
             self.number += 1
 
     def close_position(self, position, percent, current_price):
@@ -108,7 +115,7 @@ class Account:
             raise ValueError("Error: Current price cannot be negative.")
         else:
             self.closed_trades.append(
-                ClosedTrade(position.type, self.date, position.shares * percent,
+                ClosedTrade(position.order_type, self.date, position.shares * percent,
                             position.entry_price, current_price))
             self.buying_power += position.close(percent, current_price)
 
