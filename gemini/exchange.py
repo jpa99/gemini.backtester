@@ -1,4 +1,7 @@
 class OpenedTrade:
+    """
+    Open trades main class
+    """
     def __init__(self, order_type, date):
         self.order_type = order_type
         self.date = date
@@ -24,6 +27,9 @@ class ClosedTrade(OpenedTrade):
 
 
 class Position:
+    """
+    Position main class
+    """
     def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
         self.number = number
         self.order_type = "None"
@@ -46,22 +52,42 @@ class Position:
 
 
 class LongPosition(Position):
+    """
+    Long position class
+    """
     def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.order_type = 'Long'
 
     def close(self, percent, current_price):
+        """
+        ??? don't understand ???
+            - return results of deal to Account.initial_capital/buying_power?
+        :param percent:
+        :param current_price:
+        :return:
+        """
         shares = self.shares
         self.shares *= 1.0 - percent
         return shares * percent * current_price
 
 
 class ShortPosition(Position):
+    """
+    Short position class
+    """
     def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.order_type = 'Short'
 
     def close(self, percent, current_price):
+        """
+        ??? don't understand ???
+            - return results of deal to Account.initial_capital/buying_power?
+        :param percent:
+        :param current_price:
+        :return:
+        """
         entry = self.shares * percent * self.entry_price
         exit = self.shares * percent * current_price
         self.shares *= 1.0 - percent
@@ -72,6 +98,10 @@ class ShortPosition(Position):
 
 
 class Account:
+    """
+    Main account class
+    Store settings and trades data
+    """
     def __init__(self, initial_capital):
         self.initial_capital = float(initial_capital)
         self.buying_power = float(initial_capital)
@@ -84,6 +114,16 @@ class Account:
 
     def enter_position(self, order_type, entry_capital, entry_price, exit_price=0,
                        stop_loss=0):
+        """
+        Open position
+        :param order_type:
+        :param entry_capital:
+        :param entry_price:
+        :param exit_price:
+        :param stop_loss:
+        :return:
+        """
+
         entry_capital = float(entry_capital)
         if entry_capital < 0:
             raise ValueError("Error: Entry capital must be positive")
@@ -109,9 +149,16 @@ class Account:
             self.number += 1
 
     def close_position(self, position, percent, current_price):
+        """
+        close position
+        :param position:
+        :param percent:
+        :param current_price:
+        :return:
+        """
         if percent > 1 or percent < 0:
-            raise ValueError("Error: Percent must range between 0-1.")
-        elif current_price < 0:
+            raise ValueError("Error: Percent must range between 0-1.")  # FIXME: why just between 0-1?
+        elif current_price < 0:                                         # because 0.25 = 25% ?
             raise ValueError("Error: Current price cannot be negative.")
         else:
             self.closed_trades.append(
@@ -120,9 +167,17 @@ class Account:
             self.buying_power += position.close(percent, current_price)
 
     def purge_positions(self):
+        """
+        Delete positions without shares?
+        :return:
+        """
         self.positions = [p for p in self.positions if p.shares > 0]
 
     def show_positions(self):
+        """
+        Show open position info
+        :return:
+        """
         for p in self.positions:
             p.show()
 
