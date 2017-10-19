@@ -15,25 +15,5 @@ def profit(initial_capital, multiplier):
     :param multiplier:
     :return:
     """
-    return initial_capital * (multiplier + 1.0) - initial_capital
-
-
-class Period:
-    """
-    Strange, for what use class
-    """
-
-    def __init__(self, data):
-        self.data = data
-
-    def loc(self, i):
-        """
-        Return data to date
-        :param i:
-        :return:
-        """
-        if i > 0:
-            raise ValueError("Error: Cannot look forward!")
-        if i <= -(len(self.data)):
-            raise ValueError("Error: Cannot look too far back!")
-        return self.data.iloc[i - 1]
+    r = initial_capital * (multiplier + 1.0) - initial_capital
+    return r

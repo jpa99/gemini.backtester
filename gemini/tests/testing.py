@@ -69,14 +69,14 @@ class Methods(unittest.TestCase):
 
     def test_both(self):
         a = exchange.Account(1000)
-        a.enter_position('Long', 200, 20)
-        a.enter_position('Short', 250, 25)
+        a.enter_position('Long', 200, 20)  # 10
+        a.enter_position('Short', 250, 25)  # 10
         self.assertEqual(a.buying_power, 550)
         self.assertEqual(a.total_value(25), 1050)
         long = a.positions[0]
         short = a.positions[1]
-        a.close_position(long, 0.5, 40)
-        a.close_position(short, 0.5, 12.5)
+        a.close_position(long, 0.5, 40)  # 5
+        a.close_position(short, 0.5, 12.5)  # 5
         self.assertEqual(a.buying_power, 937.5)
         self.assertEqual(a.total_value(12.5), 1187.5)
         a.close_position(long, 1.0, 50)
@@ -91,7 +91,7 @@ class Methods(unittest.TestCase):
         self.assertEqual(a.total_value(0.00000002), 3)
         a.close_position(a.positions[0], 1, 0.00000002)
         self.assertEqual(a.buying_power, 3)
-        # Short with decimals 
+        # Short with decimals
         a = exchange.Account(2)
         a.enter_position('Short', 1, 0.00000002)
         self.assertEqual(a.total_value(0.00000001), 2.5)

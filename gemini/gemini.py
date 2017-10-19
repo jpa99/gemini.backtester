@@ -1,54 +1,109 @@
-import time
-
-import bokeh.plotting
-import numpy as np
+import logging
+import types
 
 from gemini import exchange
 from gemini.helpers import helpers
 
+logger = logging.getLogger(__name__)
 
-class Run:
-    """
-    Main class for  backtest
-    """
-    def __init__(self, data):
-        self.data = data
 
-    def start(self, initial_capital, logic, trading_interval=None,
-              lookback_period=None):
+class Gemini:
+    """
+    Main class of Backtester
+    """
+    data = None  # storage for history data
+    account = None  # exchange account simulator
+    sim_params = {
+        'capital_base': 10e5,
+        'data_frequency': 'd',  # TODO Make to use it with pd.resample
+    }
+    records = []
+
+    def __init__(self, initialize=None, logic=None, analyze=None,
+                 sim_params=None):
+        """
+        Create backtester with own methods.
+
+        sim_params :: Backtester's settings:
+            * start_session :: not use
+            * end_session :: not use
+            * capital_base :: default 10k
+            * data_frequency :: not use
+            *
+
+        :param initialize:
+        :param logic:
+        :param analyze:
+        :param sim_params:
+        """
+
+        if initialize is not None:
+            self.initialize = types.MethodType(initialize, self)
+
+        if logic is not None:
+            self.logic = types.MethodType(logic, self)
+
+        if analyze is not None:
+            self.analyze = types.MethodType(analyze, self)
+
+        if sim_params is not None:
+            self.sim_params = sim_params
+
+    def initialize(self):
+        """
+        First method which will be called after start algorithm
+        :return:
+        """
+        pass
+
+    def logic(self, data):
+        """
+        Central method which will be called for every tick
+        in trading interval.
+
+        :param data:
+        :return:
+        """
+        pass
+
+    def run(self, data, **kwargs):
         """
         Main method to start backtest
-        :param initial_capital:
+        :param data :: history data with ticks or bars
         :param logic:
         :param trading_interval:
         :param lookback_period:
         :return:
         """
+        self.data = data
+        self.account = exchange.Account(
+            self.sim_params.get('capital_base', 10e5))
 
-        self.account = exchange.Account(initial_capital)  # FIXME: move to __init__ of class?
+        self.initialize()
 
-        # Enter backtest ---------------------------------------------
-        trading_interval_counter = trading_interval
-        for index, today in self.data.iterrows():
+        # Start cycle
+
+        # TODO Add filter between start & end session from sim_params
+        # TODO Resample data for data_frequency from sim_params
+
+        for index, tick in self.data.iterrows():
             # print(Index)
             # Update account variables
-            self.account.date = today['date']
-            self.account.equity.append(self.account.total_value(today['close']))
+            self.account.date = tick['date']
+            self.account.equity.append(self.account.total_value(tick['close']))
 
             # Execute trading logic
-            lookback = self.data[0:index + 1]
-            if trading_interval_counter == trading_interval:
-                try:
-                    logic(self.account, lookback, lookback_period)
-                except ValueError:
-                    pass  # Handles lookback errors in beginning of dataset
-                trading_interval_counter = 0
-            else:
-                trading_interval_counter += 1
+            lookback_data = self.data[0:index + 1]
+            try:
+                self.logic(lookback_data)
+            except Exception as ex:
+                logger.exception(ex)
 
             # Cleanup empty positions
             self.account.purge_positions()
-            # ------------------------------------------------------------
+
+        self.results()
+        self.analyze(**kwargs)
 
     def results(self):
         """
@@ -60,25 +115,25 @@ class Run:
         final_price = self.data.iloc[-1]['close']
 
         percentchange = helpers.percent_change(begin_price, final_price)
-        print("Buy and Hold : {0}%".format(round(percentchange * 100, 2)))
-        print("Net profit   : {0}".format(
-            round(helpers.profit(self.account.initial_capital, percentchange),
-                  2)))
+        print("Buy and Hold : {0:.2f}%".format(percentchange * 100))
+        print("Net profit   : {0:.2f}".format(
+            helpers.profit(self.account.initial_capital, percentchange)))
 
         percentchange = helpers.percent_change(self.account.initial_capital,
                                                self.account.total_value(
                                                    final_price))
-        print("Strategy     : {0}%".format(round(percentchange * 100, 2)))
-        print("Net profit   : {0}".format(
-            round(helpers.profit(self.account.initial_capital, percentchange),
-                  2)))
+        print("Strategy     : {0:.2f}%".format(percentchange * 100))
+        print("Net profit   : {0:.2f}".format(
+            helpers.profit(self.account.initial_capital, percentchange)))
 
-        longs = len([t for t in self.account.opened_trades if t.order_type == 'Long'])
-        sells = len([t for t in self.account.closed_trades if t.order_type == 'Long'])
+        longs = len(
+            [t for t in self.account.opened_trades if t.type_ == 'Long'])
+        sells = len(
+            [t for t in self.account.closed_trades if t.type_ == 'Long'])
         shorts = len(
-            [t for t in self.account.opened_trades if t.order_type == 'Short'])
+            [t for t in self.account.opened_trades if t.type_ == 'Short'])
         covers = len(
-            [t for t in self.account.closed_trades if t.order_type == 'Short'])
+            [t for t in self.account.closed_trades if t.type_ == 'Short'])
 
         print("Longs        : {0}".format(longs))
         print("Sells        : {0}".format(sells))
@@ -88,53 +143,5 @@ class Run:
         print("Total Trades : {0}".format(longs + sells + shorts + covers))
         print("\n---------------------------------------")
 
-    def chart(self, title=None, show_trades=False):
-        """
-        Draw charts for backtest results
-        :param title:
-        :param show_trades:
-        :return:
-        """
-        bokeh.plotting.output_file("chart.html", title=title)
-        p = bokeh.plotting.figure(x_axis_type="datetime", plot_width=1000,
-                                  plot_height=400,
-                                  title=title)
-        p.grid.grid_line_alpha = 0.3
-        p.xaxis.axis_label = 'Date'
-        p.yaxis.axis_label = 'Equity'
-        shares = self.account.initial_capital / self.data.iloc[0]['close']
-        base_equity = [price * shares for price in self.data['close']]
-        p.line(self.data['date'], base_equity, color='#CAD8DE',
-               legend='Buy and Hold')
-        p.line(self.data['date'], self.account.equity, color='#49516F',
-               legend='Strategy')
-        p.legend.location = "top_left"
-
-        if show_trades:
-            for trade in self.account.opened_trades:
-                try:
-                    x = time.mktime(trade.date.timetuple()) * 1000
-                    y = self.account.equity[
-                        np.where(self.data['date'] == trade.date.strftime(
-                            "%Y-%m-%d"))[0][0]]
-                    if trade.order_type == 'Long':
-                        p.circle(x, y, size=6, color='green', alpha=0.5)
-                    elif trade.order_type == 'Short':
-                        p.circle(x, y, size=6, color='red', alpha=0.5)
-                except:
-                    pass
-
-            for trade in self.account.closed_trades:
-                try:
-                    x = time.mktime(trade.date.timetuple()) * 1000
-                    y = self.account.equity[
-                        np.where(self.data['date'] == trade.date.strftime(
-                            "%Y-%m-%d"))[0][0]]
-                    if trade.order_type == 'Long':
-                        p.circle(x, y, size=6, color='blue', alpha=0.5)
-                    elif trade.order_type == 'Short':
-                        p.circle(x, y, size=6, color='orange', alpha=0.5)
-                except:
-                    pass
-
-        bokeh.plotting.show(p)
+    def analyze(self):
+        pass

@@ -1,5 +1,7 @@
-import requests
 import time
+
+import pandas as pd
+import requests
 
 
 def get_now(pair):
@@ -8,21 +10,20 @@ def get_now(pair):
     :param pair:
     :return:
     """
-    return requests.get('https://poloniex.com/public?command=returnTicker').json()[pair]
+    return requests.get(
+        'https://poloniex.com/public?command=returnTicker').json()[pair]
 
 
-def get_past(pair, period, days_back, days_data):
+def get_past(pair, period, days_history=30):
     """
     Return historical charts data from poloniex.com
     :param pair:
     :param period:
-    :param days_back:
-    :param days_data:
+    :param days_history:
     :return:
     """
-    now = int(time.time())
-    end = now - (24 * 60 * 60 * days_back)
-    start = end - (24 * 60 * 60 * days_data)
+    end = int(time.time())
+    start = end - (24 * 60 * 60 * days_history)
     params = {
         'command': 'returnChartData',
         'currencyPair': pair,
@@ -33,3 +34,22 @@ def get_past(pair, period, days_back, days_data):
 
     response = requests.get('https://poloniex.com/public', params=params)
     return response.json()
+
+
+def load_dataframe(pair, period, days_history=30):
+    """
+    Return historical charts data from poloniex.com
+    :param pair:
+    :param period:
+    :param days_history:
+    :return: pandas.DataFrame
+    """
+    data = get_past(pair, period, days_history)
+
+    # print(data)
+    # Convert to Pandas dataframe with datetime format
+    df = pd.DataFrame(data)
+
+    df['date'] = pd.to_datetime(df['date'], unit='s')
+
+    return df
