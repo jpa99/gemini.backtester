@@ -1,3 +1,9 @@
+import gemini.settings as settings
+
+PRECISION = getattr(settings, "PRECISION", 8)
+FEES = getattr(settings, "FEES", dict())
+
+
 class OpenedTrade:
     """
     Open trades main class
@@ -96,7 +102,6 @@ class ShortPosition(Position):
         :param current_price:
         :return:
         """
-        # TODO Try to find error in logic or improve description
 
         entry = self.shares * percent * self.entry_price
         exit_ = self.shares * percent * current_price
@@ -112,16 +117,19 @@ class Account:
     Main account class
     Store settings and trades data
     """
+    fee = FEES
 
-    def __init__(self, initial_capital):
+    def __init__(self, initial_capital, fee=None):
         self.initial_capital = initial_capital
         self.buying_power = initial_capital
         self.number = 0
         self.date = None
-        self.equity = []
+        self.equity = dict()
         self.positions = []
         self.opened_trades = []
         self.closed_trades = []
+        if isinstance(fee, dict):
+            self.fee = fee
 
     def enter_position(self, type_, entry_capital, entry_price, exit_price=0,
                        stop_loss=0):
@@ -143,28 +151,36 @@ class Account:
         elif self.buying_power < entry_capital:
             raise ValueError("Error: Not enough buying power to enter position")
         else:
-            self.buying_power -= entry_capital
-            shares = entry_capital / entry_price
+            # apply fee to price
+            entry_price = self.apply_fee(entry_price, type_, 'Open')
+
+            # set round to precision
+            round_prec = 10 ** PRECISION
+
+            # round shares
+            shares = int(entry_capital / entry_price * round_prec) / round_prec
+            # calc buying power
+            self.buying_power -= shares * entry_price
+
             if type_ == 'Long':
-                self.positions.append(
-                    LongPosition(self.number, entry_price, shares, exit_price,
-                                 stop_loss))
+                position = LongPosition(
+                    self.number, entry_price, shares, exit_price, stop_loss)
             elif type_ == 'Short':
-                self.positions.append(
-                    ShortPosition(self.number, entry_price, shares, exit_price,
-                                  stop_loss))
+                position = ShortPosition(
+                    self.number, entry_price, shares, exit_price, stop_loss)
             else:
                 raise TypeError("Error: Invalid position type.")
 
+            self.positions.append(position)
             self.opened_trades.append(OpenedTrade(type_, self.date))
             self.number += 1
 
-    def close_position(self, position, percent, current_price):
+    def close_position(self, position, percent, price):
         """
         close position
         :param position:
         :param percent:
-        :param current_price:
+        :param price:
         :return:
         """
 
@@ -176,14 +192,49 @@ class Account:
         if percent > 1 or percent < 0:
             raise ValueError(
                 "Error: Percent must range between 0-1.")  # FIXME: why just between 0-1?
-        elif current_price < 0:  # because 0.25 = 25% ?
+        elif price < 0:  # because 0.25 = 25% ?
             raise ValueError("Error: Current price cannot be negative.")
         else:
+            # apply fee to price
+            price = self.apply_fee(price, position.type_, 'Close')
+
             self.closed_trades.append(
                 ClosedTrade(position.type_, self.date,
                             position.shares * percent,
-                            position.entry_price, current_price))
-            self.buying_power += position.close(percent, current_price)
+                            position.entry_price, price))
+            self.buying_power += position.close(percent, price)
+
+    def apply_fee(self, price, type_, direction):
+        """
+        Apply fee to price by position type & transaction direction
+
+        Position types:
+        * Long
+        * Short
+
+        Directions:
+        * Open : Add fee to Long price, subtract fee from Short price
+        * Close : Subtract fee from Long price, add fee to Short price
+
+        :param price:
+        :param type_:
+        :param direction:
+        :return:
+        """
+        sign = 1 if direction == 'Open' else -1
+
+        # set round to precision
+        round_prec = 10 ** PRECISION
+
+        # change price with fee
+        fee = self.fee.get(type_, 0)
+        if type_ == 'Long':
+            price *= 1 + sign * fee
+        elif type_ == 'Short':
+            price *= 1 - sign * fee
+
+        # round price
+        return int(price * round_prec) / round_prec
 
     def purge_positions(self):
         """
@@ -205,18 +256,14 @@ class Account:
 
     def total_value(self, current_price):
         """
-        Something strange here
+        Return total balance with open positions
 
         :param current_price:
         :return:
         """
-        # FIXME Try to understand what happend here
-        """
-        temporary = copy.deepcopy(self)
-        for position in temporary.positions:
-            temporary.close_position(position, 1.0, current_price)
-        return temporary.buying_power
-        # """
+        # print(self.buying_power)
+        # for p in self.positions: print(p)  # positions
+        # for ot in self.opened_trades: print(ot)  # open trades
         in_pos = sum(
             [p.shares * current_price for p in self.positions
              if p.type_ == 'Long']) + sum(

@@ -1,6 +1,6 @@
 from gemini.gemini import Gemini
 from gemini.helpers import poloniex as px
-from gemini.helpers.analyze import analyze
+from gemini.helpers.analyze import analyze_mpl
 
 
 def logic(algo, data):
@@ -45,8 +45,12 @@ df = px.load_dataframe(pair, period, days_history)
 # Algorithm settings
 sim_params = {
     'capital_base': 1000,
+    'fee': {
+        'Long': 0.0025,
+        'Short': 0.0025,
+    }
 }
-gemini = Gemini(logic=logic, sim_params=sim_params, analyze=analyze)
+gemini = Gemini(logic=logic, sim_params=sim_params, analyze=analyze_mpl)
 
 # start backtesting custom logic with 1000 (BTC) intital capital
-gemini.run(df)
+gemini.run(df, show_trades=True)

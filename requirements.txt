@@ -3,3 +3,4 @@ pandas
 requests
 TA-Lib
 pytest
+matplotlib

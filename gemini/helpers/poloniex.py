@@ -3,9 +3,6 @@ import time
 import pandas as pd
 import requests
 
-pd.set_option('precision', 8)
-pd.set_option('display.float_format', lambda x: '%.8f' % x)
-
 
 def get_now(pair):
     """

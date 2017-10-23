@@ -1,8 +1,11 @@
 import logging
 import types
 
+import gemini.settings as settings
 from gemini import exchange
 from gemini.helpers import helpers
+
+FEES = getattr(settings, "FEES", dict())
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +19,7 @@ class Gemini:
     sim_params = {
         'capital_base': 10e5,
         'data_frequency': 'd',  # TODO Make to use it with pd.resample
+        'fee': FEES,  # Fees in percent of trade amount
     }
     records = []
 
@@ -77,7 +81,9 @@ class Gemini:
         """
         self.data = data
         self.account = exchange.Account(
-            self.sim_params.get('capital_base', 10e5))
+            self.sim_params.get('capital_base', 10e5),
+            fee=self.sim_params.get('fee', None)
+        )
 
         self.initialize()
 
@@ -90,7 +96,9 @@ class Gemini:
             # print(Index)
             # Update account variables
             self.account.date = tick['date']
-            self.account.equity.append(self.account.total_value(tick['close']))
+            # update total value in account
+            self.account.equity[tick['date']] = self.account.total_value(
+                tick['close'])
 
             # Execute trading logic
             lookback_data = self.data[0:index + 1]
@@ -110,7 +118,8 @@ class Gemini:
         Print results of backtest to console
         :return:
         """
-        print("-------------- results ----------------\n")
+        title = "{0} results {0}".format("=" * 25)
+        print(title + "\n")
         begin_price = self.data.iloc[0]['open']
         final_price = self.data.iloc[-1]['close']
 
@@ -140,8 +149,8 @@ class Gemini:
         print("Shorts       : {0}".format(shorts))
         print("Covers       : {0}".format(covers))
         print("--------------------")
-        print("Total Trades : {0}".format(longs + sells + shorts + covers))
-        print("\n---------------------------------------")
+        print("Total Trades : {0}\n".format(longs + sells + shorts + covers))
+        print("-" * len(title))
 
     def analyze(self):
         pass
