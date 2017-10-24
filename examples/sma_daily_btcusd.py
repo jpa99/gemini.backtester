@@ -2,7 +2,7 @@ import talib
 
 from gemini.gemini import Gemini
 from gemini.helpers import cryptocompare as cc
-from gemini.helpers.analyze import analyze_mpl
+from gemini.helpers.analyze import analyze_mpl, analyze_bokeh
 
 
 def logic(algo, data):
@@ -54,7 +54,7 @@ df = cc.load_dataframe(pair, days_history, exchange)
 sim_params = {
     'capital_base': 10000
 }
-gemini = Gemini(logic=logic, sim_params=sim_params, analyze=analyze_mpl)
+gemini = Gemini(logic=logic, sim_params=sim_params, analyze=analyze_bokeh)
 
 # start backtesting custom logic with 1000 (BTC) intital capital
 gemini.run(df,

@@ -124,7 +124,7 @@ class Account:
         self.buying_power = initial_capital
         self.number = 0
         self.date = None
-        self.equity = dict()
+        self.equity = []
         self.positions = []
         self.opened_trades = []
         self.closed_trades = []

@@ -84,6 +84,7 @@ class Gemini:
             self.sim_params.get('capital_base', 10e5),
             fee=self.sim_params.get('fee', None)
         )
+        self.records = []
 
         self.initialize()
 
@@ -97,8 +98,9 @@ class Gemini:
             # Update account variables
             self.account.date = tick['date']
             # update total value in account
-            self.account.equity[tick['date']] = self.account.total_value(
-                tick['close'])
+            # TODO Replace by pandas DataFrame
+            self.account.equity.append(
+                (tick['date'], self.account.total_value(tick['close'])))
 
             # Execute trading logic
             lookback_data = self.data[0:index + 1]

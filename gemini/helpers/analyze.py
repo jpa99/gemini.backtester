@@ -19,7 +19,12 @@ def analyze_bokeh(algo, title=None, show_trades=False):
     :param show_trades:
     :return:
     """
-    # FIXME Please. Too much time for chart when show_trades=True
+    # TODO Replace to Gemini class
+    algo.data = algo.data.set_index('date', drop=False)
+
+    shares = algo.account.initial_capital / algo.data.iloc[0]['close']
+    algo.data['base_equity'] = [price * shares for price in algo.data['close']]
+    algo.data['equity'] = [e for dt, e in algo.account.equity]
 
     bokeh.plotting.output_file("chart.html", title=title)
     p = bokeh.plotting.figure(x_axis_type="datetime", plot_width=1000,
@@ -28,8 +33,6 @@ def analyze_bokeh(algo, title=None, show_trades=False):
     p.grid.grid_line_alpha = 0.3
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'Equity'
-    shares = algo.account.initial_capital / algo.data.iloc[0]['close']
-    base_equity = [price * shares for price in algo.data['close']]
 
     if algo.records:
         # Setting the second y axis range name and range
@@ -48,9 +51,9 @@ def analyze_bokeh(algo, title=None, show_trades=False):
 
     # print(algo.data[['date', 'close', 'sma50', 'sma150']])
 
-    p.line(algo.data['date'], base_equity, color='#CAD8DE',
+    p.line(algo.data['date'], algo.data['base_equity'], color='#CAD8DE',
            legend='Buy and Hold')
-    p.line(algo.data['date'], list(algo.account.equity.values()),
+    p.line(algo.data['date'], algo.data['equity'],
            color='#49516F',
            legend='Strategy')
     p.legend.location = "top_left"
@@ -66,7 +69,7 @@ def analyze_bokeh(algo, title=None, show_trades=False):
     if show_trades:
         for trade in algo.account.opened_trades:
             x = time.mktime(trade.date.timetuple()) * 1000
-            y = algo.account.equity[trade.date]
+            y = algo.data['equity'].loc[trade.date]
             if trade.type_ == 'Long':
                 p.circle(x, y, size=6, color='green', alpha=0.5)
             elif trade.type_ == 'Short':
@@ -74,7 +77,7 @@ def analyze_bokeh(algo, title=None, show_trades=False):
 
         for trade in algo.account.closed_trades:
             x = time.mktime(trade.date.timetuple()) * 1000
-            y = algo.account.equity[trade.date]
+            y = algo.data['equity'].loc[trade.date]
             if trade.type_ == 'Long':
                 p.circle(x, y, size=6, color='blue', alpha=0.5)
             elif trade.type_ == 'Short':
@@ -93,18 +96,20 @@ def analyze_mpl(algo, title=None, show_trades=False):
     :param show_trades:
     :return:
     """
+    # TODO Replace to Gemini class
+    algo.data = algo.data.set_index('date', drop=False)
 
     shares = algo.account.initial_capital / algo.data.iloc[0]['close']
-    base_equity = [price * shares for price in algo.data['close']]
+    algo.data['base_equity'] = [price * shares for price in algo.data['close']]
+    algo.data['equity'] = [e for dt, e in algo.account.equity]
 
     fig = plt.figure(figsize=(15, 10), facecolor='white')
 
     ax1 = fig.add_subplot(211)
-    ax1.plot_date(algo.data['date'].values, base_equity, '-')
+    ax1.plot_date(algo.data['date'].values, algo.data['base_equity'], '-')
     ax1.set_ylabel('Equity')
 
-    ax1.plot_date(algo.data['date'].values,
-                  list(algo.account.equity.values()), '-')
+    ax1.plot_date(algo.data['date'].values, algo.data['equity'], '-')
 
     ax2 = fig.add_subplot(212)
     ax2.set_ylabel('Records')
@@ -119,15 +124,15 @@ def analyze_mpl(algo, title=None, show_trades=False):
         sells = dict()
         for trade in algo.account.opened_trades:
             if trade.type_ == 'Long':
-                buys[trade.date] = algo.account.equity[trade.date]
+                buys[trade.date] = algo.data['equity'].loc[trade.date]
             elif trade.type_ == 'Short':
-                sells[trade.date] = algo.account.equity[trade.date]
+                sells[trade.date] = algo.data['equity'].loc[trade.date]
 
         for trade in algo.account.closed_trades:
             if trade.type_ == 'Long':
-                sells[trade.date] = algo.account.equity[trade.date]
+                sells[trade.date] = algo.data['equity'].loc[trade.date]
             elif trade.type_ == 'Short':
-                buys[trade.date] = algo.account.equity[trade.date]
+                buys[trade.date] = algo.data['equity'].loc[trade.date]
 
         ax1.plot(buys.keys(), buys.values(), '^', markersize=5, color='m')
         ax1.plot(sells.keys(), sells.values(), 'v', markersize=5, color='k')
