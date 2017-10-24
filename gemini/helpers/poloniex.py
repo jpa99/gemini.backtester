@@ -46,7 +46,9 @@ def load_dataframe(pair, period, days_history=30):
     """
     data = get_past(pair, period, days_history)
 
-    # print(data)
+    if 'error' in data:
+        raise Exception("Error on getting data: {}".format(data['error']))
+
     # Convert to Pandas dataframe with datetime format
     df = pd.DataFrame(data)
 
