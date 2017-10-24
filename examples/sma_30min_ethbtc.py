@@ -45,10 +45,10 @@ def logic(algo, data):
 # Data settings
 pair = "BTC_ETH"  # Use ETH pricing data on the BTC market
 period = 1800  # Use 1800 second candles
-days_history = 100  # From there collect 60 days of data
+days_history = 300  # From there collect 60 days of data
 
 # Request data from Poloniex
-df = px.load_dataframe(pair, period, days_history)
+df = px.load_dataframe(pair, period, days_history, timeframe='H')
 
 # Algorithm settings
 sim_params = {

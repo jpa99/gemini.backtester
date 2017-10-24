@@ -28,7 +28,7 @@ def logic(algo, data):
     if today['close'] > yesterday['close']:
         entry_price = today['close'] + (today['close'] * fees_spread)
         entry_capital = algo.account.buying_power
-        if entry_capital > 0:
+        if entry_capital > 0.0001:
             algo.account.enter_position('Long', entry_capital, entry_price)
 
 
@@ -39,7 +39,7 @@ fees_spread = 0.0025 + 0.001  # Fees 0.25% + Bid/ask spread to account for http:
 exchange = 'Bitfinex'
 
 # Request data from cryptocompare.com
-df = cc.load_dataframe(pair, days_history, exchange)
+df = cc.load_dataframe(pair, days_history, exchange, timeframe='W')
 
 # Algorithm settings
 sim_params = {

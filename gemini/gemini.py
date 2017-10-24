@@ -103,7 +103,7 @@ class Gemini:
                 (tick['date'], self.account.total_value(tick['close'])))
 
             # Execute trading logic
-            lookback_data = self.data[0:index + 1]
+            lookback_data = self.data.loc[:index]
             try:
                 self.logic(lookback_data)
             except Exception as ex:

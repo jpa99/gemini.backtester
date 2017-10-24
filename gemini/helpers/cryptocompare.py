@@ -2,6 +2,7 @@ import time
 
 import pandas as pd
 import requests
+from gemini.helpers.timeframe_resampler import resample
 
 
 def get_now(pair):
@@ -35,20 +36,23 @@ def get_past(pair, days_history, exchange):
     return results
 
 
-def load_dataframe(pair, days_history=30, exchange='Bitfinex'):
+def load_dataframe(pair, days_history=30, exchange='Bitfinex', timeframe=None):
     """
     Return historical charts data from cryptocompare.com
     :param pair:
-    :param period:
     :param days_history:
-    :return: pandas.DataFrame
+    :param exchange:
+    :param timeframe: M - month, W - week
+    :return:
     """
     data = get_past(pair, days_history, exchange)
-
     # print(data)
     # Convert to Pandas dataframe with datetime format
-    df = pd.DataFrame(data)
-
-    df['date'] = pd.to_datetime(df['time'], unit='s')
+    if timeframe is None:
+        df = pd.DataFrame(data)
+        df['date'] = pd.to_datetime(df['time'], unit='s')
+        df = df.set_index(['date'], drop=False)
+    else:
+        df = resample(data, timeframe, date='time')
 
     return df
