@@ -50,9 +50,7 @@ def load_dataframe(pair, days_history=30, exchange='Bitfinex', timeframe=None):
     df = pd.DataFrame(data)
     df['date'] = pd.to_datetime(df['time'], unit='s')
     df['volume'] = df['volumefrom']  # TODO mb improve
-    if timeframe is None:
-        df = df.set_index(['date'])
-    else:
-        df = df.set_index(['date'])
+    df = df.set_index(['date'])
+    if timeframe is not None:
         df = resample(df, timeframe)
     return df
