@@ -20,7 +20,7 @@ def analyze_bokeh(algo, title=None, show_trades=False):
     :return:
     """
     # TODO Replace to Gemini class
-    algo.data = algo.data.set_index('date', drop=False)
+    #algo.data = algo.data.set_index('date', drop=False)
 
     shares = algo.account.initial_capital / algo.data.iloc[0]['close']
     algo.data['base_equity'] = [price * shares for price in algo.data['close']]
@@ -51,9 +51,9 @@ def analyze_bokeh(algo, title=None, show_trades=False):
 
     # print(algo.data[['date', 'close', 'sma50', 'sma150']])
 
-    p.line(algo.data['date'], algo.data['base_equity'], color='#CAD8DE',
+    p.line(algo.data.index, algo.data['base_equity'], color='#CAD8DE',
            legend='Buy and Hold')
-    p.line(algo.data['date'], algo.data['equity'],
+    p.line(algo.data.index, algo.data['equity'],
            color='#49516F',
            legend='Strategy')
     p.legend.location = "top_left"
@@ -97,7 +97,7 @@ def analyze_mpl(algo, title=None, show_trades=False):
     :return:
     """
     # TODO Replace to Gemini class
-    algo.data = algo.data.set_index('date', drop=False)
+    #algo.data = algo.data.set_index('date', drop=False)
 
     shares = algo.account.initial_capital / algo.data.iloc[0]['close']
     algo.data['base_equity'] = [price * shares for price in algo.data['close']]
@@ -106,10 +106,10 @@ def analyze_mpl(algo, title=None, show_trades=False):
     fig = plt.figure(figsize=(15, 10), facecolor='white')
 
     ax1 = fig.add_subplot(211)
-    ax1.plot_date(algo.data['date'].values, algo.data['base_equity'], '-')
+    ax1.plot_date(algo.data.index, algo.data['base_equity'], '-')
     ax1.set_ylabel('Equity')
 
-    ax1.plot_date(algo.data['date'].values, algo.data['equity'], '-')
+    ax1.plot_date(algo.data.index, algo.data['equity'], '-')
 
     ax2 = fig.add_subplot(212)
     ax2.set_ylabel('Records')

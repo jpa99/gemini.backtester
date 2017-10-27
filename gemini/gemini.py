@@ -96,11 +96,11 @@ class Gemini:
         for index, tick in self.data.iterrows():
             # print(Index)
             # Update account variables
-            self.account.date = tick['date']
+            self.account.date = index
             # update total value in account
             # TODO Replace by pandas DataFrame
             self.account.equity.append(
-                (tick['date'], self.account.total_value(tick['close'])))
+                (index, self.account.total_value(tick['close'])))
 
             # Execute trading logic
             lookback_data = self.data.loc[:index]

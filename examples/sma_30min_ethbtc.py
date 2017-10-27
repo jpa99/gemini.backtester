@@ -23,19 +23,19 @@ def logic(algo, data):
     long = talib.SMA(data['close'].values, timeperiod=100)
 
     if short[-1] > long[-1] and short[-2] < long[-2]:
-        print(today['date'], 'BUY signal')
+        print(data.index[-1], 'BUY signal')
         entry_capital = algo.account.buying_power
         if entry_capital >= 0:
             algo.account.enter_position('Long', entry_capital, current_price)
 
     if short[-1] < long[-1] and short[-2] > long[-2]:
-        print(today['date'], 'SELL signal')
+        print(data.index[-1], 'SELL signal')
         for position in algo.account.positions:
             if position.type_ == 'Long':
                 algo.account.close_position(position, 1, current_price)
 
     algo.records.append({
-        'date': today['date'],
+        'date': data.index[-1],
         'price': current_price,
         'sma20': short[-1],
         'sma100': long[-1],

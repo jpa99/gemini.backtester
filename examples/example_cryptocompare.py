@@ -17,15 +17,15 @@ def logic(algo, data):
 
     today = data.iloc[-1]  # Current candle
     yesterday = data.iloc[-2]  # Previous candle
-    print(
-        'Look back from {} to {}'.format(yesterday['date'], today['date']))
+    #print(
+        #'Look back from {} to {}'.format(data.index[-2], data.index[-1]))
 
     if today['close'] < yesterday['close']:
         exit_price = today['close']
         for position in algo.account.positions:
             if position.type_ == 'Long':
                 print("{} Sell {}BTC @ ${} = ${} balance".format(
-                    today['date'], position.shares,
+                    data.index[-1], position.shares,
                     exit_price,
                     position.shares * exit_price))
                 algo.account.close_position(position, 1, exit_price)
@@ -36,7 +36,7 @@ def logic(algo, data):
         if entry_capital > 0:
             algo.account.enter_position('Long', entry_capital, entry_price)
             print("{} Buy ${} of BTC @ ${} = {}BTC balance".format(
-                today['date'], entry_capital,
+                data.index[-1], entry_capital,
                 entry_price,
                 entry_capital / entry_price))
 

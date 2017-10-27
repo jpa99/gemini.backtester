@@ -17,7 +17,7 @@ def logic(algo, data):
 
     today = data.iloc[-1]  # Current candle
     yesterday = data.iloc[-2]  # Previous candle
-    print('from {} to {}'.format(yesterday['date'], today['date']))
+    #print('from {} to {}'.format(data.index[-2], data.index[-1]))
 
     # print(Today)
     if today['close'] < yesterday['close']:
