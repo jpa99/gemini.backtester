@@ -49,7 +49,7 @@ def load_dataframe(pair, days_history=30, exchange='Bitfinex', timeframe=None):
     data = get_past(pair, days_history, exchange)
     df = pd.DataFrame(data)
     df['date'] = pd.to_datetime(df['time'], unit='s')
-    df['volume'] = df['volumefrom']  # TODO:
+    df['volume'] = df['volumefrom']  # TODO mb improve
     if timeframe is None:
         df = df.set_index(['date'])
     else:
