@@ -4,6 +4,8 @@ import types
 import gemini.settings as settings
 from gemini import exchange
 from gemini.helpers import helpers
+from gemini.helpers.timeframe_resampler import resample
+
 
 FEES = getattr(settings, "FEES", dict())
 
@@ -18,7 +20,7 @@ class Gemini:
     account = None  # exchange account simulator
     sim_params = {
         'capital_base': 10e5,
-        'data_frequency': 'd',  # TODO Make to use it with pd.resample
+        'data_frequency': 'D',
         'fee': FEES,  # Fees in percent of trade amount
     }
     records = []
@@ -79,7 +81,7 @@ class Gemini:
         :param lookback_period:
         :return:
         """
-        self.data = data
+
         self.account = exchange.Account(
             self.sim_params.get('capital_base', 10e5),
             fee=self.sim_params.get('fee', None)
@@ -91,7 +93,8 @@ class Gemini:
         # Start cycle
 
         # TODO Add filter between start & end session from sim_params
-        # TODO Resample data for data_frequency from sim_params
+        # resample data frame to 'D' by default
+        self.data = resample(data, self.sim_params.get('data_frequency', 'D'))
 
         for index, tick in self.data.iterrows():
             # print(Index)

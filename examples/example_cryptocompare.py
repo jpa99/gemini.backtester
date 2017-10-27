@@ -33,7 +33,7 @@ def logic(algo, data):
     if today['close'] > yesterday['close']:
         entry_price = today['close'] + (today['close'] * fees_spread)
         entry_capital = algo.account.buying_power
-        if entry_capital > 0:
+        if entry_capital > 0.00001:
             algo.account.enter_position('Long', entry_capital, entry_price)
             print("{} Buy ${} of BTC @ ${} = {}BTC balance".format(
                 data.index[-1], entry_capital,
@@ -42,7 +42,7 @@ def logic(algo, data):
 
 
 pair = ['BTC', 'USD']  # Use ETH pricing data on the BTC market
-days_history = 100  # From there collect X days of data
+days_history = 900  # From there collect X days of data
 fees_spread = 0.0025 + 0.001  # Fees 0.25% + Bid/ask spread to account for http://data.bitcoinity.org/markets/spread/6m/USD?c=e&f=m20&st=log&t=l using Kraken 0.1% as worse case
 exchange = 'Bitstamp'
 
@@ -52,6 +52,7 @@ df = cc.load_dataframe(pair, days_history, exchange)
 # Algorithm settings
 sim_params = {
     'capital_base': 10000,
+    'data_frequency': 'W',
 }
 r = Gemini(logic=logic, sim_params=sim_params, analyze=analyze_bokeh)
 

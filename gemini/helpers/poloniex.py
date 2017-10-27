@@ -52,6 +52,5 @@ def load_dataframe(pair, period, days_history=30, timeframe=None):
     df = df.set_index(['date'])
     if 'error' in data:
         raise Exception("Error on getting data: {}".format(data['error']))
-    if timeframe is not None:
-        df = resample(df, timeframe)
+
     return df
