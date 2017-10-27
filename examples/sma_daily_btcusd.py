@@ -2,7 +2,7 @@ import talib
 
 from gemini.gemini import Gemini
 from gemini.helpers import cryptocompare as cc
-from gemini.helpers.analyze import analyze_mpl, analyze_bokeh
+from gemini.helpers.analyze import analyze_bokeh
 
 
 def logic(algo, data):
@@ -23,19 +23,19 @@ def logic(algo, data):
     long = talib.SMA(data['close'].values, timeperiod=30)
 
     if short[-1] > long[-1] and short[-2] < long[-2]:
-        print(data.index[-1], 'BUY signal', len(data))
+        print(algo.account.date, 'BUY signal', len(data))
         entry_capital = algo.account.buying_power
         if entry_capital >= 0:
             algo.account.enter_position('Long', entry_capital, current_price)
 
     if short[-1] < long[-1] and short[-2] > long[-2]:
-        print(data.index[-1], 'SELL signal', len(data))
+        print(algo.account.date, 'SELL signal', len(data))
         for position in algo.account.positions:
             if position.type_ == 'Long':
                 algo.account.close_position(position, 1, current_price)
 
     algo.records.append({
-        'date': data.index[-1],
+        'date': algo.account.date,
         'price': current_price,
         'sma20': short[-1],
         'sma100': long[-1],
@@ -44,7 +44,6 @@ def logic(algo, data):
 
 pair = ['BTC', 'USD']  # Use ETH pricing data on the BTC market
 days_history = 300  # From there collect X days of data
-fees_spread = 0.0025 + 0.001  # Fees 0.25% + Bid/ask spread to account for http://data.bitcoinity.org/markets/spread/6m/USD?c=e&f=m20&st=log&t=l using Kraken 0.1% as worse case
 exchange = 'Bitstamp'
 
 # Request data from cryptocompare.com
@@ -52,7 +51,11 @@ df = cc.load_dataframe(pair, days_history, exchange)
 
 # Algorithm settings
 sim_params = {
-    'capital_base': 10000
+    'capital_base': 10000,
+    'fee': {
+        'Long': 0.0025 + 0.001,  # fee + spread
+        'Short': 0.0025 + 0.001,
+    }
 }
 gemini = Gemini(logic=logic, sim_params=sim_params, analyze=analyze_bokeh)
 

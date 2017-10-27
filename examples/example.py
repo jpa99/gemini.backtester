@@ -48,7 +48,8 @@ sim_params = {
     'fee': {
         'Long': 0.0025,
         'Short': 0.0025,
-    }
+    },
+    'data_frequency': '30T'
 }
 gemini = Gemini(logic=logic, sim_params=sim_params, analyze=analyze_mpl)
 

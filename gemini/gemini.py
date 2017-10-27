@@ -6,7 +6,6 @@ from gemini import exchange
 from gemini.helpers import helpers
 from gemini.helpers.timeframe_resampler import resample
 
-
 FEES = getattr(settings, "FEES", dict())
 
 logger = logging.getLogger(__name__)
@@ -53,7 +52,10 @@ class Gemini:
             self.analyze = types.MethodType(analyze, self)
 
         if sim_params is not None:
-            self.sim_params = sim_params
+            # replace only received items
+            for k, item in self.sim_params.items():
+                if k in sim_params:
+                    self.sim_params[k] = sim_params[k]
 
     def initialize(self):
         """
@@ -90,14 +92,13 @@ class Gemini:
 
         self.initialize()
 
-        # Start cycle
-
         # TODO Add filter between start & end session from sim_params
+
         # resample data frame to 'D' by default
         self.data = resample(data, self.sim_params.get('data_frequency', 'D'))
 
+        # start cycle
         for index, tick in self.data.iterrows():
-            # print(Index)
             # Update account variables
             self.account.date = index
             # update total value in account
@@ -123,7 +124,8 @@ class Gemini:
         Print results of backtest to console
         :return:
         """
-        title = "{0} results {0}".format("=" * 25)
+        title = "{0} results (freq {1}) {0}".format(
+            "=" * 25, self.sim_params['data_frequency'])
         print(title + "\n")
         begin_price = self.data.iloc[0]['open']
         final_price = self.data.iloc[-1]['close']
