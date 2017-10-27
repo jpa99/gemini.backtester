@@ -47,13 +47,14 @@ def load_dataframe(pair, period, days_history=30, timeframe=None):
     :return:
     """
     data = get_past(pair, period, days_history)
+    df = pd.DataFrame(data)
+    df['date'] = pd.to_datetime(df['date'], unit='s')
     if 'error' in data:
         raise Exception("Error on getting data: {}".format(data['error']))
     if timeframe is None:
         # Convert to Pandas dataframe with datetime format
-        df = pd.DataFrame(data)
-        df['date'] = pd.to_datetime(df['date'], unit='s')
-        df = df.set_index(['date'], drop=False)
+        df = df.set_index(['date'])
     else:
-        df = resample(data, timeframe)
+        df = df.set_index(['date'])
+        df = resample(df, timeframe)
     return df

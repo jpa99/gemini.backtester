@@ -45,14 +45,14 @@ def load_dataframe(pair, days_history=30, exchange='Bitfinex', timeframe=None):
     :param timeframe: M - month, W - week
     :return:
     """
-    data = get_past(pair, days_history, exchange)
-    # print(data)
     # Convert to Pandas dataframe with datetime format
+    data = get_past(pair, days_history, exchange)
+    df = pd.DataFrame(data)
+    df['date'] = pd.to_datetime(df['time'], unit='s')
+    df['volume'] = df['volumefrom']  # TODO:
     if timeframe is None:
-        df = pd.DataFrame(data)
-        df['date'] = pd.to_datetime(df['time'], unit='s')
-        df = df.set_index(['date'], drop=False)
+        df = df.set_index(['date'])
     else:
-        df = resample(data, timeframe, date='time')
-
+        df = df.set_index(['date'])
+        df = resample(df, timeframe)
     return df
