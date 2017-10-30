@@ -5,6 +5,7 @@ import gemini.settings as settings
 from gemini import exchange
 from gemini.helpers import helpers
 from gemini.helpers.timeframe_resampler import resample
+from empyrical import aggregate_returns, max_drawdown, alpha_beta
 
 FEES = getattr(settings, "FEES", dict())
 
@@ -130,10 +131,15 @@ class Gemini:
         begin_price = self.data.iloc[0]['open']
         final_price = self.data.iloc[-1]['close']
 
+        shares = self.account.initial_capital / self.data.iloc[0]['close']
+        self.data['base_equity'] = [price * shares for price in self.data['close']]
+        self.data['equity'] = [e for dt, e in self.account.equity]
+
         percentchange = helpers.percent_change(begin_price, final_price)
         print("Buy and Hold : {0:.2f}%".format(percentchange * 100))
         print("Net profit   : {0:.2f}".format(
             helpers.profit(self.account.initial_capital, percentchange)))
+        print("Buy and Hold MDD : {0:.2f}%".format(max_drawdown(self.data['base_equity'])))
 
         percentchange = helpers.percent_change(self.account.initial_capital,
                                                self.account.total_value(
@@ -141,6 +147,7 @@ class Gemini:
         print("Strategy     : {0:.2f}%".format(percentchange * 100))
         print("Net profit   : {0:.2f}".format(
             helpers.profit(self.account.initial_capital, percentchange)))
+        print("Strategy MDD : {0:.2f}%".format(max_drawdown(self.data['equity'])))
 
         longs = len(
             [t for t in self.account.opened_trades if t.type_ == 'Long'])

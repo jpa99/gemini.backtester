@@ -20,11 +20,6 @@ def analyze_bokeh(algo, title=None, show_trades=False):
     :return:
     """
     # TODO Replace to Gemini class
-    #algo.data = algo.data.set_index('date', drop=False)
-
-    shares = algo.account.initial_capital / algo.data.iloc[0]['close']
-    algo.data['base_equity'] = [price * shares for price in algo.data['close']]
-    algo.data['equity'] = [e for dt, e in algo.account.equity]
 
     bokeh.plotting.output_file("chart.html", title=title)
     p = bokeh.plotting.figure(x_axis_type="datetime", plot_width=1000,
@@ -97,11 +92,6 @@ def analyze_mpl(algo, title=None, show_trades=False):
     :return:
     """
     # TODO Replace to Gemini class
-    #algo.data = algo.data.set_index('date', drop=False)
-
-    shares = algo.account.initial_capital / algo.data.iloc[0]['close']
-    algo.data['base_equity'] = [price * shares for price in algo.data['close']]
-    algo.data['equity'] = [e for dt, e in algo.account.equity]
 
     fig = plt.figure(figsize=(15, 10), facecolor='white')
 
