@@ -37,7 +37,7 @@ def get_past(pair, period, days_history=30):
     return response.json()
 
 
-def load_dataframe(pair, period, days_history=30, timeframe=None):
+def load_dataframe(pair, period, days_history=30):
     """
     Return historical charts data from poloniex.com
     :param pair:

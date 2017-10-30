@@ -36,7 +36,7 @@ def get_past(pair, days_history, exchange):
     return results
 
 
-def load_dataframe(pair, days_history=30, exchange='Bitfinex', timeframe=None):
+def load_dataframe(pair, days_history=30, exchange='Bitfinex'):
     """
     Return historical charts data from cryptocompare.com
     :param pair:
