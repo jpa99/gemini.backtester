@@ -139,7 +139,8 @@ class Gemini:
         print("Buy and Hold : {0:.2f}%".format(percentchange * 100))
         print("Net profit   : {0:.2f}".format(
             helpers.profit(self.account.initial_capital, percentchange)))
-        print("Buy and Hold MDD : {0:.2f}%".format(max_drawdown(self.data['base_equity'])))
+        print("Buy and Hold MDD : {0:.2f}%".format(
+            max_drawdown(self.data['base_equity'].pct_change()) * 100))
 
         percentchange = helpers.percent_change(self.account.initial_capital,
                                                self.account.total_value(
@@ -147,7 +148,8 @@ class Gemini:
         print("Strategy     : {0:.2f}%".format(percentchange * 100))
         print("Net profit   : {0:.2f}".format(
             helpers.profit(self.account.initial_capital, percentchange)))
-        print("Strategy MDD : {0:.2f}%".format(max_drawdown(self.data['equity'])))
+        print(
+            "Strategy MDD : {0:.2f}%".format(max_drawdown(self.data['equity'].pct_change()) * 100))
 
         longs = len(
             [t for t in self.account.opened_trades if t.type_ == 'Long'])
