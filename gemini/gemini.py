@@ -133,7 +133,7 @@ class Gemini:
 
         shares = self.account.initial_capital / self.data.iloc[0]['close']
         self.data['base_equity'] = [price * shares for price in self.data['close']]
-        self.data['equity'] = [e for dt, e in self.account.equity]
+        self.data['equity'] = [e for _, e in self.account.equity]
 
         percentchange = helpers.percent_change(begin_price, final_price)
         print("Buy and Hold : {0:.2f}%".format(percentchange * 100))
