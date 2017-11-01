@@ -8,7 +8,7 @@
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <br>
-<p align="center"><img src="https://github.com/Crypto-AI/Geminiavailableter/media/schematic.gif" width="550px"><p>
+<p align="center"><img src="https://github.com/friendly-pig/gemini.backtester/blob/master/media/schematic.gif" width="550px"><p>
 
 
 ## Examples
