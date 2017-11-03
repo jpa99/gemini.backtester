@@ -156,13 +156,14 @@ class Account:
         else:
             # apply fee to price
             entry_price_clean = self.apply_fee(entry_price, type_, 'Open')
-            trade_fee = entry_price_clean - entry_price
+            #trade_fee = entry_price_clean - entry_price # FIXME delete
 
             # set round to precision
             round_prec = 10 ** PRECISION
 
             # round shares
             shares = int(entry_capital / entry_price_clean * round_prec) / round_prec
+            trade_fee = (entry_price_clean - entry_price) * shares
             # calc buying power
             self.buying_power -= shares * entry_price_clean
 
@@ -204,7 +205,7 @@ class Account:
             # apply fee to price
             # TODO подсчет комсы сделать для close! position.shares * price * FEE['']
             exit_price = self.apply_fee(price, position.type_, 'Close')
-            trade_fee = (price - exit_price)
+            trade_fee = (price - exit_price) * position.shares
 
             self.closed_trades.append(
                 ClosedTrade(position.type_, self.date,
