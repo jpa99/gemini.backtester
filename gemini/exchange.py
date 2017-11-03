@@ -68,9 +68,10 @@ class LongPosition(Position):
     Long position class
     """
 
-    def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, trade_fee, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Long'
+        self.trade_fee = trade_fee
 
     def close(self, percent, current_price):
         """
@@ -90,9 +91,10 @@ class ShortPosition(Position):
     Short position class
     """
 
-    def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, trade_fee, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Short'
+        self.trade_fee = trade_fee
 
     def close(self, percent, current_price):
         """
@@ -128,6 +130,7 @@ class Account:
         self.positions = []
         self.opened_trades = []
         self.closed_trades = []
+        self.all_fees = []
         if isinstance(fee, dict):
             self.fee = fee
 
@@ -152,27 +155,30 @@ class Account:
             raise ValueError("Error: Not enough buying power to enter position")
         else:
             # apply fee to price
-            entry_price = self.apply_fee(entry_price, type_, 'Open')
+            entry_price_clean = self.apply_fee(entry_price, type_, 'Open')
+            trade_fee = entry_price_clean - entry_price
 
             # set round to precision
             round_prec = 10 ** PRECISION
 
             # round shares
-            shares = int(entry_capital / entry_price * round_prec) / round_prec
+            shares = int(entry_capital / entry_price_clean * round_prec) / round_prec
             # calc buying power
-            self.buying_power -= shares * entry_price
+            self.buying_power -= shares * entry_price_clean
 
             if type_ == 'Long':
                 position = LongPosition(
-                    self.number, entry_price, shares, exit_price, stop_loss)
+                    self.number, entry_price_clean, shares, trade_fee, exit_price, stop_loss)
+
             elif type_ == 'Short':
                 position = ShortPosition(
-                    self.number, entry_price, shares, exit_price, stop_loss)
+                    self.number, entry_price_clean, shares, trade_fee, exit_price, stop_loss)
             else:
                 raise TypeError("Error: Invalid position type.")
 
             self.positions.append(position)
             self.opened_trades.append(OpenedTrade(type_, self.date))
+            self.all_fees.append(position.trade_fee)
             self.number += 1
 
     def close_position(self, position, percent, price):
@@ -191,18 +197,21 @@ class Account:
 
         if percent > 1 or percent < 0:
             raise ValueError(
-                "Error: Percent must range between 0-1.")  # FIXME: why just between 0-1?
-        elif price < 0:  # because 0.25 = 25% ?
+                "Error: Percent must range between 0-1.")
+        elif price < 0:
             raise ValueError("Error: Current price cannot be negative.")
         else:
             # apply fee to price
-            price = self.apply_fee(price, position.type_, 'Close')
+            # TODO подсчет комсы сделать для close! position.shares * price * FEE['']
+            exit_price = self.apply_fee(price, position.type_, 'Close')
+            trade_fee = (price - exit_price)
 
             self.closed_trades.append(
                 ClosedTrade(position.type_, self.date,
                             position.shares * percent,
-                            position.entry_price, price))
-            self.buying_power += position.close(percent, price)
+                            position.entry_price, exit_price))
+            self.buying_power += position.close(percent, exit_price)
+            self.all_fees.append(trade_fee)
 
     def apply_fee(self, price, type_, direction):
         """

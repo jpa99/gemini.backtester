@@ -125,7 +125,7 @@ class Gemini:
         Print results of backtest to console
         :return:
         """
-        title = "{0} results (freq {1}) {0}".format(
+        title = "{0} Results (freq {1}) {0}".format(
             "=" * 25, self.sim_params['data_frequency'])
         print(title + "\n")
         begin_price = self.data.iloc[0]['open']
@@ -135,21 +135,23 @@ class Gemini:
         self.data['base_equity'] = [price * shares for price in self.data['close']]
         self.data['equity'] = [e for _, e in self.account.equity]
 
-        percentchange = helpers.percent_change(begin_price, final_price)
-        print("Buy and Hold : {0:.2f}%".format(percentchange * 100))
+        percent_change = helpers.percent_change(begin_price, final_price)
+        print("---------- Buy and Hold ----------")
+        print("Profit       : {0:.2f}%".format(percent_change * 100))
         print("Net profit   : {0:.2f}".format(
-            helpers.profit(self.account.initial_capital, percentchange)))
-        print("B & H MDD    : {0:.2f}%".format(
+            helpers.profit(self.account.initial_capital, percent_change)))
+        print("MDD          : {0:.2f}%".format(
             max_drawdown(self.data['base_equity'].pct_change()) * 100))
 
-        percentchange = helpers.percent_change(self.account.initial_capital,
+        percent_change = helpers.percent_change(self.account.initial_capital,
                                                self.account.total_value(
                                                    final_price))
-        print("Strategy     : {0:.2f}%".format(percentchange * 100))
+        print("------------ Strategy ------------")
+        print("Profit       : {0:.2f}%".format(percent_change * 100))
         print("Net profit   : {0:.2f}".format(
-            helpers.profit(self.account.initial_capital, percentchange)))
-        print(
-            "Strategy MDD : {0:.2f}%".format(max_drawdown(self.data['equity'].pct_change()) * 100))
+            helpers.profit(self.account.initial_capital, percent_change)))
+        print("MDD          : {0:.2f}%".format(max_drawdown(self.data['equity'].pct_change()) * 100))
+        print('Fees paid    : {0:.5f}'.format(sum(self.account.all_fees)))
 
         longs = len(
             [t for t in self.account.opened_trades if t.type_ == 'Long'])
@@ -159,12 +161,12 @@ class Gemini:
             [t for t in self.account.opened_trades if t.type_ == 'Short'])
         covers = len(
             [t for t in self.account.closed_trades if t.type_ == 'Short'])
-
+        print("----------- Statistics -----------")
         print("Longs        : {0}".format(longs))
         print("Sells        : {0}".format(sells))
         print("Shorts       : {0}".format(shorts))
         print("Covers       : {0}".format(covers))
-        print("--------------------")
+        print("----------------------------------")
         print("Total Trades : {0}\n".format(longs + sells + shorts + covers))
         print("-" * len(title))
 
