@@ -1,4 +1,5 @@
 import gemini.settings as settings
+from gemini.helpers.helpers import rndr
 
 PRECISION = getattr(settings, "PRECISION", 8)
 FEES = getattr(settings, "FEES", dict())
@@ -9,9 +10,11 @@ class OpenedTrade:
     Open trades main class
     """
 
-    def __init__(self, type_, date):
+    def __init__(self, type_, date, fee=None, price=None):
         self.type_ = type_
         self.date = date
+        self.fee = fee
+        self.price = price
 
     def __str__(self):
         return "{0}\n{1}".format(self.type_, self.date)
@@ -22,11 +25,12 @@ class ClosedTrade(OpenedTrade):
     Closed trade class
     """
 
-    def __init__(self, type_, date, shares, entry, exit):
+    def __init__(self, type_, date, shares, entry, exit, fee):
         super().__init__(type_, date)
         self.shares = float(shares)
-        self.entry = float(entry)
-        self.exit = float(exit)
+        self.entry = float(entry)  # enter price
+        self.exit = float(exit)  # exit price
+        self.fee = fee  # deal fee
 
     def __str__(self):
         return "{0}\n{1}\n{2}\n{3}\n{4}".format(self.type_, self.date,
@@ -68,10 +72,10 @@ class LongPosition(Position):
     Long position class
     """
 
-    def __init__(self, number, entry_price, shares, trade_fee, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, fee, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Long'
-        self.trade_fee = trade_fee
+        self.fee = fee
 
     def close(self, percent, current_price):
         """
@@ -91,10 +95,10 @@ class ShortPosition(Position):
     Short position class
     """
 
-    def __init__(self, number, entry_price, shares, trade_fee, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, fee, exit_price=0, stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Short'
-        self.trade_fee = trade_fee
+        self.fee = fee
 
     def close(self, percent, current_price):
         """
@@ -130,7 +134,6 @@ class Account:
         self.positions = []
         self.opened_trades = []
         self.closed_trades = []
-        self.all_fees = []
         if isinstance(fee, dict):
             self.fee = fee
 
@@ -146,7 +149,6 @@ class Account:
         :return:
         """
 
-        entry_capital = entry_capital
         if entry_capital < 0:
             raise ValueError("Error: Entry capital must be positive")
         elif entry_price < 0:
@@ -155,31 +157,29 @@ class Account:
             raise ValueError("Error: Not enough buying power to enter position")
         else:
             # apply fee to price
-            entry_price_clean = self.apply_fee(entry_price, type_, 'Open')
+            entry_price_with_fee = self.apply_fee(entry_price, type_, 'Open')
 
-            # set round to precision
-            round_prec = 10 ** PRECISION
+            # round shares and calculate position capital
+            shares = rndr(entry_capital / entry_price_with_fee)
+            position_capital = rndr(entry_price * shares)
 
-            # round shares
-            shares = int(entry_capital / entry_price_clean * round_prec) / round_prec
             # calculate trading fee for position
-            trade_fee = (entry_price_clean - entry_price) * shares
+            total_fee = rndr(position_capital * self.fee[type_])
             # calc buying power
-            self.buying_power -= shares * entry_price_clean
+            self.buying_power -= shares * entry_price_with_fee
 
             if type_ == 'Long':
                 position = LongPosition(
-                    self.number, entry_price_clean, shares, trade_fee, exit_price, stop_loss)
+                    self.number, entry_price_with_fee, shares, total_fee, exit_price, stop_loss)
 
             elif type_ == 'Short':
                 position = ShortPosition(
-                    self.number, entry_price_clean, shares, trade_fee, exit_price, stop_loss)
+                    self.number, entry_price_with_fee, shares, total_fee, exit_price, stop_loss)
             else:
                 raise TypeError("Error: Invalid position type.")
 
             self.positions.append(position)
-            self.opened_trades.append(OpenedTrade(type_, self.date))
-            self.all_fees.append(position.trade_fee)
+            self.opened_trades.append(OpenedTrade(type_, self.date, total_fee, entry_price))
             self.number += 1
 
     def close_position(self, position, percent, price):
@@ -203,16 +203,14 @@ class Account:
             raise ValueError("Error: Current price cannot be negative.")
         else:
             # apply fee to price
-            # TODO подсчет комсы сделать для close! position.shares * price * FEE['']
-            exit_price = self.apply_fee(price, position.type_, 'Close')
-            trade_fee = (price - exit_price) * position.shares
+            price_with_fee = self.apply_fee(price, position.type_, 'Close')
+            total_fee = rndr(price * position.shares * self.fee[position.type_])
 
             self.closed_trades.append(
                 ClosedTrade(position.type_, self.date,
                             position.shares * percent,
-                            position.entry_price, exit_price))
-            self.buying_power += position.close(percent, exit_price)
-            self.all_fees.append(trade_fee)
+                            position.entry_price, price, total_fee))
+            self.buying_power += position.close(percent, price_with_fee)
 
     def apply_fee(self, price, type_, direction):
         """
@@ -233,9 +231,6 @@ class Account:
         """
         sign = 1 if direction == 'Open' else -1
 
-        # set round to precision
-        round_prec = 10 ** PRECISION
-
         # change price with fee
         fee = self.fee.get(type_, 0)
         if type_ == 'Long':
@@ -244,7 +239,7 @@ class Account:
             price *= 1 - sign * fee
 
         # round price
-        return int(price * round_prec) / round_prec
+        return rndr(price)
 
     def purge_positions(self):
         """

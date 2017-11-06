@@ -151,7 +151,10 @@ class Gemini:
         print("Net profit   : {0:.2f}".format(
             helpers.profit(self.account.initial_capital, percent_change)))
         print("MDD          : {0:.2f}%".format(max_drawdown(self.data['equity'].pct_change()) * 100))
-        print('Fees paid    : {0:.5f}'.format(sum(self.account.all_fees)))
+
+        open_fee = sum([t.fee for t in self.account.opened_trades])
+        close_fee = sum([t.fee for t in self.account.closed_trades])
+        print('Fees paid    : {0:.5f}'.format(open_fee + close_fee))
 
         longs = len(
             [t for t in self.account.opened_trades if t.type_ == 'Long'])
