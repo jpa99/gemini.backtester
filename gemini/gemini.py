@@ -1,11 +1,12 @@
 import logging
 import types
 
+from empyrical import max_drawdown
+
 import gemini.settings as settings
 from gemini import exchange
 from gemini.helpers import helpers
 from gemini.helpers.timeframe_resampler import resample
-from empyrical import aggregate_returns, max_drawdown, alpha_beta
 
 FEES = getattr(settings, "FEES", dict())
 
@@ -125,32 +126,64 @@ class Gemini:
         Print results of backtest to console
         :return:
         """
-        title = "{0} results (freq {1}) {0}".format(
-            "=" * 25, self.sim_params['data_frequency'])
+        title = "{:=^50}".format(
+            " Results (freq {}) ".format(self.sim_params['data_frequency']))
         print(title + "\n")
         begin_price = self.data.iloc[0]['open']
         final_price = self.data.iloc[-1]['close']
 
         shares = self.account.initial_capital / self.data.iloc[0]['close']
-        self.data['base_equity'] = [price * shares for price in self.data['close']]
+        self.data['base_equity'] = [price * shares for price in
+                                    self.data['close']]
         self.data['equity'] = [e for _, e in self.account.equity]
 
-        percentchange = helpers.percent_change(begin_price, final_price)
-        print("Buy and Hold : {0:.2f}%".format(percentchange * 100))
-        print("Net profit   : {0:.2f}".format(
-            helpers.profit(self.account.initial_capital, percentchange)))
-        print("B & H MDD    : {0:.2f}%".format(
-            max_drawdown(self.data['base_equity'].pct_change()) * 100))
+        # STRING FORMATS
+        title_fmt = "{:-^40}"
+        str_fmt = "{0:<13}: {1:.2f}{2}"
 
-        percentchange = helpers.percent_change(self.account.initial_capital,
-                                               self.account.total_value(
-                                                   final_price))
-        print("Strategy     : {0:.2f}%".format(percentchange * 100))
-        print("Net profit   : {0:.2f}".format(
-            helpers.profit(self.account.initial_capital, percentchange)))
-        print(
-            "Strategy MDD : {0:.2f}%".format(max_drawdown(self.data['equity'].pct_change()) * 100))
+        # BENCHMARK
+        percent_change = helpers.percent_change(self.data['base_equity'][0],
+                                                self.data['base_equity'][-1])
 
+        bench = [
+            ("Capital", self.account.initial_capital, ""),
+            ("Final Equity", self.data['base_equity'][-1], ""),
+            ("Net profit",
+             helpers.profit(self.account.initial_capital, percent_change),
+             " ({:+.2f}%)".format(percent_change * 100)),
+            ("Max Drawdown",
+             max_drawdown(self.data['base_equity'].pct_change()) * 100, "%"),
+        ]
+
+        print(title_fmt.format(" Benchmark "))
+        for r in bench:
+            print(str_fmt.format(*r))
+
+        # STRATEGY
+        percent_change = helpers.percent_change(self.data['equity'][0],
+                                                self.data['equity'][-1])
+        open_fee = sum([t.fee for t in self.account.opened_trades])
+        close_fee = sum([t.fee for t in self.account.closed_trades])
+
+        # print trades
+        # for t in self.account.opened_trades: print(t)
+
+        strategy = [
+            ("Capital", self.account.initial_capital, ""),
+            ("Final Equity", self.data['equity'][-1], ""),
+            ("Net profit",
+             helpers.profit(self.account.initial_capital, percent_change),
+             " ({:+.2f}%)".format(percent_change * 100)),
+            ("Max Drawdown",
+             max_drawdown(self.data['equity'].pct_change()) * 100, "%"),
+            ("Fees paid", open_fee + close_fee, ""),
+        ]
+
+        print(title_fmt.format(" Strategy "))
+        for r in strategy:
+            print(str_fmt.format(*r))
+
+        # STATISTICS
         longs = len(
             [t for t in self.account.opened_trades if t.type_ == 'Long'])
         sells = len(
@@ -160,12 +193,19 @@ class Gemini:
         covers = len(
             [t for t in self.account.closed_trades if t.type_ == 'Short'])
 
-        print("Longs        : {0}".format(longs))
-        print("Sells        : {0}".format(sells))
-        print("Shorts       : {0}".format(shorts))
-        print("Covers       : {0}".format(covers))
-        print("--------------------")
-        print("Total Trades : {0}\n".format(longs + sells + shorts + covers))
+        stat = [
+            ("Longs", longs, ""),
+            ("Sells", sells, ""),
+            ("Shorts", shorts, ""),
+            ("Covers", covers, ""),
+            ("Total Trades", longs + sells + shorts + covers, ""),
+        ]
+        str_fmt = "{0:<13}: {1:.0f}{2}"
+
+        print(title_fmt.format(" Statistics "))
+        for r in stat:
+            print(str_fmt.format(*r))
+
         print("-" * len(title))
 
     def analyze(self):

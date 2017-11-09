@@ -1,4 +1,5 @@
 import gemini.settings as settings
+from gemini.helpers.helpers import rnd
 
 PRECISION = getattr(settings, "PRECISION", 8)
 FEES = getattr(settings, "FEES", dict())
@@ -9,12 +10,16 @@ class OpenedTrade:
     Open trades main class
     """
 
-    def __init__(self, type_, date):
+    def __init__(self, type_, date, price=None, size=None, fee=None):
         self.type_ = type_
         self.date = date
+        self.price = price
+        self.size = size
+        self.fee = fee
 
     def __str__(self):
-        return "{0}\n{1}".format(self.type_, self.date)
+        return "OpenedTrade: {0} {1} {2:.8f} x {3:.8f} Fee: {4:.8f}".format(
+            self.date, self.type_, self.price, self.size, self.fee)
 
 
 class ClosedTrade(OpenedTrade):
@@ -22,11 +27,12 @@ class ClosedTrade(OpenedTrade):
     Closed trade class
     """
 
-    def __init__(self, type_, date, shares, entry, exit):
+    def __init__(self, type_, date, shares, entry, exit, fee):
         super().__init__(type_, date)
         self.shares = float(shares)
-        self.entry = float(entry)
-        self.exit = float(exit)
+        self.entry = float(entry)  # enter price
+        self.exit = float(exit)  # exit price
+        self.fee = fee  # deal fee
 
     def __str__(self):
         return "{0}\n{1}\n{2}\n{3}\n{4}".format(self.type_, self.date,
@@ -68,9 +74,11 @@ class LongPosition(Position):
     Long position class
     """
 
-    def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, fee, exit_price=0,
+                 stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Long'
+        self.fee = fee
 
     def close(self, percent, current_price):
         """
@@ -90,9 +98,11 @@ class ShortPosition(Position):
     Short position class
     """
 
-    def __init__(self, number, entry_price, shares, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, fee, exit_price=0,
+                 stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Short'
+        self.fee = fee
 
     def close(self, percent, current_price):
         """
@@ -143,7 +153,6 @@ class Account:
         :return:
         """
 
-        entry_capital = entry_capital
         if entry_capital < 0:
             raise ValueError("Error: Entry capital must be positive")
         elif entry_price < 0:
@@ -152,27 +161,33 @@ class Account:
             raise ValueError("Error: Not enough buying power to enter position")
         else:
             # apply fee to price
-            entry_price = self.apply_fee(entry_price, type_, 'Open')
+            price_with_fee = self.apply_fee(entry_price, type_, 'Open')
 
-            # set round to precision
-            round_prec = 10 ** PRECISION
+            # round shares and calculate position capital
+            size = rnd(entry_capital / price_with_fee)
+            pos_amount = rnd(entry_price * size)
 
-            # round shares
-            shares = int(entry_capital / entry_price * round_prec) / round_prec
+            # calculate trading fee for position
+            trade_fee = rnd(pos_amount * self.fee.get(type_, 0))
             # calc buying power
-            self.buying_power -= shares * entry_price
+            self.buying_power -= pos_amount + trade_fee
 
             if type_ == 'Long':
                 position = LongPosition(
-                    self.number, entry_price, shares, exit_price, stop_loss)
+                    self.number, entry_price, size, trade_fee, exit_price,
+                    stop_loss)
+
             elif type_ == 'Short':
                 position = ShortPosition(
-                    self.number, entry_price, shares, exit_price, stop_loss)
+                    self.number, entry_price, size, trade_fee, exit_price,
+                    stop_loss)
+
             else:
-                raise TypeError("Error: Invalid position type.")
+                raise TypeError("Invalid position type.")
 
             self.positions.append(position)
-            self.opened_trades.append(OpenedTrade(type_, self.date))
+            self.opened_trades.append(
+                OpenedTrade(type_, self.date, entry_price, size, trade_fee))
             self.number += 1
 
     def close_position(self, position, percent, price):
@@ -191,18 +206,20 @@ class Account:
 
         if percent > 1 or percent < 0:
             raise ValueError(
-                "Error: Percent must range between 0-1.")  # FIXME: why just between 0-1?
-        elif price < 0:  # because 0.25 = 25% ?
+                "Error: Percent must range between 0-1.")
+        elif price < 0:
             raise ValueError("Error: Current price cannot be negative.")
         else:
-            # apply fee to price
-            price = self.apply_fee(price, position.type_, 'Close')
+            # get trade fee
+            # FIXME Use type by direction: buy-Long, sell-Short
+            trade_fee = rnd(
+                price * position.shares * self.fee.get(position.type_, 0))
 
             self.closed_trades.append(
                 ClosedTrade(position.type_, self.date,
                             position.shares * percent,
-                            position.entry_price, price))
-            self.buying_power += position.close(percent, price)
+                            position.entry_price, price, trade_fee))
+            self.buying_power += position.close(percent, price) - trade_fee
 
     def apply_fee(self, price, type_, direction):
         """
@@ -223,9 +240,6 @@ class Account:
         """
         sign = 1 if direction == 'Open' else -1
 
-        # set round to precision
-        round_prec = 10 ** PRECISION
-
         # change price with fee
         fee = self.fee.get(type_, 0)
         if type_ == 'Long':
@@ -234,7 +248,7 @@ class Account:
             price *= 1 - sign * fee
 
         # round price
-        return int(price * round_prec) / round_prec
+        return rnd(price)
 
     def purge_positions(self):
         """
