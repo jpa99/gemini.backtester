@@ -170,11 +170,11 @@ class Account:
 
             if type_ == 'Long':
                 position = LongPosition(
-                    self.number, entry_price_with_fee, shares, total_fee, exit_price, stop_loss)
+                    self.number, entry_price, shares, total_fee, exit_price, stop_loss)
 
             elif type_ == 'Short':
                 position = ShortPosition(
-                    self.number, entry_price_with_fee, shares, total_fee, exit_price, stop_loss)
+                    self.number, entry_price, shares, total_fee, exit_price, stop_loss)
             else:
                 raise TypeError("Error: Invalid position type.")
 
