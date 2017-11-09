@@ -22,7 +22,7 @@ def profit(initial_capital, multiplier):
     return r
 
 
-def rndr(value, prec=8):
+def rnd(value, prec=8):
     """
     Return good float value
     :param value:

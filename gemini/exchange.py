@@ -1,5 +1,5 @@
 import gemini.settings as settings
-from gemini.helpers.helpers import rndr
+from gemini.helpers.helpers import rnd
 
 PRECISION = getattr(settings, "PRECISION", 8)
 FEES = getattr(settings, "FEES", dict())
@@ -10,14 +10,16 @@ class OpenedTrade:
     Open trades main class
     """
 
-    def __init__(self, type_, date, fee=None, price=None):
+    def __init__(self, type_, date, price=None, size=None, fee=None):
         self.type_ = type_
         self.date = date
-        self.fee = fee
         self.price = price
+        self.size = size
+        self.fee = fee
 
     def __str__(self):
-        return "{0}\n{1}".format(self.type_, self.date)
+        return "OpenedTrade: {0} {1} {2:.8f} x {3:.8f} Fee: {4:.8f}".format(
+            self.date, self.type_, self.price, self.size, self.fee)
 
 
 class ClosedTrade(OpenedTrade):
@@ -72,7 +74,8 @@ class LongPosition(Position):
     Long position class
     """
 
-    def __init__(self, number, entry_price, shares, fee, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, fee, exit_price=0,
+                 stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Long'
         self.fee = fee
@@ -95,7 +98,8 @@ class ShortPosition(Position):
     Short position class
     """
 
-    def __init__(self, number, entry_price, shares, fee, exit_price=0, stop_loss=0):
+    def __init__(self, number, entry_price, shares, fee, exit_price=0,
+                 stop_loss=0):
         super().__init__(number, entry_price, shares, exit_price, stop_loss)
         self.type_ = 'Short'
         self.fee = fee
@@ -157,29 +161,33 @@ class Account:
             raise ValueError("Error: Not enough buying power to enter position")
         else:
             # apply fee to price
-            entry_price_with_fee = self.apply_fee(entry_price, type_, 'Open')
+            price_with_fee = self.apply_fee(entry_price, type_, 'Open')
 
             # round shares and calculate position capital
-            shares = rndr(entry_capital / entry_price_with_fee)
-            position_capital = rndr(entry_price * shares)
+            size = rnd(entry_capital / price_with_fee)
+            pos_amount = rnd(entry_price * size)
 
             # calculate trading fee for position
-            total_fee = rndr(position_capital * self.fee[type_])
+            trade_fee = rnd(pos_amount * self.fee.get(type_, 0))
             # calc buying power
-            self.buying_power -= shares * entry_price_with_fee
+            self.buying_power -= pos_amount + trade_fee
 
             if type_ == 'Long':
                 position = LongPosition(
-                    self.number, entry_price, shares, total_fee, exit_price, stop_loss)
+                    self.number, entry_price, size, trade_fee, exit_price,
+                    stop_loss)
 
             elif type_ == 'Short':
                 position = ShortPosition(
-                    self.number, entry_price, shares, total_fee, exit_price, stop_loss)
+                    self.number, entry_price, size, trade_fee, exit_price,
+                    stop_loss)
+
             else:
-                raise TypeError("Error: Invalid position type.")
+                raise TypeError("Invalid position type.")
 
             self.positions.append(position)
-            self.opened_trades.append(OpenedTrade(type_, self.date, total_fee, entry_price))
+            self.opened_trades.append(
+                OpenedTrade(type_, self.date, entry_price, size, trade_fee))
             self.number += 1
 
     def close_position(self, position, percent, price):
@@ -202,15 +210,16 @@ class Account:
         elif price < 0:
             raise ValueError("Error: Current price cannot be negative.")
         else:
-            # apply fee to price
-            price_with_fee = self.apply_fee(price, position.type_, 'Close')
-            total_fee = rndr(price * position.shares * self.fee[position.type_])
+            # get trade fee
+            # FIXME Use type by direction: buy-Long, sell-Short
+            trade_fee = rnd(
+                price * position.shares * self.fee.get(position.type_, 0))
 
             self.closed_trades.append(
                 ClosedTrade(position.type_, self.date,
                             position.shares * percent,
-                            position.entry_price, price, total_fee))
-            self.buying_power += position.close(percent, price_with_fee)
+                            position.entry_price, price, trade_fee))
+            self.buying_power += position.close(percent, price) - trade_fee
 
     def apply_fee(self, price, type_, direction):
         """
@@ -239,7 +248,7 @@ class Account:
             price *= 1 - sign * fee
 
         # round price
-        return rndr(price)
+        return rnd(price)
 
     def purge_positions(self):
         """

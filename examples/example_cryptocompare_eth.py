@@ -37,7 +37,7 @@ days_history = 360  # From there collect X days of data
 exchange = 'Bitfinex'
 
 # Request data from cryptocompare.com
-df = cc.load_dataframe(pair, days_history, exchange, timeframe='W')
+df = cc.load_dataframe(pair, days_history, exchange)
 
 # Algorithm settings
 sim_params = {
