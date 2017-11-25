@@ -38,7 +38,7 @@ def logic(algo, data):
     """
     pass
 
-pair = "BTC_ETH"    # Use ETH pricing data on the BTC market
+pair = "ETH_BTC"    # Use ETH pricing data on the BTC market
 period = 1800       # Use 1800 second candles
 days_history = 200  # Collect 200 days data
 

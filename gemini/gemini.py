@@ -1,4 +1,5 @@
 import logging
+import time
 import types
 
 from empyrical import max_drawdown
@@ -25,8 +26,9 @@ class Gemini:
         'fee': FEES,  # Fees in percent of trade amount
     }
     records = []
+    performance = []
 
-    def __init__(self, initialize=None, logic=None, analyze=None,
+    def __init__(self, initialize=None, logic=None, analyze=None, results=None,
                  sim_params=None):
         """
         Create backtester with own methods.
@@ -52,6 +54,11 @@ class Gemini:
 
         if analyze is not None:
             self.analyze = types.MethodType(analyze, self)
+
+        if results is None:
+            self.results = self.results_default
+        elif results:
+            self.results = types.MethodType(results, self)
 
         if sim_params is not None:
             # replace only received items
@@ -118,10 +125,62 @@ class Gemini:
             # Cleanup empty positions
             self.account.purge_positions()
 
+        self.performance = self.prepare_performance()
         self.results()
         self.analyze(**kwargs)
 
+        return self.performance
+
+    def prepare_performance(self):
+        start = time.time()
+        perf = self.data.copy()
+
+        perf['price'] = perf['close']
+
+        shares = self.account.initial_capital / perf.iloc[0]['close']
+        perf['base_equity'] = [price * shares for price in perf['close']]
+        perf['equity'] = [e for _, e in self.account.equity]
+
+        # BENCHMARK
+        perf['benchmark_period_return'] = [
+            helpers.percent_change(perf['base_equity'][0],
+                                   perf['base_equity'][i])
+            for i in range(0, len(perf['base_equity']))]
+
+        perf['benchmark_max_drawdown'] = [
+            max_drawdown(perf['base_equity'][:i].pct_change())
+            for i in range(0, len(perf['base_equity']))]
+
+        # STRATEGY
+        perf['algorithm_period_return'] = [
+            helpers.percent_change(perf['equity'][0],
+                                   perf['equity'][i])
+            for i in range(0, len(perf['equity']))]
+
+        perf['returns'] = perf['equity'].pct_change()
+
+        perf['max_drawdown'] = [
+            max_drawdown(perf['equity'][:i].pct_change())
+            for i in range(0, len(perf['equity']))]
+
+        logger.debug(
+            'Performance prepared for {:.2} sec'.format(time.time() - start))
+
+        perf['ending_value'] = 0  # value of opened positions
+        perf['alpha'] = '0'
+        perf['beta'] = '0'
+        perf['sharpe'] = '0'
+
+        return perf
+
     def results(self):
+        """
+        Show results of strategy
+        :return:
+        """
+        pass
+
+    def results_default(self):
         """
         Print results of backtest to console
         :return:
