@@ -132,4 +132,6 @@ gemini.run(df, show_trades=True)
 You can find this, and some more examples on /examples/
 
 ## Contributing
-Please take a look at our [contributing](https://github.com/friendly-pig/gemini.backtester/blob/master/CONTRIBUTING.md) guidelines if you're interested in helping!
+This forked version includes more nuanced financial metrics, most notably, Sharpe Ratio. 
+
+Joel P. Abraham
