@@ -11,7 +11,8 @@
 <p align="center"><img src="https://github.com/friendly-pig/gemini.backtester/blob/master/media/schematic.gif" width="550px"><p>
 
 This forked version includes more nuanced financial metrics, most notably, Sharpe Ratio. 
-Modified by Joel P. Abraham
+
+--Joel P. Abraham
 
 ## Examples
 
