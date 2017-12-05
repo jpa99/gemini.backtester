@@ -1,9 +1,7 @@
 import logging
-import time
 import types
 
-from empyrical import max_drawdown
-
+from empyrical import *
 import gemini.settings as settings
 from gemini import exchange
 from gemini.helpers import helpers
@@ -26,9 +24,8 @@ class Gemini:
         'fee': FEES,  # Fees in percent of trade amount
     }
     records = []
-    performance = []
 
-    def __init__(self, initialize=None, logic=None, analyze=None, results=None,
+    def __init__(self, initialize=None, logic=None, analyze=None,
                  sim_params=None):
         """
         Create backtester with own methods.
@@ -54,11 +51,6 @@ class Gemini:
 
         if analyze is not None:
             self.analyze = types.MethodType(analyze, self)
-
-        if results is None:
-            self.results = self.results_default
-        elif results:
-            self.results = types.MethodType(results, self)
 
         if sim_params is not None:
             # replace only received items
@@ -125,62 +117,10 @@ class Gemini:
             # Cleanup empty positions
             self.account.purge_positions()
 
-        self.performance = self.prepare_performance()
         self.results()
         self.analyze(**kwargs)
-
-        return self.performance
-
-    def prepare_performance(self):
-        start = time.time()
-        perf = self.data.copy()
-
-        perf['price'] = perf['close']
-
-        shares = self.account.initial_capital / perf.iloc[0]['close']
-        perf['base_equity'] = [price * shares for price in perf['close']]
-        perf['equity'] = [e for _, e in self.account.equity]
-
-        # BENCHMARK
-        perf['benchmark_period_return'] = [
-            helpers.percent_change(perf['base_equity'][0],
-                                   perf['base_equity'][i])
-            for i in range(0, len(perf['base_equity']))]
-
-        perf['benchmark_max_drawdown'] = [
-            max_drawdown(perf['base_equity'][:i].pct_change())
-            for i in range(0, len(perf['base_equity']))]
-
-        # STRATEGY
-        perf['algorithm_period_return'] = [
-            helpers.percent_change(perf['equity'][0],
-                                   perf['equity'][i])
-            for i in range(0, len(perf['equity']))]
-
-        perf['returns'] = perf['equity'].pct_change()
-
-        perf['max_drawdown'] = [
-            max_drawdown(perf['equity'][:i].pct_change())
-            for i in range(0, len(perf['equity']))]
-
-        logger.debug(
-            'Performance prepared for {:.2} sec'.format(time.time() - start))
-
-        perf['ending_value'] = 0  # value of opened positions
-        perf['alpha'] = '0'
-        perf['beta'] = '0'
-        perf['sharpe'] = '0'
-
-        return perf
-
+    
     def results(self):
-        """
-        Show results of strategy
-        :return:
-        """
-        pass
-
-    def results_default(self):
         """
         Print results of backtest to console
         :return:
@@ -204,14 +144,14 @@ class Gemini:
         percent_change = helpers.percent_change(self.data['base_equity'][0],
                                                 self.data['base_equity'][-1])
 
+        benchmark = self.data['base_equity'].pct_change()
         bench = [
             ("Capital", self.account.initial_capital, ""),
             ("Final Equity", self.data['base_equity'][-1], ""),
             ("Net profit",
-             helpers.profit(self.account.initial_capital, percent_change),
-             " ({:+.2f}%)".format(percent_change * 100)),
+             helpers.profit(self.account.initial_capital, percent_change)," ({:+.2f}%)".format(percent_change * 100)),
             ("Max Drawdown",
-             max_drawdown(self.data['base_equity'].pct_change()) * 100, "%"),
+             max_drawdown(benchmark) * 100, "%"),
         ]
 
         print(title_fmt.format(" Benchmark "))
@@ -227,6 +167,7 @@ class Gemini:
         # print trades
         # for t in self.account.opened_trades: print(t)
 
+        returns = self.data['equity'].pct_change()
         strategy = [
             ("Capital", self.account.initial_capital, ""),
             ("Final Equity", self.data['equity'][-1], ""),
@@ -234,7 +175,15 @@ class Gemini:
              helpers.profit(self.account.initial_capital, percent_change),
              " ({:+.2f}%)".format(percent_change * 100)),
             ("Max Drawdown",
-             max_drawdown(self.data['equity'].pct_change()) * 100, "%"),
+             max_drawdown(returns)*100, "%"),
+            ("Sharpe Ratio",
+             sharpe_ratio(returns), ""),
+            ("Sortino Ratio",
+             sortino_ratio(returns), ""),
+            ("Alpha",
+             alpha(returns, benchmark), ""),
+            ("Beta",
+             beta(returns, benchmark), ""),
             ("Fees paid", open_fee + close_fee, ""),
         ]
 
@@ -266,6 +215,7 @@ class Gemini:
             print(str_fmt.format(*r))
 
         print("-" * len(title))
+        return percent_change
 
     def analyze(self):
         pass
